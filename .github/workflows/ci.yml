@@ -1,0 +1,35 @@
+name: CI
+
+# Type-check + unit tests on every push/PR. Build is intentionally NOT duplicated
+# here — Vercel builds the app on every deploy, so that's our build gate. Lint runs
+# advisory-only until the 77 pre-existing ESLint errors are cleared (then make it
+# a required step).
+on:
+  push:
+    branches: [main, "hardening/**"]
+  pull_request:
+
+jobs:
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scan for committed live secrets (blocking)
+        run: bash scripts/check-no-secrets.sh
+
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - name: Type check
+        run: npx tsc --noEmit -p tsconfig.json
+      - name: Unit tests
+        run: npm test
+      - name: Lint (advisory — pre-existing debt tracked separately)
+        run: npx eslint
+        continue-on-error: true
