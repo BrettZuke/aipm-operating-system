@@ -1,3 +1,15 @@
+# This moved
+
+Everything here now lives inside **[AIPM-Complete-Setup](https://github.com/BrettZuke/AIPM-Complete-Setup)**, in `tools/dashboard`.
+
+Clone that instead. It is kept up to date and scanned before every push; this copy is not.
+
+```bash
+git clone https://github.com/BrettZuke/AIPM-Complete-Setup.git
+```
+
+---
+
 # Settoku OS
 
 An all-in-one operating dashboard for agencies and creators. Manage clients, revenue, sales pipeline, tasks, webinars, attribution, and an in-app AI assistant in one multi-tenant workspace. Built on Next.js and Supabase, with row-level security so each workspace's data stays isolated.
