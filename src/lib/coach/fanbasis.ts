@@ -80,12 +80,12 @@ async function fbGet(path: string): Promise<unknown> {
 // ---- offer section classifier (title / internal_name -> high-level offer) ----
 function sectionFor(title: string, internal: string): string {
   const s = `${title} ${internal}`.toLowerCase();
-  if (s.includes("ibiza")) return "Example Event";
-  if (s.includes("10s only society") || s.includes("10s society")) return "the Membership";
-  if (s.includes("creator sniper") || s.includes("creatorsniper")) return "Recurring Plan";
+  if (s.includes("retreat")) return "Example Event";
+  if (s.includes("society") || s.includes("membership")) return "the Membership";
+  if (s.includes("subscription") || s.includes("retainer")) return "Recurring Plan";
   if (s.includes("masterclass") || s.includes("webinar")) return "Webinar";
   if (
-    s.includes("ai partner method") ||
+    s.includes("partner") ||
     s.includes("example") ||
     /\btier\s*[123]\b/.test(s) ||
     s.includes("first payment") ||

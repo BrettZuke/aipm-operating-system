@@ -55,7 +55,7 @@ function ago(iso: string | null): string | null {
 function offerForFunnel(name: string | undefined): string | undefined {
   if (!name) return undefined;
   const n = name.toLowerCase();
-  if (n.includes("ibiza")) return "Example Event";
+  if (n.includes("retreat")) return "Example Event";
   if (n.includes("society")) return "the Membership";
   if (n.includes("example") || n.includes("partner")) return "your agency";
   if (n.includes("webinar") || n.includes("masterclass")) return "Webinar";

@@ -19,6 +19,16 @@ If the user wants to get this running, offer to walk them through these steps an
 - They add a client in the dashboard, then feed in that client's data manually or by enabling an integration.
 - Optional integrations (Stripe, Kit, Twilio, Slack, FanBasis, iClosed, WebinarJam, Google Sheets) turn on by adding the relevant keys to `.env.local`. The full, commented list is in `.env.local.example`.
 
+## Research, on the Content page
+
+The Content page has a Research tab that finds what is already working in a client's niche, explains why, and turns it into hooks and scripts in that client's voice. It needs four free keys (`APIFY_API_TOKEN`, `GROQ_API_KEY`, `GEMINI_API_KEY`, `YOUTUBE_API_KEY`); each one that is missing just turns off the part that needs it, and the page names the key and where to get one. Reading Instagram through Apify is the only thing that can cost money, and every read carries a hard spend cap. Scanning is on demand, not scheduled. The README has the detail, the costs and the daily limits.
+
+Never point Research at a paid provider. It builds its providers from free keys only, and there is a test that proves an `ANTHROPIC_API_KEY` or `OPENAI_API_KEY` sitting in the environment is ignored.
+
+## The command line version
+
+`tools/content-research/` is the same engine as a command line tool, for when there is no dashboard deployed yet, when a written report file is wanted, or for a scan too large for a browser tab. It has its own README, START-HERE.md and SKILL.md, its own `.env`, and its own test suite (`cd tools/content-research && npm install && npm test`). Its `sync` command writes its findings into this dashboard's own tables.
+
 ## Ground rules
 
 - This template contains no credentials. Never hardcode secrets, and never commit `.env.local` (it is git-ignored).
