@@ -60,3 +60,10 @@ create table if not exists public.webinar_registrations (
 );
 create index if not exists webinar_reg_webinar_idx on public.webinar_registrations (webinar_id);
 create unique index if not exists webinar_reg_unique_phone on public.webinar_registrations (webinar_id, phone) where phone is not null;
+
+-- The updated_at trigger. File 08 applies one to every table that has an updated_at column,
+-- but on a fresh database that sweep runs before this table exists, so this table sets up its
+-- own. Without it the column would only ever hold the time the row was inserted.
+drop trigger if exists trg_set_updated_at on public.webinars;
+create trigger trg_set_updated_at before update on public.webinars
+  for each row execute function public.set_updated_at();

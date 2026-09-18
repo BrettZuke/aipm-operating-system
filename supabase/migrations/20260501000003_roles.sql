@@ -41,10 +41,17 @@ create table if not exists public.role_workspace_access (
   unique (custom_role_id)
 );
 
--- Now we can wire up the FK from agency_members.custom_role_id
-alter table public.agency_members
-  add constraint agency_members_custom_role_id_fkey
-  foreign key (custom_role_id) references public.custom_roles(id) on delete set null;
+-- Now we can wire up the FK from agency_members.custom_role_id.
+-- Wrapped so running this file a second time is a no-op: "add constraint" has no "if not exists",
+-- and without this the whole file stops here on a re-run, which the README promises it will not.
+do $$
+begin
+  alter table public.agency_members
+    add constraint agency_members_custom_role_id_fkey
+    foreign key (custom_role_id) references public.custom_roles(id) on delete set null;
+exception
+  when duplicate_object then null;
+end $$;
 
 -- AI defaults per role label (admin/member/viewer/etc.)
 create table if not exists public.ai_role_defaults (

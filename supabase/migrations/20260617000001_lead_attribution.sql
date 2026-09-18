@@ -63,6 +63,13 @@ end;
 $$;
 
 alter table public.lead_attribution enable row level security;
+-- File 09 gives every table with an agency_id a generic agency_select / agency_modify pair.
+-- On a fresh database that sweep runs before this table exists, so it never sees it; on a
+-- re-run of the whole folder it does. Dropping those two names here, before this table's own
+-- policies, is what keeps one pass and two passes identical.
+drop policy if exists agency_modify on public.lead_attribution;
+drop policy if exists agency_select on public.lead_attribution;
+
 drop policy if exists lead_attribution_agency_select on public.lead_attribution;
 create policy lead_attribution_agency_select on public.lead_attribution for select
   using (public.is_agency_member(agency_id));

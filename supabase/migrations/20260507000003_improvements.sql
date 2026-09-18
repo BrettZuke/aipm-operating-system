@@ -55,3 +55,10 @@ create index if not exists improvements_open_priority_idx on public.improvements
 -- Idempotency: don't double-add the same finding from self-discovery
 create unique index if not exists improvements_unique_signature
   on public.improvements (agency_id, source, title) where status in ('open', 'in_progress');
+
+-- The updated_at trigger. File 08 applies one to every table that has an updated_at column,
+-- but on a fresh database that sweep runs before this table exists, so this table sets up its
+-- own. Without it the column would only ever hold the time the row was inserted.
+drop trigger if exists trg_set_updated_at on public.improvements;
+create trigger trg_set_updated_at before update on public.improvements
+  for each row execute function public.set_updated_at();

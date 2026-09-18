@@ -9,6 +9,15 @@
 -- migration history has drifted in prod.
 -- ============================================================================
 
+-- File 09 gives every table with an agency_id a generic agency_select / agency_modify pair.
+-- On a fresh database that sweep runs before webinars and improvements exist; on a re-run of
+-- the whole folder it does not. Dropping those two names here, before the named policies
+-- below, is what keeps one pass and two passes identical.
+drop policy if exists agency_modify on public.webinars;
+drop policy if exists agency_select on public.webinars;
+drop policy if exists agency_modify on public.improvements;
+drop policy if exists agency_select on public.improvements;
+
 -- webinars: agency-scoped
 alter table public.webinars enable row level security;
 drop policy if exists webinars_agency_select on public.webinars;
