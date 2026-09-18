@@ -32,8 +32,9 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
-# ...but the placeholder-only template SHOULD be tracked so onboarding/docs persist
+# ...but the placeholder-only templates SHOULD be tracked so onboarding/docs persist
 !.env.local.example
+!tools/content-research/.env.example
 
 # vercel
 .vercel
