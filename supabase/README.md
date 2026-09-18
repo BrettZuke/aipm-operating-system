@@ -60,6 +60,7 @@ data you already have.
 | 27 | `20260801000001_dm_link_clicks.sql` | dm_link_clicks (the DM-link click log) |
 | 28 | `20260902000000_research.sql` | content_posts, research_jobs, research_drafts, research_searches, research_usage (everything behind the Research tab) |
 | 29 | `20260902000001_research_functions.sql` | the three functions that hand out a daily allowance and start a scan without two clicks passing the same limit |
+| 30 | `20260903000000_privilege_escalation_fix.sql` | closes a privilege escalation: a member could invite themselves as owner, because an early blanket write rule was never dropped |
 
 ## Tables: 67
 
