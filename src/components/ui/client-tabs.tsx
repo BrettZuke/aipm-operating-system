@@ -7,6 +7,7 @@ import {
   Phone, List, Layers, type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { TabInfo } from "./tab-info";
 
 // Icon names are passed as strings from the server; components live here on the client.
 const ICON_MAP: Record<string, LucideIcon> = {
@@ -25,9 +26,12 @@ type Props = {
   initialTab: string;
   panels: Record<string, ReactNode>; // pre-rendered server content, ReactNode is serialisable
   className?: string;
+  // Optional plain-English explainer per tab (keyed by tab.key). When present, a small "i" opens a
+  // popover next to that tab's label. Non-technical operators use it to learn what a tab is for.
+  info?: Record<string, string>;
 };
 
-export function ClientTabs({ tabs, initialTab, panels, className }: Props) {
+export function ClientTabs({ tabs, initialTab, panels, className, info }: Props) {
   const [active, setActive] = useState(initialTab);
   const router = useRouter();
   const pathname = usePathname();
@@ -47,19 +51,28 @@ export function ClientTabs({ tabs, initialTab, panels, className }: Props) {
           const Icon = t.iconName ? ICON_MAP[t.iconName] : null;
           const isActive = active === t.key;
           return (
-            <button
+            <div
               key={t.key}
-              onClick={() => switchTab(t.key)}
               className={cn(
-                "flex items-center gap-2 px-5 py-3 text-sm font-medium border-b-2 -mb-px whitespace-nowrap transition-colors duration-100 cursor-pointer",
+                "flex items-center border-b-2 -mb-px whitespace-nowrap transition-colors duration-100",
                 isActive
-                  ? "border-[#0083FF] text-[#F5F5F7] bg-[#0C0C10]/80"
-                  : "border-transparent text-[#9CA3AF] hover:text-[#F5F5F7] hover:bg-white/[0.03]",
+                  ? "border-[#0083FF] bg-[#0C0C10]/80"
+                  : "border-transparent hover:bg-white/[0.03]",
               )}
             >
-              {Icon && <Icon className="size-3.5 shrink-0" />}
-              {t.label}
-            </button>
+              <button
+                onClick={() => switchTab(t.key)}
+                className={cn(
+                  "flex items-center gap-2 py-3 pl-5 text-sm font-medium cursor-pointer",
+                  info?.[t.key] ? "pr-1" : "pr-5",
+                  isActive ? "text-[#F5F5F7]" : "text-[#9CA3AF] hover:text-[#F5F5F7]",
+                )}
+              >
+                {Icon && <Icon className="size-3.5 shrink-0" />}
+                {t.label}
+              </button>
+              {info?.[t.key] && <TabInfo label={t.label} text={info[t.key]} className="mr-3" />}
+            </div>
           );
         })}
       </div>

@@ -34,6 +34,15 @@ export interface CreatorSettings {
   // Per-workspace Vercel Speed Insights link. Null hides the Site speed panel entirely (so a
   // workspace never sees another workspace's project link).
   speedInsightsUrl: string | null;
+  /** Google Doc the content board can append finished scripts to. Optional. */
+  googleDocId: string | null;
+  googleDocUrl: string | null;
+  /**
+   * The lanes this workspace runs, keyed by day of the week, so the roster offers the real
+   * choices rather than a hardcoded list. A workspace with no plan gets none, and every creator
+   * then feeds every piece.
+   */
+  contentLanes: Record<string, string[]> | null;
 }
 
 export interface RawSettings {
@@ -50,7 +59,9 @@ export interface RawSettings {
     stripe?: { key?: string | null };
     whop?: { api_key?: string | null };
     dm?: { to?: string; handle?: string };
+    google?: { doc_id?: string | null; doc_url?: string | null };
   };
+  content_machine?: { lanes?: Record<string, string[]> };
   creator?: {
     revenue_goal_usd?: number;
     site_url?: string;
@@ -88,6 +99,9 @@ export function creatorSettingsFromRaw(raw: RawSettings | null | undefined, agen
     dmTo: r.integrations?.dm?.to ?? null,
     dmHandle: r.integrations?.dm?.handle ?? null,
     speedInsightsUrl: r.creator?.speed_insights_url ?? null,
+    googleDocId: r.integrations?.google?.doc_id ?? null,
+    googleDocUrl: r.integrations?.google?.doc_url ?? null,
+    contentLanes: r.content_machine?.lanes ?? null,
   };
 }
 
