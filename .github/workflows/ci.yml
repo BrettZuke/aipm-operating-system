@@ -1,7 +1,7 @@
 name: CI
 
 # Type-check + unit tests on every push/PR. Build is intentionally NOT duplicated
-# here — Vercel builds the app on every deploy, so that's our build gate. Lint runs
+# here, Vercel builds the app on every deploy, so that's our build gate. Lint runs
 # advisory-only until the 77 pre-existing ESLint errors are cleared (then make it
 # a required step).
 on:
@@ -30,6 +30,6 @@ jobs:
         run: npx tsc --noEmit -p tsconfig.json
       - name: Unit tests
         run: npm test
-      - name: Lint (advisory — pre-existing debt tracked separately)
+      - name: Lint (advisory, pre-existing debt tracked separately)
         run: npx eslint
         continue-on-error: true

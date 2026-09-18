@@ -1,5 +1,5 @@
 -- ============================================================================
--- Row-level security policies — multi-tenant isolation
+-- Row-level security policies, multi-tenant isolation
 -- Pattern: a row is visible if the calling user is an active agency_member
 --          of the agency_id on that row. Writes additionally require admin.
 -- ============================================================================

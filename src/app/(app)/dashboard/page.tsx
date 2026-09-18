@@ -104,13 +104,13 @@ export default async function DashboardPage({
   const totalMrr = activeClients.reduce((s, c) => s + Number(c.mrr ?? 0), 0);
   const pendingRevenue = allClients.reduce((s, c) => s + Number(c.total_pending ?? 0), 0);
 
-  // Cash collected — actual money in (transactions = FanBasis source of truth)
+  // Cash collected, actual money in (transactions = FanBasis source of truth)
   const payments = (recentTx ?? []).filter(t => t.kind === "payment");
   const refunds = (recentTx ?? []).filter(t => t.kind === "refund");
   const cashCollected = payments.reduce((s, t) => s + Number(t.amount ?? 0), 0)
                       - refunds.reduce((s, t) => s + Number(t.amount ?? 0), 0);
 
-  // Contract value — what was sold (deals.amount where stage = closed_won)
+  // Contract value, what was sold (deals.amount where stage = closed_won)
   const wonDeals = (deals ?? []).filter(d => d.stage === "closed_won");
   const totalContractValue = wonDeals.reduce((s, d) => s + Number(d.amount ?? 0), 0);
 
@@ -145,7 +145,7 @@ export default async function DashboardPage({
       d.cashCollected = fbTotal;
       d.totalRevenue = fbTotal;
     } catch {
-      /* FanBasis unreachable — keep the existing number rather than break the page */
+      /* FanBasis unreachable, keep the existing number rather than break the page */
     }
   }
 

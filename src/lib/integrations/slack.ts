@@ -1,5 +1,5 @@
 /**
- * Slack helpers — post messages from anywhere in the OS.
+ * Slack helpers, post messages from anywhere in the OS.
  *
  * Events we post on:
  *   - New deal closed       → #wins

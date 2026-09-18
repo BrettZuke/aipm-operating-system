@@ -4,24 +4,24 @@ import { Section } from "../dashboard/tabs";
 export const dynamic = "force-dynamic";
 
 const MOST_USED = [
-  { key: "ckf-training",   title: "Comment Keyword Flow — Free Training", time: "30s", channel: "Instagram" },
-  { key: "ckf-pdf",        title: "Comment Keyword Flow — Free PDF",      time: "30s", channel: "Instagram" },
-  { key: "ckf-custom",     title: "Comment Keyword Flow — Custom Offer",  time: "45s", channel: "Instagram" },
-  { key: "story-magnet",   title: "Story Reply Flow — Lead Magnet",       time: "30s", channel: "Instagram" },
+  { key: "ckf-training",   title: "Comment Keyword Flow, Free Training", time: "30s", channel: "Instagram" },
+  { key: "ckf-pdf",        title: "Comment Keyword Flow, Free PDF",      time: "30s", channel: "Instagram" },
+  { key: "ckf-custom",     title: "Comment Keyword Flow, Custom Offer",  time: "45s", channel: "Instagram" },
+  { key: "story-magnet",   title: "Story Reply Flow, Lead Magnet",       time: "30s", channel: "Instagram" },
 ];
 
 const LEAD_GENERATION = [
-  { key: "ckf-training",  title: "Comment Keyword Flow — Free Training",  desc: "Auto-DM users who comment a keyword — send a free training link.", time: "30s", needsApproval: false, automated: true },
-  { key: "ckf-pdf",       title: "Comment Keyword Flow — Free PDF",       desc: "Auto-DM users who comment a keyword — send a PDF lead magnet.",  time: "30s", needsApproval: false, automated: true },
-  { key: "ckf-custom",    title: "Comment Keyword Flow — Custom Offer",   desc: "Configurable comment trigger → custom offer DM.",                 time: "45s", needsApproval: false, automated: true },
-  { key: "story-magnet",  title: "Story Reply Flow — Lead Magnet",        desc: "Capture story replies and route them into a lead-magnet flow.",   time: "30s", needsApproval: false, automated: true },
-  { key: "dm-trigger",    title: "DM Keyword Trigger — Custom",            desc: "Trigger an automation when a DM matches your keyword.",          time: "1m",  needsApproval: false, automated: true },
-  { key: "app-coaching",  title: "Application Form — Coaching",            desc: "Send an application form for coaching offers; auto-route by score.", time: "1m", needsApproval: true, automated: false },
-  { key: "app-custom",    title: "Application Form — Custom",              desc: "Configurable application flow with scoring and routing.",        time: "1m",  needsApproval: true, automated: false },
+  { key: "ckf-training",  title: "Comment Keyword Flow, Free Training",  desc: "Auto-DM users who comment a keyword, send a free training link.", time: "30s", needsApproval: false, automated: true },
+  { key: "ckf-pdf",       title: "Comment Keyword Flow, Free PDF",       desc: "Auto-DM users who comment a keyword, send a PDF lead magnet.",  time: "30s", needsApproval: false, automated: true },
+  { key: "ckf-custom",    title: "Comment Keyword Flow, Custom Offer",   desc: "Configurable comment trigger → custom offer DM.",                 time: "45s", needsApproval: false, automated: true },
+  { key: "story-magnet",  title: "Story Reply Flow, Lead Magnet",        desc: "Capture story replies and route them into a lead-magnet flow.",   time: "30s", needsApproval: false, automated: true },
+  { key: "dm-trigger",    title: "DM Keyword Trigger, Custom",            desc: "Trigger an automation when a DM matches your keyword.",          time: "1m",  needsApproval: false, automated: true },
+  { key: "app-coaching",  title: "Application Form, Coaching",            desc: "Send an application form for coaching offers; auto-route by score.", time: "1m", needsApproval: true, automated: false },
+  { key: "app-custom",    title: "Application Form, Custom",              desc: "Configurable application flow with scoring and routing.",        time: "1m",  needsApproval: true, automated: false },
 ];
 
 const SALES = [
-  { key: "story-booking",     title: "Story Reply Flow — Booking",  desc: "Book qualified replies straight onto your sales calendar.", time: "45s", needsApproval: false, automated: true },
+  { key: "story-booking",     title: "Story Reply Flow, Booking",  desc: "Book qualified replies straight onto your sales calendar.", time: "45s", needsApproval: false, automated: true },
   { key: "discovery-setup",   title: "Discovery Call Setup",        desc: "Wire calendar + reminder + reschedule logic for discovery calls.", time: "2m", needsApproval: true, automated: false },
 ];
 

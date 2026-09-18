@@ -4,7 +4,7 @@
 //
 // Auth: KIT_API_KEY is used as the v3 api_secret (the /subscribers endpoint requires the
 // secret, not the public key). If the key is missing or unauthorized, fetchDanKit throws and
-// the caller degrades the tile to Pending with the real reason — we never invent numbers.
+// the caller degrades the tile to Pending with the real reason, we never invent numbers.
 
 import type { DateRange } from "@/lib/creator/range";
 

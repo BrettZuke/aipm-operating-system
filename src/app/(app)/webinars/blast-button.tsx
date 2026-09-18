@@ -21,7 +21,7 @@ export function BlastButton({
   const [result, setResult] = useState<{ ok: boolean; msg: string } | null>(null);
   const [pending, startTransition] = useTransition();
 
-  // Twilio cost — A2P 10DLC is ~$0.0079 per US SMS
+  // Twilio cost, A2P 10DLC is ~$0.0079 per US SMS
   const estCost = (unsentCount * 0.0079).toFixed(2);
 
   function handleFire(dryRun: boolean) {

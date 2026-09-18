@@ -8,7 +8,7 @@
  *   - live: at start     (window: -2m to +5m)      → sent_live_at
  *
  * The cron at /api/cron/webinar-reminders fires every 15 min and handles
- * everything within those windows. Idempotent — won't double-send.
+ * everything within those windows. Idempotent, won't double-send.
  *
  * Templates support {name} {title} {join_url} {minutes} placeholders.
  */
@@ -108,7 +108,7 @@ export async function processWebinarReminders(sb: SB, webinar: WebinarRow): Prom
   const minutes = Math.max(0, Math.round((new Date(webinar.starts_at).getTime() - Date.now()) / 60000));
 
   // Fetch registrations that need this reminder. Select all columns since the
-  // `sent_*_at` field name is dynamic — narrowing the select string at compile
+  // `sent_*_at` field name is dynamic, narrowing the select string at compile
   // time would require a giant union.
   const { data: regs, error } = await sb
     .from("webinar_registrations")
@@ -117,7 +117,7 @@ export async function processWebinarReminders(sb: SB, webinar: WebinarRow): Prom
     .is(sentCol, null);
 
   if (error) {
-    out.errors.push({ registration_id: "—", error: error.message });
+    out.errors.push({ registration_id: "-", error: error.message });
     return out;
   }
 
@@ -128,7 +128,7 @@ export async function processWebinarReminders(sb: SB, webinar: WebinarRow): Prom
     const sms = await sendSms({ to: r.phone, body });
 
     if (sms.ok) {
-      // Computed-key updates need a runtime-keyed object — typed via Partial
+      // Computed-key updates need a runtime-keyed object, typed via Partial
       const patch: Partial<Record<typeof sentCol, string>> & { last_send_error: string | null } = {
         last_send_error: null,
       };
@@ -144,17 +144,17 @@ export async function processWebinarReminders(sb: SB, webinar: WebinarRow): Prom
 }
 
 /**
- * Manual blast for a webinar — fires the matching reminder template to all
+ * Manual blast for a webinar, fires the matching reminder template to all
  * registrations regardless of window. Used when the coach wants to text everyone
  * NOW rather than wait for the scheduled cron tick.
  */
 export async function blastWebinar(sb: SB, webinarId: string, kind: ReminderKind, dryRun = false): Promise<SendReminderResult> {
   const out: SendReminderResult = { sent: 0, skipped_no_phone: 0, skipped_already_sent: 0, errors: [] };
   const { data: webinar, error: wErr } = await sb.from("webinars").select("*").eq("id", webinarId).maybeSingle();
-  if (wErr || !webinar) { out.errors.push({ registration_id: "—", error: wErr?.message ?? "Webinar not found" }); return out; }
+  if (wErr || !webinar) { out.errors.push({ registration_id: "-", error: wErr?.message ?? "Webinar not found" }); return out; }
 
   const tpl = (webinar as unknown as WebinarRow)[TEMPLATE_FIELD[kind]] as string | null;
-  if (!tpl) { out.errors.push({ registration_id: "—", error: `No template configured for ${kind}` }); return out; }
+  if (!tpl) { out.errors.push({ registration_id: "-", error: `No template configured for ${kind}` }); return out; }
 
   const sentCol = SENT_COL[kind];
   const minutes = Math.max(0, Math.round((new Date((webinar as unknown as WebinarRow).starts_at).getTime() - Date.now()) / 60000));

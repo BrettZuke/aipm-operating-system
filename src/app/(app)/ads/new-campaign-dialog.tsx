@@ -38,7 +38,7 @@ export function NewCampaignDialog({ clients }: { clients: { id: string; name: st
 
           <div className="space-y-1.5">
             <Label htmlFor="name">Campaign name</Label>
-            <Input id="name" name="name" placeholder="Q3 Webinar push — Meta lookalikes" required />
+            <Input id="name" name="name" placeholder="Q3 Webinar push, Meta lookalikes" required />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
@@ -63,7 +63,7 @@ export function NewCampaignDialog({ clients }: { clients: { id: string; name: st
           <div className="space-y-1.5">
             <Label htmlFor="client_id">Client (optional)</Label>
             <select id="client_id" name="client_id" defaultValue="" className="h-10 w-full rounded-md border border-[rgba(255,255,255,0.10)] bg-[#0C0C10]/40 px-3 text-sm text-[#F5F5F7] focus:outline-none focus:ring-2 focus:ring-blue-500/20">
-              <option value="">None — workspace-level campaign</option>
+              <option value="">None, workspace-level campaign</option>
               {clients.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
             </select>
           </div>

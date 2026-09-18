@@ -49,7 +49,7 @@ async function readTab(tabName: string, sheetId: string | null = null): Promise<
   }
 }
 
-// Test/dev emails the operator used while setting up the PCF form — exclude from analytics.
+// Test/dev emails the operator used while setting up the PCF form, exclude from analytics.
 const TEST_EMAILS = new Set([
   'test1@example.com',
   'test2@example.com',
@@ -96,7 +96,7 @@ export async function getOnboarding(sheetId: string | null = null) {
 // Raw FanBasis webhook events captured into the sheet (via the existing FanBasis → Make → sheet
 // pipe). Columns: Received At / Event Type / Amount (raw) / Currency / Payment ID / Buyer Email /
 // Buyer Name / Subscription ID / Subscription Renewed At / Subscription Status. This is the only
-// source of per-subscription renew/fail status — the FanBasis pull API does not expose it. Not
+// source of per-subscription renew/fail status, the FanBasis pull API does not expose it. Not
 // test-filtered here; the consumer filters setup/audit rows itself.
 export async function getFanbasisEvents(sheetId: string | null = null) {
   return readTab('FanBasis Raw Events', sheetId);
@@ -141,14 +141,14 @@ export function inMonth(dateStr: string, ym: string): boolean {
 }
 
 const CLOSED = ['PIF', 'Financed via Fanbasis', 'Financed In House', 'Put Deposit'];
-// Outcomes that mean the call never happened — exclude from "live/shown" denominator.
+// Outcomes that mean the call never happened, exclude from "live/shown" denominator.
 const NO_HAPPEN = ['No Show', 'Cancelled'];
 const NON_SETTERS = new Set(['', 'No Setter', 'Unsure of Setter']);
 
 // Lifecycle classification driven by markers in the Students 'Notes' column.
-// - 'unconfirmed' — payment attempted but never went through (failed ACH, customer didn't confirm Fanbasis txn, etc.)
-// - 'refund'      — paid then got money back (true refund / chargeback marked as refund)
-// - 'active'      — normal paying student
+// - 'unconfirmed', payment attempted but never went through (failed ACH, customer didn't confirm Fanbasis txn, etc.)
+// - 'refund', paid then got money back (true refund / chargeback marked as refund)
+// - 'active', normal paying student
 export type StudentLifecycle = 'active' | 'refund' | 'unconfirmed';
 const UNCONFIRMED_MARKER = /\b(UNCONFIRMED|NOT CONFIRMED|FAILED PAYMENT|ACH FAILED|FAILED)\b/;
 const REFUND_MARKER = /\b(REFUND|REFUNDED|CHARGEBACK)\b/;
@@ -177,7 +177,7 @@ export function computeSalesMetrics(closer: any[], students: any[], schedule: an
   const graduatedStudents = activeNotRefunded.filter(s => s['Status'] === 'GRADUATED').length;
   const refundedStudents = refundedRows.length;
   const unconfirmedCount = unconfirmedRows.length;
-  // Sum of attempted dollar amount on unconfirmed payments — pulled from "Contract" if non-zero,
+  // Sum of attempted dollar amount on unconfirmed payments, pulled from "Contract" if non-zero,
   // otherwise parse $X from the Notes text. Useful so the operator sees how much money is "stuck".
   const unconfirmedAmount = unconfirmedRows.reduce((sum, st) => {
     const contract = num(st['Contract']);
@@ -197,7 +197,7 @@ export function computeSalesMetrics(closer: any[], students: any[], schedule: an
   const showRate = totalBooked ? totalLive / totalBooked : 0;
   const aov = activeNotRefunded.length ? totalContract / activeNotRefunded.length : 0;
 
-  // Cash collected per call, straight from the closer PCF's "Cash Collected ($)" column — the
+  // Cash collected per call, straight from the closer PCF's "Cash Collected ($)" column, the
   // money actually taken on/around each call (distinct from cumulative student Total Paid).
   const callsCashCollected = closer.reduce((s, r) => s + num(r['Cash Collected ($)']), 0);
   const cashPerBookedCall_collected = totalBooked ? callsCashCollected / totalBooked : 0;
@@ -208,7 +208,7 @@ export function computeSalesMetrics(closer: any[], students: any[], schedule: an
   const today = new Date();
   today.setUTCHours(0, 0, 0, 0);
   const in30 = new Date(today.getTime() + 30 * 86400000);
-  // Include Late rows in 30-day projection — they're real money expected, just past due.
+  // Include Late rows in 30-day projection, they're real money expected, just past due.
   const nextMonthProjection = schedule
     .filter(r => { const s = String(r['Status'] ?? '').trim(); return s === 'Pending' || s === 'Late'; })
     .filter(r => {
@@ -220,7 +220,7 @@ export function computeSalesMetrics(closer: any[], students: any[], schedule: an
     .reduce((s, r) => s + num(r['Amount']), 0);
 
   const studentsWithLate = new Set(schedule.filter(r => String(r['Status'] ?? '').trim() === 'Late').map(r => r['Student Email']));
-  // "delinquencyRate" is the right name — % of active students who have at least one late payment.
+  // "delinquencyRate" is the right name, % of active students who have at least one late payment.
   // Kept `churnRate` alias for backward compat with old call sites.
   const delinquencyRate = activeNotRefunded.length ? studentsWithLate.size / activeNotRefunded.length : 0;
   const churnRate = delinquencyRate;
@@ -232,7 +232,7 @@ export function computeSalesMetrics(closer: any[], students: any[], schedule: an
 
   // Cash per CALL (live / held only)
   const cashPerCall = totalLive ? totalCash / totalLive : 0;
-  // Cash per BOOKED call (includes no-shows, cancels — i.e., total ÷ everything booked)
+  // Cash per BOOKED call (includes no-shows, cancels, i.e., total ÷ everything booked)
   const cashPerBookedCall = totalBooked ? totalCash / totalBooked : 0;
 
   // Pipeline-ish breakdown
@@ -332,7 +332,7 @@ export function breakdownByCloser(closer: any[], students: any[]): CloserBreakdo
   }).filter(c => c.booked > 0 || c.students > 0);
 }
 
-// Back-compat — old code referenced `c.calls` instead of `c.booked`.
+// Back-compat, old code referenced `c.calls` instead of `c.booked`.
 // Keep an alias so we don't break existing UI immediately.
 export type CloserStat = CloserBreakdown & { calls: number };
 export function withLegacyCallsField(rows: CloserBreakdown[]): CloserStat[] {
@@ -346,11 +346,11 @@ export interface SetterBreakdown {
   setsClosed: number;    // sets that ended up closed
   noShow: number;
   cancelled: number;
-  ghosts: number;        // noShow + cancelled — booked-but-didn't-happen
-  ghostRate: number;     // ghosts / sets — high = bad lead quality
+  ghosts: number;        // noShow + cancelled, booked-but-didn't-happen
+  ghostRate: number;     // ghosts / sets, high = bad lead quality
   showRate: number;      // setsShown / sets
-  closeRate: number;     // setsClosed / setsShown — quality of leads they bring
-  setToCloseRate: number;// setsClosed / sets — overall productivity per set
+  closeRate: number;     // setsClosed / setsShown, quality of leads they bring
+  setToCloseRate: number;// setsClosed / sets, overall productivity per set
   cash: number;          // cash from students they set
   students: number;
 }

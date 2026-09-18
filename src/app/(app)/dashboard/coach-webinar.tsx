@@ -4,7 +4,7 @@ import { BarList, SessionsSparkline } from "@/components/creator-dashboard/chart
 import { Funnel } from "@/components/creator-dashboard/funnel";
 import { fmtInt, fmtPct, fmtDuration, fmtMoney } from "@/lib/creator/format";
 
-// the coach's Webinar tab — WebinarJam / EverWebinar attendance + watch-time, live from the API.
+// the coach's Webinar tab, WebinarJam / EverWebinar attendance + watch-time, live from the API.
 // Gated to the coach's workspace upstream in page.tsx. Revenue and traffic source live on the
 // Revenue and Analytics tabs (the coach tracks sales downstream of the webinar), so this tab
 // stays focused on the funnel WebinarJam owns: register -> attend -> stay.

@@ -21,7 +21,7 @@ function intervalLabel(interval: string, count: number): string {
 
 function whenLabel(epoch: number | null, failed: boolean): { text: string; tone: string } {
   if (failed) return { text: "Retrying", tone: "#FF6466" };
-  if (!epoch) return { text: "—", tone: "#6B7280" };
+  if (!epoch) return { text: "-", tone: "#6B7280" };
   const days = Math.round((epoch * 1000 - Date.now()) / 86400000);
   const date = new Date(epoch * 1000).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
   if (days < 0) return { text: `${date} (overdue)`, tone: "#FF6466" };
@@ -92,13 +92,13 @@ export async function CreatorPayments({
         <Stat icon={AlertCircle} iconColor="#FF6466" label="Past due / failed" value={fmtInt(schedule?.pastDueCount ?? 0)} sub="need attention" tone={(schedule?.pastDueCount ?? 0) > 0 ? "bad" : "default"} />
       </div>
 
-      {/* Failed / past-due — surfaced first */}
+      {/* Failed / past-due, surfaced first */}
       {failedRows.length > 0 && (
         <div className="rounded-xl border border-red-500/25 bg-red-500/5">
           <div className="flex items-center gap-2 px-5 py-3 border-b border-red-500/20">
             <AlertCircle className="size-4 text-[#FF6466]" />
             <span className="text-sm font-semibold text-[#F5F5F7]">Failed payments · {failedRows.length}</span>
-            <span className="text-xs text-[#9CA3AF]">Stripe is retrying these — reach out if they keep failing.</span>
+            <span className="text-xs text-[#9CA3AF]">Stripe is retrying these, reach out if they keep failing.</span>
           </div>
           <ScheduleTable rows={failedRows} currency={currency} />
         </div>
@@ -146,7 +146,7 @@ function ScheduleTable({ rows, currency }: { rows: ScheduleRow[]; currency: stri
             return (
               <tr key={r.id} className="hover:bg-[rgba(255,255,255,0.02)]">
                 <td className="px-5 py-3">
-                  <div className="text-[#F5F5F7]">{r.customerName ?? r.customerEmail ?? "—"}</div>
+                  <div className="text-[#F5F5F7]">{r.customerName ?? r.customerEmail ?? "-"}</div>
                   {r.customerName && r.customerEmail && <div className="text-xs text-[#6B7280]">{r.customerEmail}</div>}
                 </td>
                 <td className="px-5 py-3 text-[#9CA3AF] whitespace-nowrap">

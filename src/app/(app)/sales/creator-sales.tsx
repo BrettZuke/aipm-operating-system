@@ -14,7 +14,7 @@ function titleCase(s: string): string {
 }
 
 /**
- * Sales view for creator-template tenants (e.g. the creator) — powered entirely by their own Stripe
+ * Sales view for creator-template tenants (e.g. the creator), powered entirely by their own Stripe
  * account, NOT the coach-tenant Google Sheet. Mirrors the Settoku design used across the rest of settoku.
  */
 export async function CreatorSales({
@@ -87,7 +87,7 @@ export async function CreatorSales({
         <RevenueChart points={stripe?.dailyRevenue ?? []} currency={currency} />
       </div>
 
-      {/* Attribution — where the money comes from */}
+      {/* Attribution, where the money comes from */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
         <div className={`${PANEL} p-6`}>
           <div className="text-xs font-semibold mb-4 text-[#9CA3AF]">Sales by source</div>

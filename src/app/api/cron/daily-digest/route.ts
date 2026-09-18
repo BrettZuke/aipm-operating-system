@@ -1,5 +1,5 @@
 /**
- * Daily digest — Vercel cron entrypoint.
+ * Daily digest, Vercel cron entrypoint.
  *
  * Runs Mon-Fri at 17:00 UTC (= 18:00 BST / 13:00 ET) per vercel.json.
  *
@@ -9,7 +9,7 @@
  * Auth: requires CRON_SECRET in env. Vercel sends it as Authorization: Bearer.
  *
  * Configurable env:
- *   - SLACK_DAILY_DIGEST_CHANNEL  (defaults to "#general" if unset — recommend "#wins" or a dedicated digest channel)
+ *   - SLACK_DAILY_DIGEST_CHANNEL  (defaults to "#general" if unset, recommend "#wins" or a dedicated digest channel)
  *
  * GET /api/cron/daily-digest
  */
@@ -48,7 +48,7 @@ export async function GET(req: NextRequest) {
       .gte("submitted_at", todayStart.toISOString()).lte("submitted_at", todayEnd.toISOString()),
     sb.from("agency_members").select("user_id,role").eq("agency_id", AGENCY_ID).eq("status", "active"),
   ]);
-  // Profiles scoped to THIS agency's members only — never a global profiles read,
+  // Profiles scoped to THIS agency's members only, never a global profiles read,
   // which would leak every tenant's names/emails into this digest. (Wave 1 / C2.)
   const memberIds = (members ?? []).map(m => m.user_id);
   const { data: profiles } = await sb.from("profiles").select("id,full_name,email").in("id", memberIds);
@@ -66,17 +66,17 @@ export async function GET(req: NextRequest) {
   const heldCount = (calls ?? []).length;
   const wonCount = (calls ?? []).filter(c => c.outcome === "won").length;
 
-  // EOD compliance — who submitted vs who's missing
+  // EOD compliance, who submitted vs who's missing
   const submittedBy = new Set((eods ?? []).map(e => e.member_id).filter(Boolean));
   const submitters = (members ?? []).filter(m => submittedBy.has(m.user_id))
     .map(m => profById.get(m.user_id)?.full_name ?? profById.get(m.user_id)?.email ?? m.user_id.slice(0,8));
   const missing = (members ?? []).filter(m => !submittedBy.has(m.user_id) && m.role !== "owner")
     .map(m => profById.get(m.user_id)?.full_name ?? profById.get(m.user_id)?.email ?? m.user_id.slice(0,8));
 
-  const wins = (deals ?? []).map(d => `• ${d.name ?? "Deal"} — ${fmt$(Number(d.amount ?? 0))}`).join("\n") || "_no closes today_";
+  const wins = (deals ?? []).map(d => `• ${d.name ?? "Deal"}, ${fmt$(Number(d.amount ?? 0))}`).join("\n") || "_no closes today_";
   const ymd = todayStart.toISOString().slice(0, 10);
   const text = [
-    `*EOD digest — ${ymd}*`,
+    `*EOD digest, ${ymd}*`,
     ``,
     `💰  Cash collected: *${fmt$(cashAmount)}*`,
     `🏆  Deals closed: *${(deals ?? []).length}* (${fmt$(dealsAmount)})`,
@@ -86,7 +86,7 @@ export async function GET(req: NextRequest) {
     wins,
     ``,
     `*EOD reports:*`,
-    `✓ submitted: ${submitters.length ? submitters.join(", ") : "—"}`,
+    `✓ submitted: ${submitters.length ? submitters.join(", ") : "-"}`,
     `✗ missing: ${missing.length ? missing.join(", ") : "all in"}`,
   ].join("\n");
 

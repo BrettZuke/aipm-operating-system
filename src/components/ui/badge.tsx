@@ -3,7 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const badgeVariants = cva(
-  // Principle 1: Concentric radius — badge is typically inside a card (rounded-xl/12px),
+  // Principle 1: Concentric radius, badge is typically inside a card (rounded-xl/12px),
   // so badge uses rounded-full or rounded-md (6px) which is correct at 4px padding.
   "inline-flex items-center rounded-md px-2 py-0.5 text-[11px] font-medium tracking-wide select-none",
   {

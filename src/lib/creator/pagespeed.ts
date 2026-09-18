@@ -1,4 +1,4 @@
-// Site speed for creator tenants — Google PageSpeed Insights (Lighthouse lab score +
+// Site speed for creator tenants, Google PageSpeed Insights (Lighthouse lab score +
 // real-user Core Web Vitals field data). Cached 24h so we hit the API at most once a day.
 // Works keyless (shared anonymous quota); set PAGESPEED_API_KEY for a reliable own-project quota.
 
@@ -12,7 +12,7 @@ export interface SpeedMetric {
 
 export interface SiteSpeed {
   url: string;
-  perfScore: number | null; // Lighthouse lab performance, 0–100
+  perfScore: number | null; // Lighthouse lab performance, 0 to 100
   fieldOverall: "FAST" | "AVERAGE" | "SLOW" | null;
   metrics: SpeedMetric[];
   hasField: boolean;

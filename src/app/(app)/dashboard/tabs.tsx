@@ -82,8 +82,8 @@ export function NotWiredCallout({ items }: { items: string[] }) {
 export type DashboardData = {
   totalMrr: number;
   totalRevenue: number;
-  cashCollected: number;       // FROM transactions — actual money in (FanBasis source of truth)
-  totalContractValue: number;  // FROM deals.amount where stage=closed_won — what was sold
+  cashCollected: number;       // FROM transactions, actual money in (FanBasis source of truth)
+  totalContractValue: number;  // FROM deals.amount where stage=closed_won, what was sold
   pendingRevenue: number;
   activeClients: number;
   totalClients: number;
@@ -108,7 +108,7 @@ export function OverviewTab({ d }: { d: DashboardData }) {
       <div className="grid grid-cols-4 gap-3">
         <StatCard label="Cash collected" value={formatCurrency(d.cashCollected)} sub="actual money in (FanBasis)" accent />
         <StatCard label="Contract value" value={formatCurrency(d.totalContractValue)} sub={`${d.dealsClosed} closed-won deals`} />
-        <StatCard label="Collection rate" value={d.totalContractValue > 0 ? `${collectionRate.toFixed(0)}%` : "—"} sub="cash / contract value" />
+        <StatCard label="Collection rate" value={d.totalContractValue > 0 ? `${collectionRate.toFixed(0)}%` : "-"} sub="cash / contract value" />
         <StatCard label="Active clients" value={String(d.activeClients)} sub={`${d.totalClients} total`} />
       </div>
 
@@ -148,21 +148,21 @@ export function RevenueTab({ d }: { d: DashboardData }) {
   return (
     <div className="space-y-5">
       <Section num="02" title="Revenue & Financials" sub="Money in, money out, and what it leaves you with.">
-        {/* Row 1 — the two that matter most */}
+        {/* Row 1, the two that matter most */}
         <div className="grid grid-cols-2 gap-3 mb-3">
           <StatCard label="Cash collected" value={formatCurrency(d.cashCollected)} sub="Actual money in · FanBasis source of truth" accent />
           <StatCard label="Contract value" value={formatCurrency(d.totalContractValue)} sub={`${d.dealsClosed} closed-won deals · what was sold`} />
         </div>
-        {/* Row 2 — context */}
+        {/* Row 2, context */}
         <div className="grid grid-cols-4 gap-3">
           <StatCard label="Outstanding" value={formatCurrency(outstanding)} sub="Sold but not collected yet" />
-          <StatCard label="Collection rate" value={d.totalContractValue > 0 ? `${collectionRate.toFixed(0)}%` : "—"} sub="Cash / contract value" />
+          <StatCard label="Collection rate" value={d.totalContractValue > 0 ? `${collectionRate.toFixed(0)}%` : "-"} sub="Cash / contract value" />
           <StatCard label="MRR" value={formatCurrency(d.totalMrr)} sub="Recurring" />
           <StatCard label="ARR" value={formatCurrency(arr)} sub="MRR × 12" />
           <StatCard label="Pending revenue" value={formatCurrency(d.pendingRevenue)} sub="On clients" />
           <StatCard label="Avg client value" value={formatCurrency(avgClientValue)} sub="Per active client" />
-          <StatCard label="LTV / churn" value="—" sub="Wire churn to compute" />
-          <StatCard label="Profit margin" value="—" sub="Wire COGS to compute" />
+          <StatCard label="LTV / churn" value="-" sub="Wire churn to compute" />
+          <StatCard label="Profit margin" value="-" sub="Wire COGS to compute" />
         </div>
       </Section>
 
@@ -228,7 +228,7 @@ export function ClientsTab({ d }: { d: DashboardData }) {
         <StatCard label="Onboarded" value={String(d.activeClients)} />
         <StatCard label="Paused / at risk" value={String(paused)} />
         <StatCard label="Churned" value={String(churned)} />
-        <StatCard label="NPS" value="—" sub="Survey not connected" />
+        <StatCard label="NPS" value="-" sub="Survey not connected" />
       </div>
 
       <Section num="03" title="Clients" sub={`Everyone you serve, ranked by revenue.${d.clients.length > 100 ? ` (Showing the 100 most recent of ${d.clients.length})` : ""}`}>
@@ -247,15 +247,15 @@ export function ClientsTab({ d }: { d: DashboardData }) {
             </thead>
             <tbody className="divide-y divide-[rgba(255,255,255,0.08)]">
               {d.clients.length === 0 ? (
-                <tr><td colSpan={7} className="px-4 py-12 text-center text-sm text-[#6B7280]">No clients yet — add your first to populate this table.</td></tr>
+                <tr><td colSpan={7} className="px-4 py-12 text-center text-sm text-[#6B7280]">No clients yet, add your first to populate this table.</td></tr>
               ) : d.clients.slice(0, 100).map(c => (
                 <tr key={c.id} className="hover:bg-[#0C0C10]/40">
                   <td className="px-4 py-3 font-medium text-[#F5F5F7]">{c.name}</td>
-                  <td className="px-4 py-3 text-[#9CA3AF] capitalize">{c.status ?? "—"}</td>
+                  <td className="px-4 py-3 text-[#9CA3AF] capitalize">{c.status ?? "-"}</td>
                   <td className="px-4 py-3 text-right font-mono text-[#F5F5F7]">{formatCurrency(Number(c.mrr ?? 0))}</td>
-                  <td className="px-4 py-3 text-right font-mono text-[#F5F5F7]">—</td>
+                  <td className="px-4 py-3 text-right font-mono text-[#F5F5F7]">,</td>
                   <td className="px-4 py-3 text-right font-mono text-[#9CA3AF]">{formatCurrency(Number(c.total_pending ?? 0))}</td>
-                  <td className="px-4 py-3 text-xs text-[#6B7280]">—</td>
+                  <td className="px-4 py-3 text-xs text-[#6B7280]">,</td>
                   <td className="px-4 py-3 text-xs text-[#6B7280]">{new Date(c.created_at).toLocaleDateString()}</td>
                 </tr>
               ))}
@@ -278,10 +278,10 @@ export function PipelineTab({ d }: { d: DashboardData }) {
       <div className="grid grid-cols-3 gap-3">
         <StatCard label="Pipeline value" value={formatCurrency(pipelineValue)} sub={`${openDeals.length} open deals`} accent />
         <StatCard label="Booked calls" value={String(d.callCount)} sub="All-time" />
-        <StatCard label="Show rate" value="—" sub="Wire call outcomes" />
+        <StatCard label="Show rate" value="-" sub="Wire call outcomes" />
         <StatCard label="Close rate" value={`${d.closeRate.toFixed(1)}%`} sub={`${d.dealsClosed} won`} />
         <StatCard label="Avg deal size" value={formatCurrency(avgDealSize)} sub="Open pipeline" />
-        <StatCard label="Stalled deals" value="—" sub="Wire age threshold" />
+        <StatCard label="Stalled deals" value="-" sub="Wire age threshold" />
       </div>
 
       <Section num="04" title="Funnel · last 30 days" sub="Lead → call → offer → close.">
@@ -297,12 +297,12 @@ export function OutreachTab({ d: _d }: { d: DashboardData }) {
   return (
     <div className="space-y-5">
       <div className="grid grid-cols-4 gap-3">
-        <StatCard label="Outbound sent" value="—" sub="DMs + dials + emails" />
-        <StatCard label="Reply rate" value="—" sub="Replies / sent" />
-        <StatCard label="Booked / reply" value="—" sub="Conversion to meeting" />
-        <StatCard label="Avg lead score" value="—" sub="Setter-tagged" />
-        <StatCard label="By channel" value="—" sub="DM / email / dial split" />
-        <StatCard label="Reply rate by source" value="—" sub="Where it converts" />
+        <StatCard label="Outbound sent" value="-" sub="DMs + dials + emails" />
+        <StatCard label="Reply rate" value="-" sub="Replies / sent" />
+        <StatCard label="Booked / reply" value="-" sub="Conversion to meeting" />
+        <StatCard label="Avg lead score" value="-" sub="Setter-tagged" />
+        <StatCard label="By channel" value="-" sub="DM / email / dial split" />
+        <StatCard label="Reply rate by source" value="-" sub="Where it converts" />
       </div>
 
       <div className="grid grid-cols-2 gap-3">
@@ -325,14 +325,14 @@ export function AdsTab({ d: _d }: { d: DashboardData }) {
   return (
     <div className="space-y-5">
       <div className="grid grid-cols-4 gap-3">
-        <StatCard label="Ad spend (all-time)" value="—" />
-        <StatCard label="Cost per lead" value="—" />
-        <StatCard label="Cost per book" value="—" />
-        <StatCard label="Cost per show" value="—" />
-        <StatCard label="Leads" value="—" />
-        <StatCard label="CTR avg" value="—" />
-        <StatCard label="ROAS" value="—" sub="Revenue / spend" />
-        <StatCard label="Active campaigns" value="—" />
+        <StatCard label="Ad spend (all-time)" value="-" />
+        <StatCard label="Cost per lead" value="-" />
+        <StatCard label="Cost per book" value="-" />
+        <StatCard label="Cost per show" value="-" />
+        <StatCard label="Leads" value="-" />
+        <StatCard label="CTR avg" value="-" />
+        <StatCard label="ROAS" value="-" sub="Revenue / spend" />
+        <StatCard label="Active campaigns" value="-" />
       </div>
 
       <Section num="06" title="Spend by platform" sub="Where the budget went.">
@@ -352,8 +352,8 @@ export function ReferralsTab({ d: _d }: { d: DashboardData }) {
         <StatCard label="Total paid referrals" value="0" />
         <StatCard label="Pending payouts" value="$0" />
         <StatCard label="Granted payouts" value="$0" />
-        <StatCard label="NPS (referrers)" value="—" />
-        <StatCard label="Conversion rate" value="—" sub="Click → signup" />
+        <StatCard label="NPS (referrers)" value="-" />
+        <StatCard label="Conversion rate" value="-" sub="Click → signup" />
       </div>
 
       <NotWiredCallout items={[
@@ -373,8 +373,8 @@ export function TeamTab({ d }: { d: DashboardData }) {
     <div className="space-y-5">
       <div className="grid grid-cols-4 gap-3">
         <StatCard label="Team members" value={String(d.teamCount)} sub="Active" accent />
-        <StatCard label="Task completion" value="—" sub="% on-time" />
-        <StatCard label="Tasks completed" value="—" sub="Last 7 days" />
+        <StatCard label="Task completion" value="-" sub="% on-time" />
+        <StatCard label="Tasks completed" value="-" sub="Last 7 days" />
         <StatCard label="Goals discovered" value={`${d.goals.length}`} sub="Goals tracked" />
       </div>
 
@@ -430,7 +430,7 @@ export function TeamTab({ d }: { d: DashboardData }) {
               </tr>
             </thead>
             <tbody className="divide-y divide-[rgba(255,255,255,0.08)]">
-              <tr><td colSpan={5} className="px-4 py-12 text-center text-sm text-[#6B7280]">No team members yet — invite from /team.</td></tr>
+              <tr><td colSpan={5} className="px-4 py-12 text-center text-sm text-[#6B7280]">No team members yet, invite from /team.</td></tr>
             </tbody>
           </table>
         </div>
@@ -445,12 +445,12 @@ export function CSTab({ d: _d }: { d: DashboardData }) {
   return (
     <div className="space-y-5">
       <div className="grid grid-cols-3 gap-3">
-        <StatCard label="NPS" value="—" sub="Survey not connected" accent />
-        <StatCard label="Health score (avg)" value="—" sub="Across active clients" />
-        <StatCard label="Time-to-first-value" value="—" sub="Onboarding speed" />
-        <StatCard label="Retention" value="—" sub="Trailing 90d" />
-        <StatCard label="Time-to-respond" value="—" sub="Inbound message latency" />
-        <StatCard label="Logo retention" value="—" sub="% retained quarterly" />
+        <StatCard label="NPS" value="-" sub="Survey not connected" accent />
+        <StatCard label="Health score (avg)" value="-" sub="Across active clients" />
+        <StatCard label="Time-to-first-value" value="-" sub="Onboarding speed" />
+        <StatCard label="Retention" value="-" sub="Trailing 90d" />
+        <StatCard label="Time-to-respond" value="-" sub="Inbound message latency" />
+        <StatCard label="Logo retention" value="-" sub="% retained quarterly" />
       </div>
 
       <NotWiredCallout items={[

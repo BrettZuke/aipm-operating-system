@@ -74,8 +74,8 @@ async function loadSheet(agencyId: string): Promise<SheetBundle | null> {
   return { metrics: computeSalesMetrics(closer, students, schedule), schedule, students, events };
 }
 
-// Funnel step ratios must land in 0–100%. Above 100% means the numerator and denominator come
-// from sources that disagree (FanBasis buyers vs adblock-undercounted GA4 visitors) — show "—".
+// Funnel step ratios must land in 0 to 100%. Above 100% means the numerator and denominator come
+// from sources that disagree (FanBasis buyers vs adblock-undercounted GA4 visitors), show "-".
 function stepRatio(numer: number | null | undefined, den: number | null | undefined): number | null {
   if (numer == null || !den || den <= 0 || numer < 0) return null;
   const r = numer / den;
@@ -133,7 +133,7 @@ function OfferBars({ rows }: { rows: OfferRow[] }) {
   );
 }
 
-// Revenue by source/campaign/content — FanBasis sales joined to captured UTM by email.
+// Revenue by source/campaign/content, FanBasis sales joined to captured UTM by email.
 function AttributionBars({ rows, empty }: { rows: SourceRow[]; empty: string }) {
   const real = rows.filter((r) => r.revenue > 0);
   if (!real.length) return <div className="text-xs text-[#6B7280]">{empty}</div>;
@@ -158,7 +158,7 @@ function AttributionBars({ rows, empty }: { rows: SourceRow[]; empty: string }) 
   );
 }
 
-// Content leaderboard — each individual piece (utm_content: a specific email/video/reel) with
+// Content leaderboard, each individual piece (utm_content: a specific email/video/reel) with
 // visitors (GA4) joined to sales + revenue (FanBasis via email). "Which piece actually sells."
 function ContentLeaderboard({ visitors, revenue }: { visitors: ReadonlyArray<{ label: string; sessions: number }>; revenue: SourceRow[] }) {
   const SKIP = new Set(["", "(not set)", "(direct)", "(organic)", "(referral)", "(none)", "(untagged)"]);
@@ -195,8 +195,8 @@ function ContentLeaderboard({ visitors, revenue }: { visitors: ReadonlyArray<{ l
             <div className="relative grid grid-cols-[1.6fr_0.8fr_0.6fr_0.9fr] items-center gap-x-3 py-2 text-sm">
               <div className="truncate text-[#F5F5F7]" title={r.piece}>{r.piece}</div>
               <div className="text-right font-mono tabular-nums text-[#9CA3AF]">{fmtInt(r.visitors)}</div>
-              <div className="text-right font-mono tabular-nums text-[#F5F5F7]">{r.sales || "—"}</div>
-              <div className="text-right font-mono tabular-nums text-[#00D393]">{r.revenue ? fmtMoney(r.revenue, "USD") : "—"}</div>
+              <div className="text-right font-mono tabular-nums text-[#F5F5F7]">{r.sales || "-"}</div>
+              <div className="text-right font-mono tabular-nums text-[#00D393]">{r.revenue ? fmtMoney(r.revenue, "USD") : "-"}</div>
             </div>
           </div>
         ))}
@@ -205,13 +205,13 @@ function ContentLeaderboard({ visitors, revenue }: { visitors: ReadonlyArray<{ l
   );
 }
 
-// "How far down the page people get" — same idea as the creator's PageScrollMap, but thumbnail-less
+// "How far down the page people get", same idea as the creator's PageScrollMap, but thumbnail-less
 // (the coach's pages differ per funnel). Each row = a section, bar length + colour = how many reach it,
 // ▼ marks the biggest drop-offs.
 function PageScrollMap({ steps }: { steps: ReadonlyArray<{ label: string; sessions: number }> }) {
   const top = steps.length ? Math.max(...steps.map((s) => s.sessions)) : 0;
   if (top <= 0) {
-    return <div className="text-xs text-[#6B7280]">No scroll-depth data yet (events populate 24–48h after launch).</div>;
+    return <div className="text-xs text-[#6B7280]">No scroll-depth data yet (events populate 24 to 48h after launch).</div>;
   }
   const heat = (frac: number) => (frac >= 0.75 ? "#00D393" : frac >= 0.5 ? "#84cc16" : frac >= 0.3 ? "#F8AF00" : "#FF6466");
   const shadow = { textShadow: "0 1px 3px rgba(0,0,0,0.65)" };
@@ -321,10 +321,10 @@ function SubscriptionsTable({ rows }: { rows: SubRow[] }) {
           return (
             <div key={r.name} className={`grid grid-cols-[1.4fr_1fr_0.7fr_1.1fr_1fr] items-center gap-x-3 border-b border-white/5 py-2 text-sm ${flag ? "bg-[#FF6466]/[0.04]" : ""}`}>
               <div className="truncate text-[#F5F5F7]" title={r.name}>{r.name}</div>
-              <div className="truncate text-[#9CA3AF]" title={r.plan}>{r.plan || "—"}</div>
-              <div className="text-right font-mono tabular-nums text-[#9CA3AF]">{r.total != null ? `${r.made}/${r.total}` : (r.made || "—")}</div>
+              <div className="truncate text-[#9CA3AF]" title={r.plan}>{r.plan || "-"}</div>
+              <div className="text-right font-mono tabular-nums text-[#9CA3AF]">{r.total != null ? `${r.made}/${r.total}` : (r.made || "-")}</div>
               <div className="text-right font-mono tabular-nums text-[#F5F5F7]">
-                {r.next ? <>{r.next.date} <span className="text-[#6B7280]">· {curSymbol(r.next.currency)}{fmtInt(r.next.amount)}</span></> : <span className="text-[#6B7280]">—</span>}
+                {r.next ? <>{r.next.date} <span className="text-[#6B7280]">· {curSymbol(r.next.currency)}{fmtInt(r.next.amount)}</span></> : <span className="text-[#6B7280]">,</span>}
               </div>
               <div className="flex justify-end"><StatusPill status={r.status} lateCount={r.lateCount} /></div>
             </div>
@@ -339,7 +339,7 @@ function SubscriptionsTable({ rows }: { rows: SubRow[] }) {
 // The FanBasis pull API has no subscription status, but FanBasis already posts events
 // (payment.succeeded / payment.failed / subscription.renewed / cancelled) into the
 // "FanBasis Raw Events" tab via Make. We group by Subscription ID, take the latest event per
-// sub, and flag failures — so renew/fail tracks automatically with zero FanBasis access.
+// sub, and flag failures, so renew/fail tracks automatically with zero FanBasis access.
 type FbSubStatus = "active" | "failed" | "cancelled";
 interface FbSubRow { buyer: string; subId: string; lastDate: string; amount: number; currency: string; status: FbSubStatus }
 interface FbSubSummary { rows: FbSubRow[]; active: number; failed: number; failedAmount: number; renewedInRange: number; hasReal: boolean }
@@ -422,8 +422,8 @@ function FanbasisSubsPanel({ fb }: { fb: FbSubSummary }) {
             return (
               <div key={r.subId} className={`grid grid-cols-[1.4fr_1fr_0.9fr_1fr] items-center gap-x-3 border-b border-white/5 py-2 text-sm ${flag ? "bg-[#FF6466]/[0.04]" : ""}`}>
                 <div className="truncate text-[#F5F5F7]" title={`${r.buyer} · ${r.subId}`}>{r.buyer}</div>
-                <div className="font-mono text-xs text-[#9CA3AF]">{r.lastDate || "—"}</div>
-                <div className="text-right font-mono tabular-nums text-[#F5F5F7]">{r.amount ? `${curSymbol(r.currency)}${fmtInt(r.amount)}` : "—"}</div>
+                <div className="font-mono text-xs text-[#9CA3AF]">{r.lastDate || "-"}</div>
+                <div className="text-right font-mono tabular-nums text-[#F5F5F7]">{r.amount ? `${curSymbol(r.currency)}${fmtInt(r.amount)}` : "-"}</div>
                 <div className="flex justify-end"><FbStatusPill status={r.status} /></div>
               </div>
             );
@@ -453,7 +453,7 @@ function DataHealthPanel({
           <span className="text-sm font-semibold text-[#F5F5F7]">{headline}</span>
         </div>
         <div className="text-right">
-          <div className="font-mono text-lg tabular-nums text-[#F5F5F7]">{coverage === null ? "—" : fmtPct(coverage, 0)}</div>
+          <div className="font-mono text-lg tabular-nums text-[#F5F5F7]">{coverage === null ? "-" : fmtPct(coverage, 0)}</div>
           <div className="text-[10px] uppercase tracking-wider text-[#6B7280]">revenue attributed · {fmtInt(leadsCaptured)} leads captured</div>
         </div>
       </div>
@@ -468,7 +468,7 @@ function DataHealthPanel({
         ))}
       </div>
       <div className="mt-3 text-[11px] leading-relaxed text-[#6B7280]">
-        Green = flowing, amber = needs a nudge (not broken), red = down. Freshness is the last time each pipe received data. GA4 runs 24–48h behind by design, so its numbers always lag the others slightly.
+        Green = flowing, amber = needs a nudge (not broken), red = down. Freshness is the last time each pipe received data. GA4 runs 24 to 48h behind by design, so its numbers always lag the others slightly.
       </div>
     </Panel>
   );
@@ -600,7 +600,7 @@ export async function CoachAnalytics({
 
   return (
     <div className="space-y-8">
-      {/* Header — same shape as the creator's, plus the funnel filter */}
+      {/* Header, same shape as the creator's, plus the funnel filter */}
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h2 className="text-2xl font-semibold text-[#F5F5F7]" style={{ fontFamily: "var(--font-settoku-display)" }}>
@@ -639,7 +639,7 @@ export async function CoachAnalytics({
             <PendingKpi label="Buyers" pendingOn="FanBasis" hint="paying customers in range" />
           )}
           {rev ? (
-            <KpiCard label="Avg order" value={rev.aov ? fmtMoney(rev.aov, "USD") : "—"} hint="revenue ÷ buyers" source="FanBasis" />
+            <KpiCard label="Avg order" value={rev.aov ? fmtMoney(rev.aov, "USD") : "-"} hint="revenue ÷ buyers" source="FanBasis" />
           ) : (
             <PendingKpi label="Avg order" pendingOn="FanBasis" hint="revenue ÷ buyers" />
           )}
@@ -676,7 +676,7 @@ export async function CoachAnalytics({
           ) : (
             <PendingKpi label="Bought" pendingOn="FanBasis" hint="buyers in range" />
           )}
-          <KpiCard label="Visitor → buy" value={visitToBuy === null ? "—" : fmtPct(visitToBuy, 2)}
+          <KpiCard label="Visitor → buy" value={visitToBuy === null ? "-" : fmtPct(visitToBuy, 2)}
             hint="buyers ÷ visitors" source="Blended" sourceTone={visitToBuy === null ? "pending" : "ok"} />
         </div>
         <Panel>
@@ -692,7 +692,7 @@ export async function CoachAnalytics({
                 </div>
               )}
               <div className="mt-3 text-[11px] leading-relaxed text-[#6B7280]">
-                Unique visitors per step from GA4 (directional), then buyers from FanBasis. Started → buy {startedToBuy === null ? "—" : fmtPct(startedToBuy, 1)}. Pick a different funnel up top.
+                Unique visitors per step from GA4 (directional), then buyers from FanBasis. Started → buy {startedToBuy === null ? "-" : fmtPct(startedToBuy, 1)}. Pick a different funnel up top.
               </div>
             </>
           ) : (
@@ -723,7 +723,7 @@ export async function CoachAnalytics({
               <KpiCard label="Cash / held call" value={fmtMoney(m.cashPerHeldCall_collected, "USD")} hint="cash ÷ call held" source="Closer log" />
             </div>
             <div className="text-[11px] leading-relaxed text-[#6B7280]">
-              From your closers&rsquo; post-call form — every booked call (including no-shows). Close rate = closed ÷ held; cash per booked call = cash collected ÷ all bookings, so no-shows and lost calls drag it down (that&rsquo;s the point).
+              From your closers&rsquo; post-call form, every booked call (including no-shows). Close rate = closed ÷ held; cash per booked call = cash collected ÷ all bookings, so no-shows and lost calls drag it down (that&rsquo;s the point).
             </div>
           </>
         ) : (
@@ -774,7 +774,7 @@ export async function CoachAnalytics({
         <Panel title="Recurring subscriptions (FanBasis)" badge="Live events">
           <FanbasisSubsPanel fb={fbSubs} />
         </Panel>
-        <Panel title="Payment plans — next payment & status" badge="Sheet">
+        <Panel title="Payment plans, next payment & status" badge="Sheet">
           <SubscriptionsTable rows={subs} />
           <div className="mt-3 text-[11px] leading-relaxed text-[#6B7280]">
             Financed plans, one row per member. <span className="text-[#FF6466]">Late</span> = a scheduled payment is overdue; <span className="text-[#FF6466]">Failed payment</span> = an ACH/card failure flagged in the sheet. Recurring FanBasis subscriptions (your recurring offers) show in the panel above as their renew/fail events arrive.
@@ -809,7 +809,7 @@ export async function CoachAnalytics({
           ) : (
             <PendingKpi label="Kit list" pendingOn="Kit key" hint="needs a valid the coach Kit secret (key on file returns 401)" />
           )}
-          <KpiCard label="Opt-in rate" value={optInRate === null ? "—" : fmtPct(optInRate, 1)}
+          <KpiCard label="Opt-in rate" value={optInRate === null ? "-" : fmtPct(optInRate, 1)}
             hint="on-page opt-ins ÷ visitors" source="GA4" sourceTone={optInRate === null ? "pending" : "ok"} />
           {ltv !== null ? (
             <KpiCard label="LTV" value={fmtMoney(ltv, "USD")}
@@ -851,10 +851,10 @@ export async function CoachAnalytics({
           </Panel>
           <Panel title="Cart abandonment">
             <div className="flex flex-wrap items-baseline gap-x-6 gap-y-2">
-              <div><span className="font-mono text-xl text-[#F5F5F7]">{started !== null ? fmtInt(started) : "—"}</span> <span className="text-xs text-[#6B7280]">started</span></div>
-              <div><span className="font-mono text-xl text-[#00D393]">{bought !== null ? fmtInt(bought) : "—"}</span> <span className="text-xs text-[#6B7280]">bought</span></div>
-              <div><span className="font-mono text-xl text-[#FF6466]">{cartAbandoned !== null ? fmtInt(cartAbandoned) : "—"}</span> <span className="text-xs text-[#6B7280]">abandoned</span></div>
-              <div><span className="font-mono text-xl text-[#F8AF00]">{abandonRate !== null ? fmtPct(abandonRate, 0) : "—"}</span> <span className="text-xs text-[#6B7280]">abandon rate</span></div>
+              <div><span className="font-mono text-xl text-[#F5F5F7]">{started !== null ? fmtInt(started) : "-"}</span> <span className="text-xs text-[#6B7280]">started</span></div>
+              <div><span className="font-mono text-xl text-[#00D393]">{bought !== null ? fmtInt(bought) : "-"}</span> <span className="text-xs text-[#6B7280]">bought</span></div>
+              <div><span className="font-mono text-xl text-[#FF6466]">{cartAbandoned !== null ? fmtInt(cartAbandoned) : "-"}</span> <span className="text-xs text-[#6B7280]">abandoned</span></div>
+              <div><span className="font-mono text-xl text-[#F8AF00]">{abandonRate !== null ? fmtPct(abandonRate, 0) : "-"}</span> <span className="text-xs text-[#6B7280]">abandon rate</span></div>
             </div>
             <div className="mt-3 text-[11px] leading-relaxed text-[#6B7280]">
               Started is GA4 begin_checkout (clicked through to pay, directional); bought is exact from FanBasis. FanBasis hosts checkout off-domain, so the gap also includes people who finished paying on FanBasis without an on-page purchase event.
@@ -903,7 +903,7 @@ export async function CoachAnalytics({
           </Panel>
         </div>
         {traffic && traffic.utmCampaigns.length > 0 && (
-          <Panel title="Content / campaigns — visitors" badge="GA4">
+          <Panel title="Content / campaigns, visitors" badge="GA4">
             <BarList rows={traffic.utmCampaigns.filter((c) => c.label && !["(not set)", "(organic)", "(direct)", "(referral)"].includes(c.label.toLowerCase())).slice(0, 12)} />
             <div className="mt-3 text-[11px] leading-relaxed text-[#6B7280]">
               Visitors per tagged campaign from GA4 (traffic side). Revenue per source/campaign above is the sales side, joined by email.

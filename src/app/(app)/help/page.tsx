@@ -56,7 +56,7 @@ export default function HelpPage() {
             <Lightbulb className="size-4 text-purple-400" />
           </div>
           <div className="text-sm font-semibold text-[#F5F5F7]">Feature Requests</div>
-          <div className="mt-1 text-xs text-[#9CA3AF]">Suggest something new — we read everything.</div>
+          <div className="mt-1 text-xs text-[#9CA3AF]">Suggest something new, we read everything.</div>
         </button>
         <button className="text-left rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#0C0C10]/40 p-5 hover:border-[rgba(255,255,255,0.12)]">
           <div className="flex size-10 items-center justify-center rounded-lg bg-red-500/10 mb-3">
@@ -133,7 +133,7 @@ export default function HelpPage() {
       <div className="rounded-lg border border-[rgba(255,255,255,0.08)] bg-[#0C0C10]/40 p-6 text-center">
         <HelpCircle className="mx-auto size-8 text-[rgba(245,245,247,0.3)] mb-3" />
         <h3 className="text-base font-medium text-[rgba(245,245,247,0.8)]">Need more help?</h3>
-        <p className="mt-1 text-sm text-[#9CA3AF]">Ask AI Chat — it has context on your workspace and can guide you through any feature.</p>
+        <p className="mt-1 text-sm text-[#9CA3AF]">Ask AI Chat, it has context on your workspace and can guide you through any feature.</p>
         <Link href="/settoku-chat" className="mt-4 inline-flex items-center gap-2 rounded-md bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600">
           <MessageSquare className="size-4" /> Ask AI
         </Link>

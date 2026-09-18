@@ -30,7 +30,7 @@ const PIPELINE_LABELS: Record<string, string> = {
 };
 
 function relTime(iso: string | null) {
-  if (!iso) return "—";
+  if (!iso) return "-";
   const h = Math.floor((Date.now() - new Date(iso).getTime()) / 3600000);
   if (h < 1) return "< 1h ago";
   if (h < 24) return `${h}h ago`;
@@ -38,7 +38,7 @@ function relTime(iso: string | null) {
 }
 
 function TagBadge({ tag }: { tag: string | null }) {
-  const t = TAG_BADGE[tag ?? ""] ?? { label: tag ?? "—", variant: "muted" as const };
+  const t = TAG_BADGE[tag ?? ""] ?? { label: tag ?? "-", variant: "muted" as const };
   return <Badge variant={t.variant}>{t.label}</Badge>;
 }
 
@@ -59,7 +59,7 @@ export default async function AISetterPage({ searchParams }: { searchParams: Pro
         <div>
           <div className="text-[10px] font-semibold uppercase tracking-widest text-[#6B7280]">INSTAGRAM SETTER</div>
           <h1 className="mt-1 text-3xl font-bold text-[#F5F5F7]" style={{fontFamily:"var(--font-playfair),Georgia,serif"}}>AI Setter</h1>
-          <p className="mt-1 text-sm text-[#9CA3AF]">Claude qualifies leads in your DMs and books calls. You see every reply before it sends — pause anytime.</p>
+          <p className="mt-1 text-sm text-[#9CA3AF]">Claude qualifies leads in your DMs and books calls. You see every reply before it sends, pause anytime.</p>
         </div>
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2 rounded-lg border border-[rgba(255,255,255,0.08)] bg-[#0C0C10]/60 px-3 py-2 text-xs">
@@ -121,7 +121,7 @@ function AnalyticsContent({ m }: { m: DmMetrics | null }) {
       </div>
 
       <div className="rounded-lg border border-[rgba(255,255,255,0.08)] bg-[#09090C]/60 p-5">
-        <div className="mb-3 text-sm font-medium text-[rgba(245,245,247,0.8)]">Activity — last 30 days</div>
+        <div className="mb-3 text-sm font-medium text-[rgba(245,245,247,0.8)]">Activity, last 30 days</div>
         <div className="flex items-end gap-0.5 h-28">
           {m.daily.map(d => {
             const total = d.APPLY + d.CONFIRMED + d.DISQUALIFY + d.COMMUNITY + d.CONTINUE;

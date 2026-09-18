@@ -3,7 +3,7 @@ import { num, parseDDMMYYYY, inMonth, getStudentLifecycle } from './sheets-data'
 const FANBASIS_FEE_RATE = 0.0356;
 const VAT_RATE = 1/6;
 // coach-tenant payout rates. VAT applies to UK customers only. Creator-template tenants (e.g. the creator)
-// run 0% commission and pay no VAT — they don't use this sheet-based engine (their revenue is Stripe).
+// run 0% commission and pay no VAT, they don't use this sheet-based engine (their revenue is Stripe).
 const CLOSER_RATE = 0.10;
 const SETTER_RATE = 0.05;
 
@@ -31,7 +31,7 @@ export function computeMonthlyCommissions(students: any[], schedule: any[], mont
   // `Total Paid` is cumulative and overlaps these "Paid" rows, so counting both double-counts cash.
   // We attribute only the UPFRONT remainder (Total Paid − installments) to their join month; the
   // installments themselves are counted by paid-date in the second loop below. Per-student the two
-  // loops now sum to exactly Total Paid — no double count, no lost upfront.
+  // loops now sum to exactly Total Paid, no double count, no lost upfront.
   const paidByEmail = new Map<string, number>();
   for (const p of schedule) {
     if (String(p['Status'] ?? '').trim() !== 'Paid') continue;
@@ -42,7 +42,7 @@ export function computeMonthlyCommissions(students: any[], schedule: any[], mont
 
   for (const s of students) {
     if (!s['Email']) continue;
-    // Skip refunded AND unconfirmed/failed payments — commissions only paid on real, settled revenue.
+    // Skip refunded AND unconfirmed/failed payments, commissions only paid on real, settled revenue.
     if (getStudentLifecycle(s['Notes']) !== 'active') continue;
     if (!isLifetime && !inMonth(s['Join Date'], month)) continue;
     // Upfront lump = total collected minus the installments already itemised in the schedule.

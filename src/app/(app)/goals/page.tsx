@@ -111,7 +111,7 @@ export default async function GoalsPage({ searchParams }: { searchParams: Promis
         <div className="flex items-center justify-between mb-2">
           <div>
             <div className="font-semibold text-[#F5F5F7]">All objectives</div>
-            <div className="text-xs text-[#6B7280]">No goals yet — create your first one to start tracking</div>
+            <div className="text-xs text-[#6B7280]">No goals yet, create your first one to start tracking</div>
           </div>
           <div className="flex gap-2">
             {["Level", "Status", "Owner"].map(f => (

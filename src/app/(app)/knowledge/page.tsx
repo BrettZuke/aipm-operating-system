@@ -52,7 +52,7 @@ export default async function KnowledgePage({ searchParams }: { searchParams: Pr
     ? (await supabase.from("knowledge_docs").select("id,title,source_type,content_text,created_at,updated_at,metadata").eq("agency_id", agencyId!).eq("id", docId).maybeSingle()).data
     : null;
 
-  // Counts by source_type (always one row per type — small + cheap).
+  // Counts by source_type (always one row per type, small + cheap).
   // We fetch lightweight metadata for ALL docs so the tab counts are accurate
   // even when the user is filtering by `q`.
   const { data: allMeta } = await supabase
@@ -75,7 +75,7 @@ export default async function KnowledgePage({ searchParams }: { searchParams: Pr
     .order("created_at", { ascending: false })
     .limit(500);
   if (q.trim()) {
-    // PostgREST `or` syntax — ilike on either field. Comma escapes for special chars.
+    // PostgREST `or` syntax, ilike on either field. Comma escapes for special chars.
     const escaped = q.replace(/[,()*]/g, "");
     listing = listing.or(`title.ilike.%${escaped}%,content_text.ilike.%${escaped}%`);
   }
@@ -93,7 +93,7 @@ export default async function KnowledgePage({ searchParams }: { searchParams: Pr
         <div>
           <div className="text-[10px] font-semibold uppercase tracking-widest text-[#6B7280]">SETTOKU · MEMORY</div>
           <h1 className="mt-1 text-3xl font-bold text-[#F5F5F7]" style={{fontFamily:"var(--font-playfair),Georgia,serif"}}>Knowledge Library</h1>
-          <p className="mt-1 text-sm text-[#9CA3AF] max-w-2xl">Settoku&apos;s memory of the workspace. Every page reads from here — brand voice, offers, decisions, and the people behind the work.</p>
+          <p className="mt-1 text-sm text-[#9CA3AF] max-w-2xl">Settoku&apos;s memory of the workspace. Every page reads from here, brand voice, offers, decisions, and the people behind the work.</p>
         </div>
         <div className="flex items-center gap-2">
           <button className="flex items-center gap-1.5 rounded-lg border border-[rgba(255,255,255,0.10)] px-3 py-2 text-sm text-[#F5F5F7] hover:bg-[rgba(255,255,255,0.06)]">
@@ -172,7 +172,7 @@ export default async function KnowledgePage({ searchParams }: { searchParams: Pr
                       <Icon className="size-4 text-[#9CA3AF]" />
                       <div className="flex-1 min-w-0">
                         <div className="text-sm font-medium text-[#F5F5F7] truncate">{d.title}</div>
-                        <div className="text-xs text-[#6B7280]">{d.source_type ?? "—"}</div>
+                        <div className="text-xs text-[#6B7280]">{d.source_type ?? "-"}</div>
                       </div>
                       <span className="text-xs text-[#6B7280] whitespace-nowrap">{new Date(d.created_at).toLocaleDateString()}</span>
                     </Link>
@@ -191,7 +191,7 @@ export default async function KnowledgePage({ searchParams }: { searchParams: Pr
           </div>
         </div>
 
-        {/* Right rail — either the open doc detail or the "who's reading what" placeholder */}
+        {/* Right rail, either the open doc detail or the "who's reading what" placeholder */}
         {openDoc ? (
           <div className="rounded-xl border border-[rgba(255,255,255,0.08)] bg-[#0C0C10]/60 self-start max-h-[calc(100vh-140px)] overflow-hidden flex flex-col">
             {/* Header */}

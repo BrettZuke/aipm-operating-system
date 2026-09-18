@@ -44,7 +44,7 @@ export function PipelineBoard({ deals }: { deals: DealCard[] }) {
   const [pending, startTransition] = useTransition();
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [dragOverStage, setDragOverStage] = useState<Stage | null>(null);
-  // Local optimistic state — when a drop happens, update immediately so the UI
+  // Local optimistic state, when a drop happens, update immediately so the UI
   // doesn't flicker while the server round-trip completes.
   const [optimistic, setOptimistic] = useState<Map<string, Stage>>(new Map());
 
@@ -139,10 +139,10 @@ export function PipelineBoard({ deals }: { deals: DealCard[] }) {
                           <div className="text-[11px] text-[#9CA3AF] truncate">
                             {d.client_id ? (
                               <Link href={`/clients/${d.client_id}`} className="hover:text-blue-400">
-                                {d.client_name ?? "—"}
+                                {d.client_name ?? "-"}
                               </Link>
                             ) : (
-                              d.client_name ?? "—"
+                              d.client_name ?? "-"
                             )}
                           </div>
                         </div>

@@ -17,14 +17,14 @@ create table if not exists public.webinars (
   webinarjam_event_id text,
   zoom_meeting_id text,
 
-  -- Attendee join link — substituted into reminder templates as {join_url}
+  -- Attendee join link, substituted into reminder templates as {join_url}
   join_url text,
 
   -- SMS templates per reminder window. {name}, {title}, {minutes}, {join_url} are substituted.
   -- Leave any field NULL to skip that reminder window.
-  template_24h text default 'Hey {name} — quick reminder, {title} kicks off in 24 hours. Save a seat: {join_url}',
-  template_1h  text default 'Hey {name} — {title} starts in 1 hour. Join here: {join_url}',
-  template_15m text default '15 mins until {title} — get set up. Join: {join_url}',
+  template_24h text default 'Hey {name}, quick reminder, {title} kicks off in 24 hours. Save a seat: {join_url}',
+  template_1h  text default 'Hey {name}, {title} starts in 1 hour. Join here: {join_url}',
+  template_15m text default '15 mins until {title}, get set up. Join: {join_url}',
   template_live text default '{title} is starting NOW. Join: {join_url}',
 
   data jsonb not null default '{}',
@@ -40,12 +40,12 @@ create table if not exists public.webinar_registrations (
 
   name text,
   email text,
-  phone text,                       -- E.164 format (+1...) — null = skip SMS
+  phone text,                       -- E.164 format (+1...), null = skip SMS
 
   source text,                      -- 'typeform' | 'webinarjam' | 'manual' | 'csv'
   registered_at timestamptz not null default now(),
 
-  -- Reminder tracking — set to the timestamp when each SMS was successfully sent.
+  -- Reminder tracking, set to the timestamp when each SMS was successfully sent.
   -- The cron uses these to avoid double-sending.
   sent_24h_at  timestamptz,
   sent_1h_at   timestamptz,

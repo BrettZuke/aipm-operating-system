@@ -50,7 +50,7 @@ export function AppShell({
         />
       </div>
       <div className="relative flex-1 overflow-hidden">
-        {/* Ambient glow — nekter.ai section mood */}
+        {/* Ambient glow, nekter.ai section mood */}
         <div className="pointer-events-none absolute -top-48 -right-48 h-[600px] w-[600px] rounded-full opacity-100" style={{background:"radial-gradient(circle, rgba(0,131,255,0.07) 0%, transparent 65%)"}} />
         <div className="pointer-events-none absolute -bottom-32 left-1/3 h-[400px] w-[400px] rounded-full" style={{background:"radial-gradient(circle, rgba(0,211,147,0.05) 0%, transparent 65%)"}} />
         <main className="flex-1 overflow-y-auto p-6 h-full">

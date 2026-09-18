@@ -75,7 +75,7 @@ export function TestPanel() {
 
       {tab === "verify" && (
         <div className="space-y-3">
-          <p className="text-xs text-[#9CA3AF]">Re-runs every integration&apos;s connectivity check in parallel. Free — no messages sent, no money spent.</p>
+          <p className="text-xs text-[#9CA3AF]">Re-runs every integration&apos;s connectivity check in parallel. Free, no messages sent, no money spent.</p>
           <button
             onClick={handleVerifyAll}
             disabled={pending}
@@ -149,7 +149,7 @@ export function TestPanel() {
 
       {tab === "close" && (
         <div className="space-y-2">
-          <p className="text-xs text-[#9CA3AF]">Imports all leads from Close CRM as clients. Idempotent — running again only updates/adds new ones.</p>
+          <p className="text-xs text-[#9CA3AF]">Imports all leads from Close CRM as clients. Idempotent, running again only updates/adds new ones.</p>
           <button
             onClick={handleCloseImport}
             disabled={pending}

@@ -11,7 +11,7 @@ function topResponses(rows: any[], field: string, limit = 6): { text: string; co
   for (const r of rows) {
     const text = (r[field] || '').trim();
     if (!text) continue;
-    if (['n/a','na','-','–','none','no','nothing'].includes(text.toLowerCase())) continue;
+    if (['n/a','na','-',',','none','no','nothing'].includes(text.toLowerCase())) continue;
     const key = text.length > 100 ? text.slice(0, 100) + '…' : text;
     counts.set(key, (counts.get(key) || 0) + 1);
   }
@@ -137,14 +137,14 @@ export default async function SalesInsightsPage() {
         </div>
       </Section>
 
-      <Section num="03" title="Customer Voice" sub="Direct from the onboarding form — fears, hesitations, content that converted.">
+      <Section num="03" title="Customer Voice" sub="Direct from the onboarding form, fears, hesitations, content that converted.">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
           <InsightPanel icon={AlertCircle} iconColor="#FF6466" title="Customer Fears" data={fearsList} pillBg="rgba(255,100,102,0.15)" pillText="#FF6466"/>
           <InsightPanel icon={MessageSquare} iconColor="#F8AF00" title="Customer Hesitations" data={hesitationsList} pillBg="rgba(248,175,0,0.15)" pillText="#F8AF00"/>
         </div>
         <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-5">
           <div className="flex items-center gap-2 mb-3"><Target className="size-4 text-[#00D393]"/><span className="text-sm font-semibold text-[#F5F5F7]">Specific Content That Pushed Them To Buy</span></div>
-          {contentList.length === 0 ? <p className="text-sm text-[#6B7280]">No data yet — populates as students fill the onboarding form.</p> : (
+          {contentList.length === 0 ? <p className="text-sm text-[#6B7280]">No data yet, populates as students fill the onboarding form.</p> : (
             <ul className="space-y-2 text-xs">
               {contentList.map((c, i) => (
                 <li key={i} className="flex gap-2">

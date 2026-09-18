@@ -119,8 +119,7 @@ async function pool<T>(tasks: Array<() => Promise<T>>, limit: number, onError: (
       try {
         results[idx] = await tasks[idx]();
       } catch {
-        // One failed report (e.g. a bad pagePath filter) shouldn't blank every GA4 widget —
-        // degrade just that tile to empty so the rest of the snapshot still renders.
+        // One failed report (e.g. a bad pagePath filter) shouldn't blank every GA4 widget, // degrade just that tile to empty so the rest of the snapshot still renders.
         results[idx] = onError(idx);
       }
     }
@@ -163,7 +162,7 @@ function mergeSources(rows: TopRow[]): TopRow[] {
 const _ga4Cache = makeTtlCache<Ga4Snapshot>(5 * 60 * 1000);
 
 // Cached entry point (see snapshot-cache.ts): the dashboard re-renders this reader on every load,
-// so without the cache the full GA4 fan-out re-runs each time — the main source of dashboard lag.
+// so without the cache the full GA4 fan-out re-runs each time, the main source of dashboard lag.
 export function fetchGa4Snapshot(args: Ga4Args): Promise<Ga4Snapshot> {
   const { propertyId, range, salesPagePath, checkoutPagePath } = args;
   const k = JSON.stringify([propertyId, range.from, range.to, range.prevFrom, range.prevTo, salesPagePath, checkoutPagePath ?? ""]);
@@ -220,7 +219,7 @@ async function computeGa4Snapshot({ propertyId, range, salesPagePath, checkoutPa
       () => runReport(propertyId, { startDate: range.from, endDate: range.to, dimensions: ["sessionCampaignName"], metrics: ["sessions"], limit: 15 }),
       () => runReport(propertyId, { startDate: range.from, endDate: range.to, metrics: ["averageSessionDuration"] }),
       // All conversion + scroll events come from ONE eventName-dimensioned report each (current + prior),
-      // instead of one request per event — keeps us well under GA4's concurrent-request quota.
+      // instead of one request per event, keeps us well under GA4's concurrent-request quota.
       () => runReport(propertyId, { startDate: range.from, endDate: range.to, dimensions: ["eventName"], metrics: ["eventCount"], limit: 200 }),
       () => runReport(propertyId, { startDate: range.prevFrom, endDate: range.prevTo, dimensions: ["eventName"], metrics: ["eventCount"], limit: 200 }),
       // Funnel Views: total page views + unique users on the sales page (current + prior unique).
@@ -286,8 +285,7 @@ async function computeGa4Snapshot({ propertyId, range, salesPagePath, checkoutPa
 // Unlike fetchGa4Snapshot (which mixes site-wide + page-scoped fields), EVERYTHING
 // here is scoped to one page's pagePath, so two pages can be compared apples to
 // apples across the whole stat set: traffic, engagement quality, opt-ins, scroll
-// depth, and where the traffic comes from. Money (revenue/MRR/sales) stays out —
-// Stripe cannot see the landing page, so it is shown once, account-wide, in the UI.
+// depth, and where the traffic comes from. Money (revenue/MRR/sales) stays out, // Stripe cannot see the landing page, so it is shown once, account-wide, in the UI.
 export interface ScrollDepth {
   depth: number; // 25 | 50 | 75 | 100
   count: number; // times the milestone fired on this page (scroll_25..scroll_100)
@@ -305,8 +303,8 @@ export interface Ga4PageReport {
   engagementRate: number; // 0..1
   bounceRate: number; // 0..1 (lower is better)
   optIns: number; // generate_lead on this page
-  scrollReached: number; // GA4 default `scroll` event (~90% depth) — historical
-  scroll: ScrollDepth[]; // scroll_25/50/75/100 — new, fills in going forward
+  scrollReached: number; // GA4 default `scroll` event (~90% depth), historical
+  scroll: ScrollDepth[]; // scroll_25/50/75/100, new, fills in going forward
   sources: TopRow[];
   devices: TopRow[];
   countries: TopRow[];

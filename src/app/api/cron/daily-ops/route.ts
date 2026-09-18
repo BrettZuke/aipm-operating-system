@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
     try {
       // Cap each sub-route at 25s. Two steps × 25s = 50s, inside Hobby's 60s wall.
       // Without this an unreachable/hung sub-route would block until the platform
-      // kills the function mid-await — and the kill skips the catch below, so the
+      // kills the function mid-await, and the kill skips the catch below, so the
       // "unreachable" alert would never fire. The timeout turns a hang into a
       // catchable AbortError that DOES alert.
       const res = await fetch(`${base}${path}`, { headers, signal: AbortSignal.timeout(25_000) });
@@ -51,7 +51,7 @@ export async function GET(req: NextRequest) {
   steps.push(await run("self-discover", "/api/cron/self-discover"));
 
   // The sub-routes alert on their own logic failures; alert here only for the gap
-  // they can't cover themselves — being unreachable (i.e. they never ran).
+  // they can't cover themselves, being unreachable (i.e. they never ran).
   const unreachable = steps.filter(s => s.status === 0);
   if (unreachable.length) {
     await alertOps(`daily-ops: ${unreachable.length} step(s) unreachable`,

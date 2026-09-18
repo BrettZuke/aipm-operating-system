@@ -1,15 +1,15 @@
 /**
- * Self-discovery cron — runs audits and writes findings into the improvements
+ * Self-discovery cron, runs audits and writes findings into the improvements
  * queue. Idempotent (the unique index on (agency_id, source, title) for open
  * items prevents duplicate entries).
  *
  * Audits performed:
- *   1. Webhook freshness — any source that's stale → security/perf finding
- *   2. Outstanding-balance growth — clients accumulating debt → data_quality
+ *   1. Webhook freshness, any source that's stale → security/perf finding
+ *   2. Outstanding-balance growth, clients accumulating debt → data_quality
  *   3. Orphan deals (closed_won, no transactions) → data_quality
- *   4. Calls without notes — closer compliance → data_quality
- *   5. Active clients without phone — SMS coverage gap → data_quality
- *   6. Unattributed calls — tx with no client_id → data_quality
+ *   4. Calls without notes, closer compliance → data_quality
+ *   5. Active clients without phone, SMS coverage gap → data_quality
+ *   6. Unattributed calls, tx with no client_id → data_quality
  *
  * Auth: requires CRON_SECRET in Authorization: Bearer.
  *
@@ -58,7 +58,7 @@ export async function GET(req: NextRequest) {
         if (s.status === "stale") {
           findings.push({
             title: `Webhook source stale: ${s.name}`,
-            description: `The ${s.name} webhook hasn't received data in ${Math.round((s.minutes_since ?? 0) / 60)} hours. This is past the staleness threshold — either the source is silent or our endpoint is broken.`,
+            description: `The ${s.name} webhook hasn't received data in ${Math.round((s.minutes_since ?? 0) / 60)} hours. This is past the staleness threshold, either the source is silent or our endpoint is broken.`,
             kind: "data_quality",
             priority: 2,
             evidence: JSON.stringify(s, null, 2),
@@ -122,13 +122,13 @@ export async function GET(req: NextRequest) {
     if (c.id === undefined) return false;
     return false; // need status in select
   });
-  // Re-query with status — the previous query didn't select status, so re-do
+  // Re-query with status, the previous query didn't select status, so re-do
   const { data: actives } = await sb.from("clients").select("id,name,email,data,status").eq("agency_id", AGENCY_ID).eq("status", "active");
   const noPhone = (actives ?? []).filter(c => !((c.data as Record<string, unknown> | null)?.phone));
   if (noPhone.length >= 3) {
     findings.push({
       title: `${noPhone.length} active clients have no phone number`,
-      description: "SMS reminders + webinar reminders won't reach them. Worth a quick capture flow — Typeform or a 1-tap link in their next email.",
+      description: "SMS reminders + webinar reminders won't reach them. Worth a quick capture flow, Typeform or a 1-tap link in their next email.",
       kind: "data_quality",
       priority: 4,
       evidence: noPhone.slice(0, 10).map(c => `${c.name} <${c.email}>`).join("\n"),

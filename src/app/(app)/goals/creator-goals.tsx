@@ -10,7 +10,7 @@ import { fmtMoney, fmtInt, fmtPct } from "@/lib/creator/format";
 const PANEL = "rounded-xl border border-[rgba(255,255,255,0.07)] bg-[#0E0E12]";
 
 /**
- * Goals for creator-template tenants (e.g. the creator). One north-star — revenue toward goal — plus
+ * Goals for creator-template tenants (e.g. the creator). One north-star, revenue toward goal, plus
  * the recurring metrics that drive it, all live from Stripe. Replaces the empty Supabase OKR view.
  */
 export async function CreatorGoals({
@@ -88,7 +88,7 @@ export async function CreatorGoals({
         </div>
       </div>
 
-      {/* Key results — the recurring metrics that move the goal */}
+      {/* Key results, the recurring metrics that move the goal */}
       <div>
         <div className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-[#6B7280]">Key results · tracked live</div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">

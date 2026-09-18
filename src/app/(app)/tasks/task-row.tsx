@@ -40,7 +40,7 @@ const PRIORITY_VARIANT: Record<string, "default" | "primary" | "warning" | "dang
 };
 
 function formatDueDate(iso: string | null): { label: string; danger: boolean } {
-  if (!iso) return { label: "—", danger: false };
+  if (!iso) return { label: "-", danger: false };
   const d = new Date(iso);
   const now = new Date();
   const diffMs = d.getTime() - now.getTime();

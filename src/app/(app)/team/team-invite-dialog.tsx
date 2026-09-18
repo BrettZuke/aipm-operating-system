@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { inviteTeamMember } from "./actions";
 
 // Only the access levels the system actually enforces. (Sales roles like "closer/setter"
-// are tracked from call data, not from workspace access — they don't belong here.)
+// are tracked from call data, not from workspace access, they don't belong here.)
 const ROLES = [
   { value: "member", label: "Member", desc: "Standard access to this workspace" },
   { value: "admin",  label: "Admin",  desc: "Can manage settings and invite people" },
@@ -99,7 +99,7 @@ export function TeamInviteDialog() {
             <p className="text-xs text-[#6B7280]">
               {invite.emailed
                 ? "We also emailed them this link."
-                : "The link works on its own — send it however you like (Slack, WhatsApp, email)."}{" "}
+                : "The link works on its own, send it however you like (Slack, WhatsApp, email)."}{" "}
               It expires in 7 days and only works for that email address.
             </p>
 
@@ -126,7 +126,7 @@ export function TeamInviteDialog() {
                 <Label htmlFor="role">Access level</Label>
                 <select id="role" name="role" defaultValue="member" className="h-10 w-full rounded-md border border-[rgba(255,255,255,0.10)] bg-[#0C0C10]/50 px-3 text-sm text-[#F5F5F7]">
                   {ROLES.map(r => (
-                    <option key={r.value} value={r.value}>{r.label} — {r.desc}</option>
+                    <option key={r.value} value={r.value}>{r.label}, {r.desc}</option>
                   ))}
                 </select>
               </div>

@@ -11,7 +11,7 @@ import { createClient } from "@/lib/supabase/server";
  *   2. Accept any pending invitations matching their email (this grants the membership).
  *   3. Authorize: a user may proceed only if they have a workspace membership OR their email
  *      is on the TEAM_ALLOWED_EMAILS allowlist. Otherwise they're signed out.
- *      A valid invite is authorization on its own — invitees don't need to be on the allowlist.
+ *      A valid invite is authorization on its own, invitees don't need to be on the allowlist.
  *
  * Tenant isolation: we NEVER auto-assign an un-invited user to a default workspace. Access to a
  * workspace comes only from an invitation (or an explicit membership), so an invitee can only ever
@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
   const adminUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const adminKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!adminUrl || !adminKey) {
-    // Can't reconcile invites/memberships without admin — fall back to allowlist-only.
+    // Can't reconcile invites/memberships without admin, fall back to allowlist-only.
     if (allowlist.length > 0 && !onAllowlist) {
       await supabase.auth.signOut();
       return NextResponse.redirect(`${origin}/login?error=not_authorized`);

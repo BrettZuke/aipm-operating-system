@@ -123,7 +123,7 @@ export async function markPaymentPaid(_prev: unknown, formData: FormData): Promi
       metadata: { source: "payment_plan_manual", scheduled_payment_id: paymentId },
     });
     // 23505 = this installment was already logged (deterministic external_id). Marking it paid
-    // again must not error or create a second transaction — just move on.
+    // again must not error or create a second transaction, just move on.
     if (txErr && txErr.code !== "23505") {
       return { ok: false, error: txErr.message };
     }

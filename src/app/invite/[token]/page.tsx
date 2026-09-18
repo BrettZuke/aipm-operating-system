@@ -16,7 +16,7 @@ export default async function InviteAcceptPage({ params }: { params: Promise<Par
   const supabase = await createClient();
 
   // The invitations table is admin-only under RLS, and the invitee usually hits this link
-  // logged-out (no session) — so we MUST read/write it with the service-role key, or the
+  // logged-out (no session), so we MUST read/write it with the service-role key, or the
   // lookup returns null and the invitee sees a false "Invalid invite link".
   const adminUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const adminKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -25,7 +25,7 @@ export default async function InviteAcceptPage({ params }: { params: Promise<Par
   }
   const admin = createAdminClient(adminUrl, adminKey, { auth: { persistSession: false } });
 
-  // 1. Look up the invitation by token (admin client — no session required yet).
+  // 1. Look up the invitation by token (admin client, no session required yet).
   const { data: invitation } = await admin
     .from("invitations")
     .select("id, agency_id, invited_email, role, accepted_at, expires_at")
@@ -65,7 +65,7 @@ export default async function InviteAcceptPage({ params }: { params: Promise<Par
     );
   }
 
-  // 4. Insert membership + mark invitation accepted (admin client — agency_members writes are
+  // 4. Insert membership + mark invitation accepted (admin client, agency_members writes are
   //    admin-only under RLS, so a self-join via the user's session would be blocked).
   //    unique (agency_id, user_id) means the upsert is safe to retry.
   const { error: memberError } = await admin.from("agency_members").upsert(

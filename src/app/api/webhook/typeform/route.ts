@@ -150,7 +150,7 @@ function verifyTypeformSignature(rawBody: string, signatureHeader: string | null
   if (!signatureHeader.startsWith(prefix)) return false;
   const provided = signatureHeader.slice(prefix.length);
   const expected = crypto.createHmac("sha256", secret).update(rawBody).digest("base64");
-  // Typeform uses base64 — compare with timing-safe equal
+  // Typeform uses base64, compare with timing-safe equal
   const a = Buffer.from(provided);
   const b = Buffer.from(expected);
   return a.length === b.length && crypto.timingSafeEqual(a, b);
@@ -201,7 +201,7 @@ type Sb = any;
 async function handlePostCall(supabase: Sb, agencyId: string, payload: TypeformPayload) {
   const a = payload.form_response.answers ?? [];
 
-  // Lead contact info — sub-fields, not parent contact_info
+  // Lead contact info, sub-fields, not parent contact_info
   const leadName  = answerText(findAnswer(a, POST_CALL_FIELDS.leadName));
   const leadEmail = answerText(findAnswer(a, POST_CALL_FIELDS.leadEmail));
   const leadPhone = answerText(findAnswer(a, POST_CALL_FIELDS.leadPhone));
@@ -299,7 +299,7 @@ async function handlePostCall(supabase: Sb, agencyId: string, payload: TypeformP
     .select("id").single();
 
   if (callError) {
-    // Concurrent re-delivery already inserted this submission — treat as an idempotent no-op.
+    // Concurrent re-delivery already inserted this submission, treat as an idempotent no-op.
     if (callError.code === "23505") {
       const { data: raced } = await supabase
         .from("calls").select("id").eq("agency_id", agencyId).eq("external_id", payload.form_response.token).maybeSingle();
@@ -365,7 +365,7 @@ async function handlePostCall(supabase: Sb, agencyId: string, payload: TypeformP
 async function handleOnboarding(supabase: Sb, agencyId: string, payload: TypeformPayload) {
   const a = payload.form_response.answers ?? [];
 
-  // Onboarding form: first + last name only — no email
+  // Onboarding form: first + last name only, no email
   const firstName = answerText(findAnswer(a, ONBOARDING_FIELDS.firstName)) ?? "";
   const lastName  = answerText(findAnswer(a, ONBOARDING_FIELDS.lastName))  ?? "";
   const name = (firstName + " " + lastName).trim() || "Anonymous";

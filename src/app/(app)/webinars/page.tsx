@@ -61,7 +61,7 @@ export default async function WebinarsPage() {
         <div className="rounded-xl border border-dashed border-[rgba(255,255,255,0.08)] py-16 text-center">
           <Calendar className="mx-auto size-8 text-[#6B7280] mb-3" />
           <div className="text-base font-medium text-[#F5F5F7]">No webinars scheduled yet</div>
-          <p className="mt-1 max-w-md mx-auto text-sm text-[#9CA3AF]">Create your first webinar — Settoku will pull registrations and auto-text reminders so attendance stays high.</p>
+          <p className="mt-1 max-w-md mx-auto text-sm text-[#9CA3AF]">Create your first webinar, Settoku will pull registrations and auto-text reminders so attendance stays high.</p>
           <div className="mt-6"><CreateWebinarDialog /></div>
         </div>
       ) : (

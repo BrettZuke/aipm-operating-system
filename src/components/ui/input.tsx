@@ -15,7 +15,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           "bg-[#09090C] border border-[rgba(255,255,255,0.10)] text-[#f4f4f5]",
           // Placeholder: muted
           "placeholder:text-[#52525b]",
-          // Transition only border/shadow — not layout props
+          // Transition only border/shadow, not layout props
           "transition-[border-color,box-shadow] duration-[120ms] ease-[cubic-bezier(0.2,0,0,1)]",
           // Focus: blue border + soft ring (no offset needed on dark)
           "focus:outline-none focus:border-blue-500 focus:ring-[3px] focus:ring-blue-500/20",

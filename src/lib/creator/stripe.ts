@@ -113,7 +113,7 @@ async function disputesBetween(stripe: Stripe, fromEpoch: number, toEpochExclusi
   return out;
 }
 
-// Subscriptions that were canceled inside the window — for churn. status:"canceled" can't be
+// Subscriptions that were canceled inside the window, for churn. status:"canceled" can't be
 // date-filtered on the list call, so we list recent cancellations and filter by canceled_at.
 async function canceledSubsBetween(stripe: Stripe, fromEpoch: number, toEpochExclusive: number): Promise<number> {
   let count = 0;
@@ -325,7 +325,7 @@ export async function fetchStripeSnapshot({ key, range }: FetchArgs): Promise<St
 }
 
 // ─────────────────────────── Transactions ledger (Stripe) ───────────────────────────
-// Live money ledger for creator tenants — every charge in the window, plus refunds and
+// Live money ledger for creator tenants, every charge in the window, plus refunds and
 // disputes, replacing the manual Supabase ledger that coach/agency workspaces use.
 
 export interface LedgerEntry {

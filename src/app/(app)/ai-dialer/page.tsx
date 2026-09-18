@@ -13,7 +13,7 @@ const TABS = [
 ];
 
 function relTime(iso: string | null) {
-  if (!iso) return "—";
+  if (!iso) return "-";
   const h = Math.floor((Date.now() - new Date(iso).getTime()) / 3600000);
   if (h < 1) return "< 1h ago";
   if (h < 24) return `${h}h ago`;
@@ -21,7 +21,7 @@ function relTime(iso: string | null) {
 }
 
 function durFmt(ms: number | null) {
-  if (!ms) return "—";
+  if (!ms) return "-";
   const s = Math.floor(ms / 1000);
   return s < 60 ? `${s}s` : `${Math.floor(s / 60)}m ${s % 60}s`;
 }
@@ -39,7 +39,7 @@ export default async function AIDialerPage({ searchParams }: { searchParams: Pro
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-3xl font-bold text-[#F5F5F7]">AI Dialer</h1>
-          <p className="mt-1 text-sm text-[#9CA3AF]">Sofia voice agent — call analytics, queue, and booking tracking.</p>
+          <p className="mt-1 text-sm text-[#9CA3AF]">Sofia voice agent, call analytics, queue, and booking tracking.</p>
         </div>
         <Badge variant="primary">Settoku Add-on</Badge>
       </div>
@@ -79,7 +79,7 @@ function OverviewContent({ m }: { m: VoiceMetrics | null }) {
       </div>
 
       <div className="rounded-lg border border-[rgba(255,255,255,0.08)] bg-[#09090C]/60 p-5">
-        <div className="mb-3 text-sm font-medium text-[rgba(245,245,247,0.8)]">Call volume — last 30 days</div>
+        <div className="mb-3 text-sm font-medium text-[rgba(245,245,247,0.8)]">Call volume, last 30 days</div>
         <div className="flex items-end gap-0.5 h-28">
           {m.daily.map(d => (
             <div key={d.date} className="flex-1 flex flex-col justify-end h-full gap-px" title={d.date}>
@@ -143,14 +143,14 @@ function CallsContent({ calls }: { calls: VoiceCall[] }) {
         <tbody>
           {calls.map(c => (
             <tr key={c.call_id} className="border-b border-[rgba(255,255,255,0.08)]/50">
-              <td className="px-4 py-2.5 text-xs text-[rgba(245,245,247,0.8)]">{c.lead_name ?? c.lead_phone ?? "—"}</td>
-              <td className="px-4 py-2.5 text-xs text-[#9CA3AF]">{c.agent_name ?? "—"}</td>
+              <td className="px-4 py-2.5 text-xs text-[rgba(245,245,247,0.8)]">{c.lead_name ?? c.lead_phone ?? "-"}</td>
+              <td className="px-4 py-2.5 text-xs text-[#9CA3AF]">{c.agent_name ?? "-"}</td>
               <td className="px-4 py-2.5 text-xs text-[#9CA3AF] whitespace-nowrap">{relTime(c.call_started_at)}</td>
               <td className="px-4 py-2.5 text-xs text-[#9CA3AF] tabular-nums">{durFmt(c.duration_ms)}</td>
               <td className="px-4 py-2.5 text-xs font-medium">{c.picked_up ? <span className="text-emerald-400">Yes</span> : <span className="text-[#6B7280]">No</span>}</td>
-              <td className="px-4 py-2.5 text-xs">{c.sms_sent ? <span className="text-blue-400">Sent</span> : <span className="text-[#6B7280]">—</span>}</td>
-              <td className="px-4 py-2.5 text-xs font-medium">{c.led_to_booking ? <span className="text-emerald-400">Yes</span> : <span className="text-[#6B7280]">—</span>}</td>
-              <td className="px-4 py-2.5 text-xs text-[#9CA3AF] max-w-[120px] truncate">{c.disconnection_reason ?? "—"}</td>
+              <td className="px-4 py-2.5 text-xs">{c.sms_sent ? <span className="text-blue-400">Sent</span> : <span className="text-[#6B7280]">,</span>}</td>
+              <td className="px-4 py-2.5 text-xs font-medium">{c.led_to_booking ? <span className="text-emerald-400">Yes</span> : <span className="text-[#6B7280]">,</span>}</td>
+              <td className="px-4 py-2.5 text-xs text-[#9CA3AF] max-w-[120px] truncate">{c.disconnection_reason ?? "-"}</td>
             </tr>
           ))}
         </tbody>
@@ -165,11 +165,11 @@ function QueueContent({ m }: { m: VoiceMetrics | null }) {
       <div className="grid grid-cols-2 gap-3">
         <div className="stat-card rounded-lg border border-[rgba(255,255,255,0.08)] bg-[#09090C]/60 p-5">
           <div className="text-xs text-[#9CA3AF]">Pending in queue</div>
-          <div className="mt-2 text-3xl font-bold text-[#F5F5F7] tabular-nums">{m?.queue_pending ?? "—"}</div>
+          <div className="mt-2 text-3xl font-bold text-[#F5F5F7] tabular-nums">{m?.queue_pending ?? "-"}</div>
         </div>
         <div className="stat-card rounded-lg border border-[rgba(255,255,255,0.08)] bg-[#09090C]/60 p-5">
           <div className="text-xs text-[#9CA3AF]">Currently calling</div>
-          <div className="mt-2 text-3xl font-bold text-[#F5F5F7] tabular-nums">{m?.queue_calling ?? "—"}</div>
+          <div className="mt-2 text-3xl font-bold text-[#F5F5F7] tabular-nums">{m?.queue_calling ?? "-"}</div>
         </div>
       </div>
       <div className="rounded-lg border border-[rgba(255,255,255,0.08)] bg-[#09090C]/40 p-5">

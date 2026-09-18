@@ -21,13 +21,13 @@ export default function WebinarsDocPage() {
         <ol className="list-decimal pl-6 space-y-1.5 text-sm text-[rgba(245,245,247,0.85)]">
           <li>Go to <Link href="/webinars" className="text-blue-400 hover:underline">/webinars</Link> → click <strong>New webinar</strong>.</li>
           <li>Enter title, start date/time (UTC), join URL.</li>
-          <li>You&apos;ll land on the detail page. Click <strong>Edit</strong> to tweak the 4 reminder templates if you want — defaults are fine.</li>
+          <li>You&apos;ll land on the detail page. Click <strong>Edit</strong> to tweak the 4 reminder templates if you want, defaults are fine.</li>
         </ol>
       </section>
 
       <section className="space-y-3">
         <h2 className="text-xl font-semibold text-[#F5F5F7]">2. Add registrations</h2>
-        <p className="text-sm text-[#9CA3AF]">Click <strong>Add registrations</strong> on the detail page. Paste CSV (comma OR tab separated). Header optional — first column = name, second = email, third = phone.</p>
+        <p className="text-sm text-[#9CA3AF]">Click <strong>Add registrations</strong> on the detail page. Paste CSV (comma OR tab separated). Header optional, first column = name, second = email, third = phone.</p>
         <div className="rounded-md border border-[rgba(255,255,255,0.10)] bg-[#09090C] px-3 py-2 font-mono text-xs text-[#9CA3AF]">
           name,email,phone<br/>
           Jane Doe,jane@example.com,+15550100001<br/>
@@ -38,7 +38,7 @@ export default function WebinarsDocPage() {
 
       <section className="space-y-3">
         <h2 className="text-xl font-semibold text-[#F5F5F7]">3. Reminders auto-fire</h2>
-        <p className="text-sm text-[#9CA3AF]">A cron runs every 15 min checking for due reminders. Each registration shows ✓ marks per window once Twilio confirms send. If you want to blast NOW (before the window), use the 4 buttons on the detail page — there&apos;s a dry-run option + cost estimate before you commit.</p>
+        <p className="text-sm text-[#9CA3AF]">A cron runs every 15 min checking for due reminders. Each registration shows ✓ marks per window once Twilio confirms send. If you want to blast NOW (before the window), use the 4 buttons on the detail page, there&apos;s a dry-run option + cost estimate before you commit.</p>
       </section>
 
       <section className="space-y-3">

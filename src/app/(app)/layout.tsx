@@ -23,7 +23,7 @@ export default async function AppLayout({
   const activeWorkspace = workspaces.find(w => w.id === agencyId);
   const workspaceName = activeWorkspace?.name ?? "Settoku OS";
 
-  // Workspace template gates the sheet-based (coach-tenant) nav — creator tenants (e.g. the creator) don't see it.
+  // Workspace template gates the sheet-based (coach-tenant) nav, creator tenants (e.g. the creator) don't see it.
   let dashboardTemplate: string | null = null;
   if (agencyId) {
     const { data: agencyRow } = await supabase

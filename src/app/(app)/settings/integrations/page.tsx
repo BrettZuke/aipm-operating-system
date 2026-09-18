@@ -28,10 +28,10 @@ export default async function IntegrationsPage() {
   ]);
 
   const integrations: Integration[] = [
-    { name: "Settoku Chat (Groq)",  category: "AI",       desc: "Free Groq Llama model — AI assistant with workspace context", enables: "Settoku Chat answers questions about your data", status: aiChat },
+    { name: "Settoku Chat (Groq)",  category: "AI",       desc: "Free Groq Llama model, AI assistant with workspace context", enables: "Settoku Chat answers questions about your data", status: aiChat },
     { name: "Typeform",             category: "Forms",    desc: "Closer post-call form + onboarding form",                enables: "Calls + market research auto-flow in",        status: typeform },
     { name: "iClosed",              category: "Bookings", desc: "Sales call scheduling + outcome tracking",               enables: "Booked calls auto-create call records",       status: iclosed },
-    { name: "FanBasis",             category: "Payments", desc: "Payment platform — webhook live, API pending key",       enables: "Real-time payment tracking + auto-Slack wins", status: fanbasis },
+    { name: "FanBasis",             category: "Payments", desc: "Payment platform, webhook live, API pending key",       enables: "Real-time payment tracking + auto-Slack wins", status: fanbasis },
     { name: "Slack",                category: "Notifications", desc: "Bot for posting wins, overdue alerts, EOD digest",   enables: "Real-time team notifications",                status: slack },
     { name: "Twilio SMS",           category: "Messaging", desc: "Send SMS reminders for webinars, overdue payments",     enables: "Auto-text clients about due payments + webinars", status: twilio },
     { name: "Close CRM",            category: "CRM",      desc: "Two-way sync of contacts, leads, and deals",             enables: "Single source of truth for pipeline",         status: close },
@@ -49,7 +49,7 @@ export default async function IntegrationsPage() {
 
   return (
     <div className="space-y-6">
-      <SettingsHeader title="Integrations" sub="Every tool wired into the OS — green means it's verified, yellow means key is set but not live-tested, red means there's an issue." />
+      <SettingsHeader title="Integrations" sub="Every tool wired into the OS, green means it's verified, yellow means key is set but not live-tested, red means there's an issue." />
 
       <TestPanel />
 

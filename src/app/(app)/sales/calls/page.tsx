@@ -23,7 +23,7 @@ const OUTCOME_COLORS: Record<string, string> = {
 export default async function CallsPage() {
   const { agencyId } = await getAuthContext();
   const closer = await getCloser(salesSheetIdFor(agencyId));
-  // Parse DD/MM/YYYY to a real timestamp for sorting — the old string-key sort broke on
+  // Parse DD/MM/YYYY to a real timestamp for sorting, the old string-key sort broke on
   // unpadded dates (e.g. "10/6" sorted before "9/6").
   const dateTs = (d: string) => {
     const m = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec((d || '').trim());

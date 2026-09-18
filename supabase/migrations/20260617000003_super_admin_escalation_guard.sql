@@ -1,5 +1,5 @@
 -- ============================================================================
--- Wave 1 / H7 — Prevent is_super_admin self-escalation.
+-- Wave 1 / H7, Prevent is_super_admin self-escalation.
 --
 -- The profiles_self_update RLS policy (20260501000009_rls.sql:43) allows a user
 -- to update their OWN profile row with `with check (id = auth.uid())`. RLS WITH

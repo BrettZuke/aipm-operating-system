@@ -4,7 +4,7 @@ import { Crown, Shield, User, Phone, Megaphone } from "lucide-react";
 const ROLES = [
   { key: "owner",   label: "Owner",   icon: Crown,     desc: "Full access to everything. Can transfer ownership.",      perms: ["All settings", "Billing", "Delete workspace"] },
   { key: "admin",   label: "Admin",   icon: Shield,    desc: "Manage workspace, team, integrations, and content.",       perms: ["Settings", "Team", "Integrations"] },
-  { key: "manager", label: "Manager", icon: User,      desc: "Lead a team — assign work and review reports.",           perms: ["Goals", "Quotas", "Team performance"] },
+  { key: "manager", label: "Manager", icon: User,      desc: "Lead a team, assign work and review reports.",           perms: ["Goals", "Quotas", "Team performance"] },
   { key: "closer",  label: "Closer",  icon: Phone,     desc: "Take sales calls and close deals.",                        perms: ["Calls", "Deals", "EOD reports"] },
   { key: "setter",  label: "Setter",  icon: Megaphone, desc: "Source leads and book qualified appointments.",            perms: ["DMs", "Bookings", "EOD reports"] },
 ];

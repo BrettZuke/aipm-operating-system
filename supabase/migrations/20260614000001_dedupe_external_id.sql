@@ -5,7 +5,7 @@
 -- insert the same row → a single payment counted twice. This adds a DB-level guarantee.
 --
 -- Safe to run more than once. Runs in a single transaction: if anything fails, nothing changes.
--- NULL external_id rows (manual UI entries) are unaffected — Postgres treats NULLs as distinct,
+-- NULL external_id rows (manual UI entries) are unaffected, Postgres treats NULLs as distinct,
 -- so they never collide with each other or block the index.
 
 begin;

@@ -155,8 +155,8 @@ export default async function PaymentsPage() {
                             </td>
                             <td className="px-4 py-2 text-xs text-[#9CA3AF]">{p['Source']}</td>
                             <td className="px-4 py-2"><span className="rounded px-2 py-0.5 text-[10px] uppercase tracking-wider font-semibold" style={{ background: sp.bg, color: sp.color }}>{p['Status']}</span></td>
-                            <td className="px-4 py-2 text-center tabular-nums" style={{ color: p['Days Late'] ? '#FF6466' : '#6B7280' }}>{p['Days Late'] || '—'}</td>
-                            <td className="px-4 py-2 text-xs text-[#6B7280]">{p['Paid Date'] || '—'}</td>
+                            <td className="px-4 py-2 text-center tabular-nums" style={{ color: p['Days Late'] ? '#FF6466' : '#6B7280' }}>{p['Days Late'] || ','}</td>
+                            <td className="px-4 py-2 text-xs text-[#6B7280]">{p['Paid Date'] || ','}</td>
                           </tr>
                         );
                       })}

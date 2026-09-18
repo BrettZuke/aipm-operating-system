@@ -50,10 +50,10 @@ next-env.d.ts
 # Sandbox profile
 sandbox_profile/
 
-# CSV exports (contain client/lead PII — generated locally, not for repo)
+# CSV exports (contain client/lead PII, generated locally, not for repo)
 /exports/
 
-# Local intermediates (scratch SQL, dossiers, temp artifacts — regenerated, never committed)
+# Local intermediates (scratch SQL, dossiers, temp artifacts, regenerated, never committed)
 /.tmp/
 
 # supabase CLI local state (links to YOUR project; never commit)

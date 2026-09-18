@@ -337,7 +337,7 @@ function ReviewRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between">
       <span className="text-[#9CA3AF]">{label}</span>
-      <span className="text-[#F5F5F7] font-medium">{value || <span className="text-[#6B7280]">—</span>}</span>
+      <span className="text-[#F5F5F7] font-medium">{value || <span className="text-[#6B7280]">,</span>}</span>
     </div>
   );
 }

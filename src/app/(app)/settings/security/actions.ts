@@ -18,7 +18,7 @@ export async function changePassword(_prev: unknown, formData: FormData): Promis
 }
 
 /**
- * Sign out everywhere — invalidates all refresh tokens for this user across all
+ * Sign out everywhere, invalidates all refresh tokens for this user across all
  * devices. Doesn't kill the current session immediately (the user stays signed
  * in here until their access token expires, ~1h), but no other device can refresh.
  */

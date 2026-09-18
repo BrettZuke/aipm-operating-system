@@ -23,7 +23,7 @@ export async function sendSms(opts: {
   if (!sid || !auth) return { ok: false, error: "TWILIO_ACCOUNT_SID or TWILIO_AUTH_TOKEN not set" };
   if (!from) return { ok: false, error: "No from-number set (TWILIO_FROM_NUMBER or RETELL_FROM_NUMBER)" };
 
-  // Normalize phone — strip everything except digits and leading +
+  // Normalize phone, strip everything except digits and leading +
   const normalizedTo = opts.to.replace(/[^\d+]/g, "");
   if (!normalizedTo.startsWith("+")) {
     return { ok: false, error: `Phone must be E.164 format (+1...). Got: ${opts.to}` };

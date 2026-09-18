@@ -1,5 +1,5 @@
 // Live FanBasis revenue reader for the coach tenant (the coach). FanBasis is the coach's merchant of
-// record (no Stripe). This is the coach equivalent of the creator's live Stripe reader — it pulls
+// record (no Stripe). This is the coach equivalent of the creator's live Stripe reader, it pulls
 // straight from the FanBasis public API, maps each customer's spend to an offer using the
 // product-price catalog, and returns revenue totals / per-offer breakdown / daily series.
 //
@@ -239,7 +239,7 @@ export interface EnrichedCustomer {
   name: string | null;
   section: string;
   revenue: number;     // lifetime total_spent (exact)
-  transactions: number; // # of payments (≥1) — lets callers estimate a per-installment amount
+  transactions: number; // # of payments (≥1), lets callers estimate a per-installment amount
   day: string | null;
   multi: boolean;
   mapped: boolean;
@@ -270,8 +270,8 @@ export async function fanbasisEnrichedCustomers(): Promise<EnrichedCustomer[]> {
 // the `clients` table with status 'active' + a `data.fanbasis` block (lifetime spend, # payments,
 // last payment date, offer). The Customers tab shows ONLY rows carrying that block, so the
 // thousands of cold leads (closer-call forms, onboarding) never surface. Matching is by lowercased
-// email, so a buyer who already exists (e.g. from a closer call) is ENRICHED in place — preserving
-// their linked calls/deals — instead of duplicated. Idempotent: safe to re-run nightly.
+// email, so a buyer who already exists (e.g. from a closer call) is ENRICHED in place, preserving
+// their linked calls/deals, instead of duplicated. Idempotent: safe to re-run nightly.
 type CoachSupabase = SupabaseClient<Database>;
 
 export interface CustomerSyncReport {

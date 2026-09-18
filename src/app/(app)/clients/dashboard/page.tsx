@@ -23,7 +23,7 @@ export default async function ClientDashboardPage({ searchParams }: { searchPara
   const { view = "all" } = await searchParams;
   const { supabase, agencyId } = await getAuthContext();
   // Coach-only portfolio tool: revenue here comes from FanBasis/transactions, which creator tenants
-  // (e.g. Stripe or Whop) don't populate — they'd see a misleading $0. Send them to their
+  // (e.g. Stripe or Whop) don't populate, they'd see a misleading $0. Send them to their
   // own dashboard, which shows their real revenue.
   const { template } = await getActiveAgencyTemplate();
   if (template !== "coach") redirect("/dashboard");
@@ -140,10 +140,10 @@ function PortfolioView(props: {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-3 lg:grid-cols-6 gap-3">
-        <StatCard label="Net revenue" value={formatCurrency(props.netRevenue)} sub="Payments – refunds" accent />
+        <StatCard label="Net revenue" value={formatCurrency(props.netRevenue)} sub="Payments, refunds" accent />
         <StatCard label="Cash collected" value={formatCurrency(props.cashCollected)} />
         <StatCard label="Booked appointments" value={String(props.bookedCalls)} />
-        <StatCard label="Paid ads" value="—" sub="Wire ad accounts" />
+        <StatCard label="Paid ads" value="-" sub="Wire ad accounts" />
         <StatCard label="Active accounts" value={String(props.activeCount)} />
         <StatCard label="Closed purchases" value={String(props.totalTransactions)} />
       </div>
@@ -183,11 +183,11 @@ function PortfolioView(props: {
           <StatCard label="Total customers" value={String(props.customerCount)} sub={props.hasFanbasis ? "Paid customers" : undefined} />
           <StatCard label="Active customers" value={String(props.activeCount)} />
           <StatCard label="New customers" value={String(props.newThisMonth)} sub="This month" />
-          <StatCard label="Revenue / client" value={props.revenuePerClient > 0 ? formatCurrency(props.revenuePerClient) : "—"} />
+          <StatCard label="Revenue / client" value={props.revenuePerClient > 0 ? formatCurrency(props.revenuePerClient) : "-"} />
           <StatCard label="Churned" value={String(props.churnedCount)} />
           <StatCard label="Churn rate" value={`${props.churnRate.toFixed(1)}%`} />
           <StatCard label="Conversion rate" value={`${props.conversionRate.toFixed(1)}%`} sub="Calls → active" />
-          <StatCard label="Onboarding rate" value="—" sub="Time-to-first-value" />
+          <StatCard label="Onboarding rate" value="-" sub="Time-to-first-value" />
         </div>
       </Section>
 
@@ -215,7 +215,7 @@ function PortfolioView(props: {
               ) : props.clients.slice(0, 100).map(c => (
                 <tr key={c.id} className="hover:bg-[#0C0C10]/40">
                   <td className="px-4 py-3 font-medium text-[#F5F5F7]">{c.name}</td>
-                  <td className="px-4 py-3 text-[#9CA3AF] capitalize">{c.status ?? "—"}</td>
+                  <td className="px-4 py-3 text-[#9CA3AF] capitalize">{c.status ?? "-"}</td>
                   <td className="px-4 py-3 text-right font-mono text-[#F5F5F7]">{formatCurrency(props.hasFanbasis ? Number((c.data as { fanbasis?: { lifetime?: number } } | null)?.fanbasis?.lifetime ?? 0) : Number(c.mrr ?? 0))}</td>
                   <td className="px-4 py-3 text-right font-mono text-[#9CA3AF]">{formatCurrency(Number(c.total_pending ?? 0))}</td>
                   <td className="px-4 py-3 text-xs text-[#6B7280]">{new Date(c.created_at).toLocaleDateString()}</td>

@@ -35,7 +35,7 @@ export function Funnel({ steps }: { steps: ReadonlyArray<FunnelStep> }) {
               </div>
               <div className="flex items-center gap-3 text-xs">
                 {dropoff !== null && <span className="font-mono text-[#6B7280]">−{fmtPct(dropoff, 1)}</span>}
-                <span className="font-mono tabular-nums text-[#F5F5F7]">{isPending ? "—" : fmtInt(v)}</span>
+                <span className="font-mono tabular-nums text-[#F5F5F7]">{isPending ? "-" : fmtInt(v)}</span>
               </div>
             </div>
           </div>

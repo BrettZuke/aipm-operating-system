@@ -99,7 +99,7 @@ export async function deleteImprovement(id: string): Promise<Result> {
 }
 
 /**
- * Internal use by self-discovery cron — same as createImprovement but stamps
+ * Internal use by self-discovery cron, same as createImprovement but stamps
  * source="self_discover" and is idempotent on (agency, source, title) per the
  * partial unique index in the migration.
  */

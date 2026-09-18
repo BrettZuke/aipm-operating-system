@@ -54,7 +54,7 @@ export async function GET(req: NextRequest) {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
     if (url && key) {
-      // Log AFTER the redirect is sent — the click is never held up by the DB round-trip.
+      // Log AFTER the redirect is sent, the click is never held up by the DB round-trip.
       after(async () => {
         try {
           const supabase = createClient(url, key, { auth: { persistSession: false } });

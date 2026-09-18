@@ -27,7 +27,7 @@ export default async function TeamSettingsPage() {
               return (
                 <div key={m.user_id} className="flex items-center justify-between rounded-md border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.03)] px-3 py-2">
                   <div>
-                    <div className="text-sm font-medium text-[#F5F5F7]">{p?.full_name ?? p?.email ?? "—"}</div>
+                    <div className="text-sm font-medium text-[#F5F5F7]">{p?.full_name ?? p?.email ?? "-"}</div>
                     <div className="text-xs text-[#6B7280]">{p?.email}</div>
                   </div>
                   <span className="text-xs text-[#9CA3AF] capitalize">{m.role}</span>

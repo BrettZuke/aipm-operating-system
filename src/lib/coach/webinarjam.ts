@@ -5,7 +5,7 @@
 // Two things worth knowing:
 //   1. api.webinarjam.com sits behind Cloudflare's Browser Integrity Check and 403s a
 //      default server User-Agent (error 1010). We send a browser UA so Node fetch gets
-//      through — verified against the live account.
+//      through, verified against the live account.
 //   2. Sales and traffic-source live elsewhere for the coach (FanBasis revenue / GA4 traffic):
 //      he doesn't use WebinarJam's buy button and doesn't pass UTMs to it, so this tab is
 //      deliberately registrations + attendance + watch-time only (no double-counting).
@@ -22,8 +22,7 @@ const PAGE_CAP = 80; // safety stop (~2000 registrants/webinar) so a runaway nev
 const CACHE_TTL_MS = 30 * 60 * 1000;
 
 // Minute each webinar's offer/pitch lands, so the tab can show "still in the room at the pitch".
-// Pitch timing is a content decision (not in the registrant data), so it's configured here —
-// a one-line edit sets a webinar's real pitch minute (e.g. Membership once it has run live).
+// Pitch timing is a content decision (not in the registrant data), so it's configured here, // a one-line edit sets a webinar's real pitch minute (e.g. Membership once it has run live).
 const PITCH_MINUTES: Record<number, number> = {
   2: 56,  // your agency Live Masterclass
   17: 56, // your agency evergreen (same deck)
@@ -166,7 +165,7 @@ function aggregateRows(rows: RawRegistrant[], pitchMin: number): WjMetrics {
   const yes = (v: unknown) => String(v ?? "").toLowerCase() === "yes";
   const live = rows.filter((r) => yes(r.attended_live));
   const replay = rows.filter((r) => yes(r.attended_replay));
-  // Watch time over the SAME population the show rate counts — every attended_live person,
+  // Watch time over the SAME population the show rate counts, every attended_live person,
   // time_live as-is (including 0:00 quick-bouncers). Averaging over a filtered subset would
   // make "avg watch time" describe a different denominator than "attended live", which misleads.
   const liveSecs = live.map((r) => hmsToSec(r.time_live));
@@ -282,7 +281,7 @@ async function buildSnapshots(): Promise<WjSnapshot[]> {
 }
 
 // Module-level TTL cache (mirrors the GA4 client singleton pattern) so the ~40 registrant
-// calls don't re-run on every dashboard load — only on a cold instance or after 30 min.
+// calls don't re-run on every dashboard load, only on a cold instance or after 30 min.
 let _cache: { at: number; data: WjSnapshot[] } | null = null;
 export async function loadWebinarjamSnapshots(): Promise<WjSnapshot[]> {
   if (_cache && Date.now() - _cache.at < CACHE_TTL_MS) return _cache.data;
@@ -294,7 +293,7 @@ export async function loadWebinarjamSnapshots(): Promise<WjSnapshot[]> {
 // ---- Email / SMS notification stats (WebinarJam's own sender) ----
 // Pulled from WebinarJam's internal dashboard API by a scheduled scraper and stored in
 // agency_settings.data.coach.webinarjam_notifications (the public API has none). Matched to each
-// run by DATE, not id — a webinar's event_id and schedule_id can differ (e.g. webinar 18).
+// run by DATE, not id, a webinar's event_id and schedule_id can differ (e.g. webinar 18).
 export interface WjNotif { subject: string; time: string | null; sent: number; open: number; click: number; }
 export interface WjRunNotifs { email: WjNotif[]; sms: WjNotif[]; }
 

@@ -50,7 +50,7 @@ export default async function CampaignsPage({
         <div>
           <div className="text-[10px] font-semibold uppercase tracking-widest text-[#6B7280]">MARKETING · PROGRAMS</div>
           <h1 className="mt-1 text-3xl font-bold text-[#F5F5F7]" style={{fontFamily:"var(--font-playfair),Georgia,serif"}}>Campaigns</h1>
-          <p className="mt-1 text-sm text-[#9CA3AF]">Living campaigns feeding the pipeline — spend velocity, lead flow, conversion, and what&apos;s working.</p>
+          <p className="mt-1 text-sm text-[#9CA3AF]">Living campaigns feeding the pipeline, spend velocity, lead flow, conversion, and what&apos;s working.</p>
         </div>
         <div className="flex items-center gap-2">
           <PeriodToggle />
@@ -94,7 +94,7 @@ export default async function CampaignsPage({
         <StatCard label="Active campaigns" value={String(live.length)} sub={`${all.length} total`} accent />
         <StatCard label="Spent" value={formatCurrency(totalBudget)} sub={totalBudget === 0 ? "No budget set" : `${all.length} campaigns`} />
         <StatCard label="Revenue" value={formatCurrency(0)} sub="Closed-won attributed" />
-        <StatCard label="Blended ROI" value="—" sub="Revenue / spend" />
+        <StatCard label="Blended ROI" value="-" sub="Revenue / spend" />
       </div>
 
       {/* Chart + search */}
@@ -137,7 +137,7 @@ export default async function CampaignsPage({
       <Section num="02" title="Spend by type" sub="Where the budget went.">
         <div className="rounded-xl border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.03)] p-5">
           {totalBudget === 0 ? (
-            <div className="text-sm text-[#9CA3AF] text-center py-6">No budget allocated yet — campaigns with budget appear here split by type.</div>
+            <div className="text-sm text-[#9CA3AF] text-center py-6">No budget allocated yet, campaigns with budget appear here split by type.</div>
           ) : (
             <div className="space-y-3">
               {["Paid social", "Search", "Display", "Email", "Affiliate"].map((kind, i) => {
@@ -175,7 +175,7 @@ export default async function CampaignsPage({
                 <tr key={c.id} className="hover:bg-[#0C0C10]/40">
                   <td className="px-4 py-3 font-medium text-[#F5F5F7]">{c.name}</td>
                   <td className="px-4 py-3 capitalize text-[#9CA3AF]">{c.status ?? "draft"}</td>
-                  <td className="px-4 py-3 text-[#9CA3AF]">{c.client_id ? clientMap.get(c.client_id) ?? "—" : "—"}</td>
+                  <td className="px-4 py-3 text-[#9CA3AF]">{c.client_id ? clientMap.get(c.client_id) ?? "-" : "-"}</td>
                   <td className="px-4 py-3 text-right font-mono text-[#F5F5F7]">{formatCurrency(Number(c.budget ?? 0))}</td>
                   <td className="px-2 py-3"><CampaignRowActions campaign={c} clients={clients ?? []} /></td>
                 </tr>

@@ -1,16 +1,16 @@
 /**
  * Non-throwing config check (M7).
  *
- * Reports which critical env vars are present so a misconfiguration — e.g. a wiped
+ * Reports which critical env vars are present so a misconfiguration, e.g. a wiped
  * SECRETS_ENCRYPTION_KEY (silent revenue blackout) or a missing CRON_SECRET (crons
- * fail closed) — is VISIBLE via the gated health endpoint instead of surfacing only
+ * fail closed), is VISIBLE via the gated health endpoint instead of surfacing only
  * as broken behaviour. Deliberately does NOT throw at boot: an over-eager validator
  * can take the whole app down, so this surfaces status for monitoring rather than
- * crashing. Returns presence booleans only — never the values.
+ * crashing. Returns presence booleans only, never the values.
  */
 export type EnvStatus = { key: string; present: boolean; note?: string };
 
-// Core — the app can't function correctly without these.
+// Core, the app can't function correctly without these.
 const REQUIRED: { key: string; note?: string }[] = [
   { key: "NEXT_PUBLIC_SUPABASE_URL" },
   { key: "SUPABASE_SERVICE_ROLE_KEY" },
@@ -18,9 +18,9 @@ const REQUIRED: { key: string; note?: string }[] = [
   { key: "CRON_SECRET", note: "crons + health auth fail closed without it" },
 ];
 
-// Feature-scoped — app runs, but a capability degrades if absent.
+// Feature-scoped, app runs, but a capability degrades if absent.
 const RECOMMENDED: { key: string; note?: string }[] = [
-  { key: "SECRETS_ENCRYPTION_KEY", note: "LOAD-BEARING once Stripe keys are encrypted (H4) — wiping it blanks revenue" },
+  { key: "SECRETS_ENCRYPTION_KEY", note: "LOAD-BEARING once Stripe keys are encrypted (H4), wiping it blanks revenue" },
   { key: "GROQ_API_KEY", note: "Settoku Chat (free AI provider)" },
   { key: "FANBASIS_TARGET_AGENCY_ID", note: "webhook/cron tenant scoping" },
   { key: "SLACK_BOT_TOKEN", note: "ops alerts + digests" },

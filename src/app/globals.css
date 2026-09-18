@@ -2,7 +2,7 @@
 
 /* ── Nekter.ai Design System ───────────────────────────────────
    Fonts: Inter (body) · Playfair Display (headings) · JetBrains Mono (code)
-   Accent: #0083FF (blue) — primary interactive color
+   Accent: #0083FF (blue), primary interactive color
    ───────────────────────────────────────────────────────────── */
 
 :root {
@@ -19,7 +19,7 @@
   --settoku-text-3:      #6B7280;
   --settoku-text-4:      #4B5563;
 
-  /* Primary accent — nekter.ai blue */
+  /* Primary accent, nekter.ai blue */
   --settoku-accent:      #0083FF;
   --settoku-accent-2:    #00A4FF;
   --settoku-accent-soft: rgba(0,131,255,0.10);
@@ -42,7 +42,7 @@
   --settoku-shadow-xl:   0 8px 16px rgba(0,0,0,0.7), 0 24px 48px rgba(0,0,0,0.6);
 }
 
-/* ── the dashboard scoped theme — light + colorful, applied only to dashboard pages */
+/* ── the dashboard scoped theme, light + colorful, applied only to dashboard pages */
 .lightboard {
   --d-bg: #FAFBFC;
   --d-bg-2: #FFFFFF;
@@ -147,7 +147,7 @@ body {
   position: relative;
 }
 
-/* Grain texture overlay — pointer-events:none is critical, z-index below modals */
+/* Grain texture overlay, pointer-events:none is critical, z-index below modals */
 body::after {
   content: "";
   position: fixed;
@@ -219,7 +219,7 @@ button, a, input, select, textarea, [role="button"] {
   color: #fff;
 }
 
-/* ── Card/Panel base — solid surface, no blur (performance) ──── */
+/* ── Card/Panel base, solid surface, no blur (performance) ──── */
 .settoku-card {
   background: #0E0E12;
   border: 1px solid rgba(255,255,255,0.07);
@@ -234,7 +234,7 @@ button, a, input, select, textarea, [role="button"] {
   box-shadow: var(--settoku-shadow-md);
 }
 
-/* ── Glow card — hero/featured, no blur ─────────────────────── */
+/* ── Glow card, hero/featured, no blur ─────────────────────── */
 .settoku-glow-card {
   background: #0E0E12;
   border: 1px solid rgba(0,131,255,0.20);
@@ -284,7 +284,7 @@ button, a, input, select, textarea, [role="button"] {
   outline: none;
 }
 
-/* ── Page enter animation — fast fade only, no transform (avoids layout) */
+/* ── Page enter animation, fast fade only, no transform (avoids layout) */
 @keyframes pageEnter {
   from { opacity: 0; }
   to   { opacity: 1; }

@@ -9,7 +9,7 @@ interface ProgressBarProps {
 
 export function ProgressBar({ value, target, label, format = (n) => n.toFixed(0) }: ProgressBarProps) {
   const ratio = target > 0 ? Math.min(1, value / target) : 0;
-  const pctText = target > 0 ? fmtPct(value / target, 1) : "—";
+  const pctText = target > 0 ? fmtPct(value / target, 1) : "-";
   const remaining = Math.max(0, target - value);
   return (
     <div>

@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 const TEMPLATES = [
   {
-    key: "weekly",   title: "Weekly review",       desc: "What changed this week — revenue, pipeline, team performance.",
+    key: "weekly",   title: "Weekly review",       desc: "What changed this week, revenue, pipeline, team performance.",
     cadence: "Weekly · auto-runs Monday 8am", variants: ["Operational", "Board deck"],
   },
   {
@@ -26,7 +26,7 @@ const TEMPLATES = [
     cadence: "Per-client · manual", variants: ["Operational", "Board deck"],
   },
   {
-    key: "ad-perf", title: "Ad performance", desc: "Spend, ROAS, leads, by platform — for marketing reviews.",
+    key: "ad-perf", title: "Ad performance", desc: "Spend, ROAS, leads, by platform, for marketing reviews.",
     cadence: "Weekly", variants: ["Operational"],
   },
   {
@@ -51,7 +51,7 @@ export default async function ReportsPage() {
         <div>
           <div className="text-[10px] font-semibold uppercase tracking-widest text-[#6B7280]">INSIGHTS · DELIVERABLES</div>
           <h1 className="mt-1 text-3xl font-bold text-[#F5F5F7]" style={{fontFamily:"var(--font-playfair),Georgia,serif"}}>Reports</h1>
-          <p className="mt-1 text-sm text-[#9CA3AF]">Weekly and monthly reports — operational for your team, presentation for your board.</p>
+          <p className="mt-1 text-sm text-[#9CA3AF]">Weekly and monthly reports, operational for your team, presentation for your board.</p>
         </div>
         <div className="flex items-center gap-2">
           <button className="flex items-center gap-1.5 rounded-lg border border-[rgba(255,255,255,0.10)] px-3 py-2 text-sm text-[#F5F5F7] hover:bg-[rgba(255,255,255,0.06)]">
@@ -83,7 +83,7 @@ export default async function ReportsPage() {
         </div>
       </Section>
 
-      <Section num="03" title="Templates" sub="Pre-built reports — pick a template to generate a fresh one.">
+      <Section num="03" title="Templates" sub="Pre-built reports, pick a template to generate a fresh one.">
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
           {TEMPLATES.map(t => (
             <div key={t.key} className="rounded-xl border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.03)] p-5 hover:border-[rgba(255,255,255,0.12)] cursor-pointer transition-colors">

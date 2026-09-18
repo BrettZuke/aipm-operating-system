@@ -7,7 +7,7 @@
  * understates revenue. This module converts everything to USD before aggregation.
  *
  * Rates: fetched from frankfurter.app (free, no API key) and cached for 24h. Falls back to
- * hardcoded recent rates if the API is unreachable — better to be slightly stale than wrong.
+ * hardcoded recent rates if the API is unreachable, better to be slightly stale than wrong.
  */
 
 const FALLBACK_RATES: Record<string, number> = {

@@ -27,7 +27,7 @@ const SIDEBAR_SECTIONS: DocSection[] = [
 
 const ARTICLES = [
   { title: "Track campaigns with UTMs",   description: "Wire UTM parameters into payment links, opt-in pages, and booking calendars. The clean way to attribute every dollar to its source.", href: "/docs/utm-tracking", isNew: false },
-  { title: "How payments flow into Settoku",  description: "From a client paying to the dashboard updating — the full pipeline in 30 seconds. FanBasis webhook, manual entry, orphan deals, outstanding balances.", href: "/docs/payment-pipeline", isNew: true },
+  { title: "How payments flow into Settoku",  description: "From a client paying to the dashboard updating, the full pipeline in 30 seconds. FanBasis webhook, manual entry, orphan deals, outstanding balances.", href: "/docs/payment-pipeline", isNew: true },
   { title: "Webinars + auto-SMS",         description: "Schedule a webinar, paste registrations, Settoku texts attendees at T-24h, T-1h, T-15m, and live. Step-by-step.", href: "/docs/webinars", isNew: true },
   { title: "The improvements loop",       description: "Settoku's self-annealing queue. How bugs and feature requests get auto-discovered, prioritised, and worked down by you (or an LLM).", href: "/docs/improvements-loop", isNew: true },
 ];
@@ -43,7 +43,7 @@ export default function DocsPage() {
         <header className="mb-8">
           <div className="text-[10px] font-semibold uppercase tracking-widest text-[#6B7280]">DOCS</div>
           <h1 className="mt-1 text-3xl font-bold text-[#F5F5F7]" style={{fontFamily:"var(--font-playfair),Georgia,serif"}}>How Settoku works</h1>
-          <p className="mt-1 text-sm text-[#9CA3AF] max-w-xl">Short, opinionated, no fluff. Each guide walks you through one job. Start with what you need — ignore the rest.</p>
+          <p className="mt-1 text-sm text-[#9CA3AF] max-w-xl">Short, opinionated, no fluff. Each guide walks you through one job. Start with what you need, ignore the rest.</p>
         </header>
 
         {/* Search */}
@@ -79,7 +79,7 @@ export default function DocsPage() {
         <div className="mt-12 rounded-xl border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.03)] p-5 text-center">
           <Sparkles className="mx-auto size-5 text-blue-400 mb-2" />
           <div className="text-sm font-medium text-[#F5F5F7]">Need something specific?</div>
-          <p className="mt-1 text-xs text-[#9CA3AF]">Ask Settoku in chat — it has full context on your workspace and will walk you through any feature.</p>
+          <p className="mt-1 text-xs text-[#9CA3AF]">Ask Settoku in chat, it has full context on your workspace and will walk you through any feature.</p>
           <Link href="/settoku-chat" className="mt-3 inline-flex items-center gap-1.5 text-xs text-blue-400 hover:underline">Open Settoku Chat <ArrowRight className="size-3" /></Link>
         </div>
       </div>

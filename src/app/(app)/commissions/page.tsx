@@ -54,7 +54,7 @@ export default async function CommissionsPage({ searchParams }: { searchParams: 
         </div>
       </div>
 
-      {/* Month picker — clickable links so URL changes guaranteed */}
+      {/* Month picker, clickable links so URL changes guaranteed */}
       <div className={`flex flex-wrap gap-2 ${PANEL} p-2`}>
         {monthOptions.map(m => {
           const active = m.value === month;
@@ -82,7 +82,7 @@ export default async function CommissionsPage({ searchParams }: { searchParams: 
         </div>
       ) : (
         <>
-          {/* Cascade — with refined typography */}
+          {/* Cascade, with refined typography */}
           <div className={`${PANEL} p-8`}>
             <div className="flex items-center justify-between mb-6">
               <div>
@@ -121,7 +121,7 @@ export default async function CommissionsPage({ searchParams }: { searchParams: 
                 <PayoutCard key={`s-${name}`} name={name} role="setter · 5%" amount={amt} accent="cyan"/>
               ))}
               <PayoutCard name="the operator" role="20% rev share" amount={cycle.brettShare} accent="amber"/>
-              {cycle.vat > 0 && <PayoutCard name="HMRC" role="VAT — the coach sets aside" amount={cycle.vat} accent="rose"/>}
+              {cycle.vat > 0 && <PayoutCard name="HMRC" role="VAT, the coach sets aside" amount={cycle.vat} accent="rose"/>}
             </div>
           </div>
 
@@ -150,8 +150,8 @@ export default async function CommissionsPage({ searchParams }: { searchParams: 
                       <td className="px-4 py-3 text-right tabular-nums" style={{color: r.vat ? '#FF6466' : '#6B7280'}}>{formatCurrency(r.vat)}</td>
                       <td className="px-4 py-3 text-xs text-[#9CA3AF]">{r.closer}</td>
                       <td className="px-4 py-3 text-right tabular-nums font-semibold" style={{color:'#00D393'}}>{formatCurrency(r.closerComm)}</td>
-                      <td className="px-4 py-3 text-xs text-[#9CA3AF]">{r.setter !== 'No Setter' && r.setter !== 'Unsure of Setter' ? r.setter : '—'}</td>
-                      <td className="px-4 py-3 text-right tabular-nums" style={{color: r.setterComm > 0 ? '#00D393' : '#6B7280'}}>{r.setterComm > 0 ? formatCurrency(r.setterComm) : '—'}</td>
+                      <td className="px-4 py-3 text-xs text-[#9CA3AF]">{r.setter !== 'No Setter' && r.setter !== 'Unsure of Setter' ? r.setter : ','}</td>
+                      <td className="px-4 py-3 text-right tabular-nums" style={{color: r.setterComm > 0 ? '#00D393' : '#6B7280'}}>{r.setterComm > 0 ? formatCurrency(r.setterComm) : ','}</td>
                     </tr>
                   ))}
                 </tbody>

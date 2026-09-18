@@ -51,7 +51,7 @@ export function PaymentPlanDialog({ clients }: { clients: ClientOpt[] }) {
                 <option key={c.id} value={c.id}>{c.name} {c.email ? `· ${c.email}` : ""}</option>
               ))}
             </select>
-            {clients.length === 0 && <p className="text-xs text-[#6B7280]">No clients without a plan yet — every client already has one.</p>}
+            {clients.length === 0 && <p className="text-xs text-[#6B7280]">No clients without a plan yet, every client already has one.</p>}
           </div>
 
           <div className="grid grid-cols-2 gap-3">

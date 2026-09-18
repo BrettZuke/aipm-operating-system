@@ -76,7 +76,7 @@ function bestIndex(vals: (number | null)[], lowerBetter?: boolean): number {
 }
 
 function DeltaPill({ a, b, lowerBetter }: { a: number | null; b: number | null; lowerBetter?: boolean }) {
-  if (a === null || b === null || a === 0) return <span className="text-[#4B5563]">—</span>;
+  if (a === null || b === null || a === 0) return <span className="text-[#4B5563]">,</span>;
   const d = (b - a) / Math.abs(a);
   if (Math.abs(d) < 0.005) return <span className="font-mono text-xs text-[#6B7280]">→ 0%</span>;
   const better = lowerBetter ? b < a : b > a;
@@ -127,7 +127,7 @@ function CompareTable({ live }: { live: Colored[] }) {
                       className="text-right font-mono text-sm tabular-nums"
                       style={{ color: v === null ? "#4B5563" : isBest ? p.color : "#F5F5F7", fontWeight: isBest ? 600 : 400 }}
                     >
-                      {v === null ? "—" : row.fmt(v)}
+                      {v === null ? "-" : row.fmt(v)}
                     </div>
                   );
                 })}

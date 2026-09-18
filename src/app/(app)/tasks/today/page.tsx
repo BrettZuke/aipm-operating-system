@@ -61,7 +61,7 @@ export default async function TodayPage() {
   const overdue = todayList.filter(t => t.status !== "done" && new Date(t.due_date ?? Date.now()) < new Date()).length;
   const completed = todayList.filter(t => t.status === "done").length;
 
-  // EOD streak — compute consecutive days with reports going back from today
+  // EOD streak, compute consecutive days with reports going back from today
   const reportDates = new Set((eodReports ?? []).map(r => new Date(r.submitted_at).toDateString()));
   let streak = 0;
   for (let i = 0; i < 14; i++) {
@@ -159,7 +159,7 @@ export default async function TodayPage() {
       {/* 03 · Daily commitments */}
       <Section num="03" title="Daily commitments" sub="Pulled from active goals.">
         {(goals ?? []).length === 0 ? (
-          <EmptyPanel icon={Flame} title="No goals set" sub="Set a goal at /goals — daily commitments are derived from your active targets." />
+          <EmptyPanel icon={Flame} title="No goals set" sub="Set a goal at /goals, daily commitments are derived from your active targets." />
         ) : (
           <div className="grid grid-cols-3 gap-3">
             {(goals ?? []).map(g => {
@@ -190,10 +190,10 @@ export default async function TodayPage() {
             )}
             <div className="flex-1">
               <div className="text-sm font-medium text-[#F5F5F7]">
-                {submittedToday ? "Submitted today — nice work" : "Pre-fill: Drop notes on wins, blockers, tomorrow's top three when you submit."}
+                {submittedToday ? "Submitted today, nice work" : "Pre-fill: Drop notes on wins, blockers, tomorrow's top three when you submit."}
               </div>
               <p className="mt-1 text-xs text-[#9CA3AF]">
-                EOD reports keep the team in sync. {streak > 0 && `${streak}-day streak going — keep it.`}
+                EOD reports keep the team in sync. {streak > 0 && `${streak}-day streak going, keep it.`}
               </p>
             </div>
             <Link href="/sales/eod" className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600 whitespace-nowrap">

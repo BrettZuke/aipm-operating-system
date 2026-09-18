@@ -1,6 +1,6 @@
 // Single source of truth for which AI provider Settoku Chat is actually using at runtime.
 // Both the chat route and the UI badge read this, so what the user SEES is what the server
-// USES — a real guarantee the chat is on free Groq, not a hand-typed label.
+// USES, a real guarantee the chat is on free Groq, not a hand-typed label.
 
 export interface ActiveProvider {
   provider: "groq" | "anthropic";

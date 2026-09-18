@@ -6,7 +6,7 @@ import { fetchSiteSpeed } from "@/lib/creator/pagespeed";
 export const dynamic = "force-dynamic";
 
 // Site speed for the active creator workspace. Split into its own route (rather than the main
-// dashboard render) because PageSpeed takes ~15s on a cache miss — the dashboard shouldn't block on it.
+// dashboard render) because PageSpeed takes ~15s on a cache miss, the dashboard shouldn't block on it.
 export async function GET() {
   const { agencyId } = await getAuthContext();
   if (!agencyId) return NextResponse.json({ siteSpeed: null, reason: "no agency" }, { status: 401 });

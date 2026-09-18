@@ -6,7 +6,7 @@
  * unordered lists (- ...), ordered lists (1. ...), paragraphs, blank lines,
  * tables (| col | col |), horizontal rules (---).
  *
- * NOT a full CommonMark parser — keeps deps zero.
+ * NOT a full CommonMark parser, keeps deps zero.
  */
 
 import React from "react";
@@ -76,7 +76,7 @@ export function Markdown({ text }: { text: string }) {
       i++; continue;
     }
 
-    // Tables — leading | line and a separator line below
+    // Tables, leading | line and a separator line below
     if (line.trim().startsWith("|") && i + 1 < lines.length && /^\s*\|[\s|:-]+\|\s*$/.test(lines[i + 1])) {
       const headerCells = line.split("|").slice(1, -1).map(s => s.trim());
       i += 2; // skip header + separator
@@ -123,7 +123,7 @@ export function Markdown({ text }: { text: string }) {
       continue;
     }
 
-    // Paragraph — collect contiguous non-blank lines
+    // Paragraph, collect contiguous non-blank lines
     const para: string[] = [];
     while (i < lines.length && lines[i].trim() !== "" && !/^#{1,6}\s+/.test(lines[i]) && !/^\s*[-*]\s+/.test(lines[i]) && !/^\s*\d+\.\s+/.test(lines[i]) && !lines[i].trim().startsWith("|")) {
       para.push(lines[i]);

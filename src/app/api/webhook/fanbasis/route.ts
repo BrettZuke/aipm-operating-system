@@ -81,8 +81,7 @@ export async function POST(req: NextRequest) {
   const email = body.email.toLowerCase().trim();
   const name = body.name?.trim() || email;
   const kind = body.kind ?? "payment";
-  // Guard against unparseable dates from Zapier (e.g. "2026-06-13 14:30" or a locale string) —
-  // new Date("garbage").toISOString() throws RangeError, which would 500 and drop the payment.
+  // Guard against unparseable dates from Zapier (e.g. "2026-06-13 14:30" or a locale string), // new Date("garbage").toISOString() throws RangeError, which would 500 and drop the payment.
   const parsedDate = body.occurred_at ? new Date(body.occurred_at) : null;
   const occurred_at = parsedDate && !Number.isNaN(parsedDate.getTime())
     ? parsedDate.toISOString()
@@ -129,7 +128,7 @@ export async function POST(req: NextRequest) {
     clientId = newClient.id;
   }
 
-  // 2. Idempotency check — skip if we've already recorded this transaction
+  // 2. Idempotency check, skip if we've already recorded this transaction
   if (body.external_id) {
     const { data: existingTx } = await supabase
       .from("transactions")
@@ -173,7 +172,7 @@ export async function POST(req: NextRequest) {
   }
 
   // 4. Run the post-payment pipeline: link tx → deal, recompute client totals,
-  //    Slack notify. Best-effort — don't fail the webhook if a step errors.
+  //    Slack notify. Best-effort, don't fail the webhook if a step errors.
   const pipeline = kind === "payment"
     ? await runPostPaymentPipeline(supabase, agencyId, tx.id)
     : null;

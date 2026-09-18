@@ -52,5 +52,5 @@
     "typescript": "^5",
     "vitest": "^4.1.9"
   },
-  "description": "The your agency Operating System — full-stack workspace for info-product growth teams"
+  "description": "Settoku OS, a multi-tenant operating dashboard for agencies, coaches and creators"
 }

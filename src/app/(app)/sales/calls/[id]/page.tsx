@@ -13,7 +13,7 @@ const OUTCOME_VARIANT: Record<string, "success" | "danger" | "muted" | "warning"
 };
 
 function formatDateTime(iso: string | null): string {
-  if (!iso) return "—";
+  if (!iso) return "-";
   return new Date(iso).toLocaleString("en-US", {
     weekday: "short", month: "short", day: "numeric", year: "numeric",
     hour: "numeric", minute: "2-digit",
@@ -21,7 +21,7 @@ function formatDateTime(iso: string | null): string {
 }
 
 function formatDuration(s: number | null): string {
-  if (!s) return "—";
+  if (!s) return "-";
   const h = Math.floor(s / 3600);
   const m = Math.floor((s % 3600) / 60);
   const sec = s % 60;
@@ -112,11 +112,11 @@ export default async function CallDetailPage({ params }: { params: Promise<{ id:
         </div>
       </header>
 
-      {/* Stat strip — only the numbers that exist on the call */}
+      {/* Stat strip, only the numbers that exist on the call */}
       {(contractValue > 0 || cashCollected > 0) && (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <Stat label="Contract value reported" value={contractValue > 0 ? formatCurrency(contractValue) : "—"} />
-          <Stat label="Cash collected reported" value={cashCollected > 0 ? formatCurrency(cashCollected) : "—"} accent={cashCollected > 0} />
+          <Stat label="Contract value reported" value={contractValue > 0 ? formatCurrency(contractValue) : "-"} />
+          <Stat label="Cash collected reported" value={cashCollected > 0 ? formatCurrency(cashCollected) : "-"} accent={cashCollected > 0} />
           <Stat label="Offer presented" value={presentedOffer ? "Yes" : "No"} />
           <Stat label="Outcome" value={outcomeLabel} />
         </div>
@@ -158,7 +158,7 @@ export default async function CallDetailPage({ params }: { params: Promise<{ id:
           <div className="rounded-lg border border-dashed border-[rgba(255,255,255,0.08)] py-10 text-center">
             <AlertCircle className="mx-auto size-5 text-amber-400 mb-2" />
             <div className="text-sm font-medium text-[#9CA3AF]">No closer notes filled in</div>
-            <p className="mt-1 max-w-md mx-auto text-xs text-[#6B7280]">The post-call form was skipped. Coaching feedback for this call is missing — worth a Slack nudge to the closer.</p>
+            <p className="mt-1 max-w-md mx-auto text-xs text-[#6B7280]">The post-call form was skipped. Coaching feedback for this call is missing, worth a Slack nudge to the closer.</p>
           </div>
         ) : (
           <div className="space-y-3">
@@ -190,10 +190,10 @@ export default async function CallDetailPage({ params }: { params: Promise<{ id:
               <tbody className="divide-y divide-[rgba(255,255,255,0.06)]">
                 {dealsForClient.map(d => (
                   <tr key={d.id}>
-                    <td className="px-4 py-3 text-[#F5F5F7]">{d.name ?? "—"}</td>
+                    <td className="px-4 py-3 text-[#F5F5F7]">{d.name ?? "-"}</td>
                     <td className="px-4 py-3"><Badge variant={d.stage === "closed_won" ? "success" : d.stage === "closed_lost" ? "danger" : "primary"}>{d.stage}</Badge></td>
                     <td className="px-4 py-3 text-right font-mono">{formatCurrency(Number(d.amount ?? 0))}</td>
-                    <td className="px-4 py-3 text-xs text-[#9CA3AF]">{d.closed_at ? new Date(d.closed_at).toLocaleDateString() : "—"}</td>
+                    <td className="px-4 py-3 text-xs text-[#9CA3AF]">{d.closed_at ? new Date(d.closed_at).toLocaleDateString() : "-"}</td>
                   </tr>
                 ))}
               </tbody>
@@ -221,7 +221,7 @@ export default async function CallDetailPage({ params }: { params: Promise<{ id:
                   <tr key={t.id}>
                     <td className="px-4 py-3 text-xs text-[#9CA3AF]">{new Date(t.occurred_at).toLocaleDateString()}</td>
                     <td className="px-4 py-3 text-xs capitalize text-[#9CA3AF]">{t.kind}</td>
-                    <td className="px-4 py-3 text-[#9CA3AF]">{t.description ?? "—"}</td>
+                    <td className="px-4 py-3 text-[#9CA3AF]">{t.description ?? "-"}</td>
                     <td className={`px-4 py-3 text-right font-mono ${t.kind === "refund" ? "text-red-400" : "text-emerald-400"}`}>{formatCurrency(Number(t.amount ?? 0))}</td>
                   </tr>
                 ))}
@@ -231,7 +231,7 @@ export default async function CallDetailPage({ params }: { params: Promise<{ id:
         </section>
       )}
 
-      {/* Raw external_id (Typeform token) — debug aid */}
+      {/* Raw external_id (Typeform token), debug aid */}
       {call.external_id && (
         <div className="text-[10px] text-[#4B5563] font-mono">
           Typeform token: {call.external_id}

@@ -64,7 +64,7 @@ export function WorkspaceSwitcher({ workspaces, activeId }: { workspaces: Worksp
         className="flex w-full min-w-0 items-center gap-2 rounded-md px-1.5 py-1 hover:bg-[rgba(255,255,255,0.05)] transition-colors duration-100"
       >
         <div className="flex size-6 items-center justify-center rounded overflow-hidden shrink-0 bg-[#0083FF] text-[10px] font-bold text-white">
-          {active?.name?.charAt(0).toUpperCase() ?? "—"}
+          {active?.name?.charAt(0).toUpperCase() ?? "-"}
         </div>
         <span className="flex-1 truncate text-left text-sm font-medium text-[#F5F5F7]">{active?.name ?? "No workspace"}</span>
         <ChevronDown className="size-3.5 shrink-0 text-[#6B7280]" />

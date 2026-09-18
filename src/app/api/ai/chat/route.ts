@@ -17,7 +17,7 @@ import { TOOL_DEFS, executeTool, type ToolContext } from "@/lib/settoku/tools";
  * Hardened (Wave 0):
  *   - Global kill switch: AI_CHAT_ENABLED=false disables it instantly.
  *   - Requires an authenticated workspace member (enforced here, not just
- *     middleware) — no user ⇒ we never call the model.
+ *     middleware), no user ⇒ we never call the model.
  *   - Per-user/day cap (messages + output tokens) in ai_usage_daily; fails CLOSED
  *     if metering is unavailable.
  *   - Customer PII is redacted out of the prompt (M2).
@@ -33,7 +33,7 @@ const DAILY_TOKEN_CAP = Number(process.env.AI_DAILY_TOKEN_CAP ?? 500_000);
 const PROVIDER = (process.env.AI_CHAT_PROVIDER ?? (process.env.GROQ_API_KEY ? "groq" : "anthropic")).toLowerCase();
 const GROQ_MODEL = process.env.GROQ_CHAT_MODEL ?? "llama-3.3-70b-versatile";
 
-// Free, tool-capable Groq models the user may switch between. Allowlist — never trust the client
+// Free, tool-capable Groq models the user may switch between. Allowlist, never trust the client
 // to name an arbitrary or paid model. Keep in sync with the picker in settoku-chat-ui.tsx.
 const ALLOWED_GROQ_MODELS = new Set([
   "llama-3.3-70b-versatile",
@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
   if (!user) {
     // Stream this notice at HTTP 200 like every other guard message. The chat UI
     // only renders 2xx stream bodies as assistant text; a non-2xx status makes it
-    // show a generic error instead. Auth is still enforced — no user ⇒ we return
+    // show a generic error instead. Auth is still enforced, no user ⇒ we return
     // here and never reach the model.
     return new Response(streamPlaceholder("Please sign in to use Settoku Chat."), streamHeaders);
   }
@@ -114,7 +114,7 @@ export async function POST(req: NextRequest) {
   if (!svc) {
     // Without the service-role client we cannot read/write ai_usage_daily, so the
     // per-user cap can't be enforced. A guardrail that silently turns itself off on
-    // misconfig is not a guardrail — fail CLOSED. (This key is core infra; this path
+    // misconfig is not a guardrail, fail CLOSED. (This key is core infra; this path
     // only trips on a genuine env misconfig.)
     return new Response(streamPlaceholder("Settoku Chat is temporarily unavailable (usage metering isn't configured)."), streamHeaders);
   }
@@ -127,7 +127,7 @@ export async function POST(req: NextRequest) {
       .maybeSingle();
     if (row) usage = { messages_sent: row.messages_sent, tokens_input: Number(row.tokens_input), tokens_output: Number(row.tokens_output) };
   } catch {
-    // Usage read failed — don't deny a legitimate user over a tracking hiccup.
+    // Usage read failed, don't deny a legitimate user over a tracking hiccup.
   }
   if (usage.messages_sent >= DAILY_MESSAGE_CAP || usage.tokens_output >= DAILY_TOKEN_CAP) {
     return new Response(streamPlaceholder("You've reached today's Settoku Chat limit. It resets at midnight UTC."), streamHeaders);
@@ -135,7 +135,7 @@ export async function POST(req: NextRequest) {
 
   // --- Build workspace context for the system prompt ------------------------
   // Numbers come from the SAME live readers the dashboard uses (FanBasis for the coach tenant,
-  // Stripe for creators, the Supabase ledger otherwise) — NOT the stale transactions table the
+  // Stripe for creators, the Supabase ledger otherwise), NOT the stale transactions table the
   // chat used to read alone. Agency-scoped, so the chat only sees the active workspace's data.
   // Best-effort: if it fails, the chat still answers, just without the numbers.
   let workspaceContext = "";
@@ -144,23 +144,23 @@ export async function POST(req: NextRequest) {
     snapshot = await buildWorkspaceSnapshot(supabase, agencyId);
     workspaceContext = `\n${snapshot.promptBlock}`;
   } catch {
-    // Context is best-effort — auth is already enforced above.
+    // Context is best-effort, auth is already enforced above.
   }
 
   // Tool context (agency-scoped). Built here where agencyId is narrowed to a string and the
   // snapshot is in hand, so reads (get_revenue) don't refetch and writes stay scoped.
   const toolCtx: ToolContext | null = snapshot ? { supabase, agencyId, userId: user.id, snapshot } : null;
 
-  const systemPrompt = `You are Settoku, an AI assistant inside an operating system for info-product agencies and creators. You help the user understand their business — revenue, clients, sales calls, team activity, what's working, what's not.
+  const systemPrompt = `You are Settoku, an AI assistant inside an operating system for info-product agencies and creators. You help the user understand their business, revenue, clients, sales calls, team activity, what's working, what's not.
 
-Be direct, concise, and specific. When discussing numbers, cite them precisely — and when useful, mention the source (e.g. "per FanBasis" / "per Stripe"). When you don't have data, say so plainly — don't make up numbers. The figures below are for the user's currently-active workspace only.
+Be direct, concise, and specific. When discussing numbers, cite them precisely, and when useful, mention the source (e.g. "per FanBasis" / "per Stripe"). When you don't have data, say so plainly, don't make up numbers. The figures below are for the user's currently-active workspace only.
 
-You can also TAKE ACTIONS via tools: look up live revenue, list clients, create a task, or draft an email. When the user asks you to DO something ("remind me to…", "add a task…", "draft an email…"), call the right tool instead of only describing it — then confirm in one line what you did. Never say an email was sent: draft_email only prepares a draft for the user to review.
+You can also TAKE ACTIONS via tools: look up live revenue, list clients, create a task, or draft an email. When the user asks you to DO something ("remind me to…", "add a task…", "draft an email…"), call the right tool instead of only describing it, then confirm in one line what you did. Never say an email was sent: draft_email only prepares a draft for the user to review.
 
-ACCURACY (important): Only state numbers that appear in the workspace data below or that a tool returns this turn. Never invent, guess, or change the figures. If you don't have a number, say so and offer to pull it — don't approximate. Day-level figures use UTC: if "today" shows 0, a very recent sale may fall under yesterday in UTC — say that rather than implying there were no sales. Always include the currency shown in the data (e.g. USD vs PLN); never convert or assume.
+ACCURACY (important): Only state numbers that appear in the workspace data below or that a tool returns this turn. Never invent, guess, or change the figures. If you don't have a number, say so and offer to pull it, don't approximate. Day-level figures use UTC: if "today" shows 0, a very recent sale may fall under yesterday in UTC, say that rather than implying there were no sales. Always include the currency shown in the data (e.g. USD vs PLN); never convert or assume.
 ${workspaceContext}`;
 
-  // Convert messages — only keep user + assistant
+  // Convert messages, only keep user + assistant
   const validMessages: ChatMessage[] = body.messages
     .filter(m => m.role === "user" || m.role === "assistant")
     .map(m => ({ role: m.role, content: m.content }));
@@ -178,7 +178,7 @@ ${workspaceContext}`;
           ? await streamGroq(controller, encoder, { apiKey: providerKey, model: requestedModel, systemPrompt, messages: validMessages })
           : await streamAnthropic(controller, encoder, { apiKey: providerKey, model: pickAnthropicModel(validMessages), systemPrompt, messages: validMessages });
 
-        // Record usage for the daily cap (best-effort — never break a delivered reply).
+        // Record usage for the daily cap (best-effort, never break a delivered reply).
         try {
           await svc.from("ai_usage_daily").upsert({
             agency_id: agencyId,

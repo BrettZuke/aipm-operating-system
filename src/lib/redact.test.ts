@@ -13,7 +13,7 @@ describe("redactPII (M2)", () => {
   });
 
   it.each([
-    ["Subscription — Example Academy", "Subscription — Example Academy"],
+    ["Subscription, Example Academy", "Subscription, Example Academy"],
     ["Refund $1,234.56", "Refund $1,234.56"],   // money not mangled
     ["Order #12345", "Order #12345"],            // short id kept
     ["Plan tier 3", "Plan tier 3"],

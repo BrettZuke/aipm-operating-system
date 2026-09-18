@@ -118,18 +118,18 @@ export default async function PlaybooksPage({ searchParams }: { searchParams: Pr
               </thead>
               <tbody className="divide-y divide-[rgba(255,255,255,0.08)]">
                 {!sops?.length ? (
-                  <tr><td colSpan={6} className="px-4 py-12 text-center text-sm text-[#6B7280]">No SOPs yet — click + New SOP to add one.</td></tr>
+                  <tr><td colSpan={6} className="px-4 py-12 text-center text-sm text-[#6B7280]">No SOPs yet, click + New SOP to add one.</td></tr>
                 ) : sops.map(s => (
                   <tr key={s.id} className="hover:bg-[#0C0C10]/40 cursor-pointer">
                     <td className="px-4 py-3 flex items-center gap-2 font-medium text-[#F5F5F7]">
                       <BookOpen className="size-3.5 text-[#9CA3AF] shrink-0" />
                       {s.title}
                     </td>
-                    <td className="px-4 py-3 text-[#9CA3AF]">—</td>
+                    <td className="px-4 py-3 text-[#9CA3AF]">,</td>
                     <td className="px-4 py-3"><span className="rounded-md bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-400">Verified</span></td>
-                    <td className="px-4 py-3 text-xs text-[#6B7280]">—</td>
+                    <td className="px-4 py-3 text-xs text-[#6B7280]">,</td>
                     <td className="px-4 py-3 text-xs text-[#6B7280]">Markdown + JSON</td>
-                    <td className="px-4 py-3 text-right text-xs text-[#9CA3AF]">—</td>
+                    <td className="px-4 py-3 text-right text-xs text-[#9CA3AF]">,</td>
                   </tr>
                 ))}
               </tbody>

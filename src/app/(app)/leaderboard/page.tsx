@@ -79,8 +79,8 @@ export default async function LeaderboardPage({
   }
 
   // "Deals closed" = won calls, NOT payment count (recurring installments would each count as a
-  // deal and push close rate past 100%). "Shows" = calls that actually happened — exclude
-  // no-shows / cancellations / unheld bookings — so closeRate = won / shows stays ≤ 100%.
+  // deal and push close rate past 100%). "Shows" = calls that actually happened, exclude
+  // no-shows / cancellations / unheld bookings, so closeRate = won / shows stays ≤ 100%.
   const NOT_HELD = new Set(["booked", "no_show", "no-show", "noshow", "cancelled", "canceled", "rescheduled"]);
   const apptMap = new Map<string, number>();
   const dealMap = new Map<string, number>();
@@ -120,7 +120,7 @@ export default async function LeaderboardPage({
       isYou: m.user_id === currentUser.id,
     });
   }
-  // Sheet-owner (the coach): the Supabase transactions/calls tables are empty — real closer performance
+  // Sheet-owner (the coach): the Supabase transactions/calls tables are empty, real closer performance
   // lives in the Closer sheet. Rebuild the ranking from it (cash collected + closes per closer).
   const sheetId = salesSheetIdFor(agencyId);
   if (sheetId) {
@@ -230,7 +230,7 @@ export default async function LeaderboardPage({
           },
           {
             label: "Quota attainment",
-            value: rows.length === 0 ? "—" : "0%",
+            value: rows.length === 0 ? "-" : "0%",
             delta: "+6.2p  tracking towards…",
             positive: true,
             sparkColor: "stroke-amber-500",
@@ -238,7 +238,7 @@ export default async function LeaderboardPage({
           {
             label: "Current top streak",
             value: "0 days",
-            delta: "Record: — days (RF)",
+            delta: "Record:, days (RF)",
             positive: false,
             sparkColor: "stroke-purple-500",
           },
@@ -305,7 +305,7 @@ export default async function LeaderboardPage({
             </div>
           </div>
 
-          {/* Podium — 2nd, 1st, 3rd */}
+          {/* Podium, 2nd, 1st, 3rd */}
           <div className="flex items-end justify-center gap-4">
             {/* 2nd place */}
             {second && (
@@ -324,7 +324,7 @@ export default async function LeaderboardPage({
               />
             )}
 
-            {/* 1st place — taller */}
+            {/* 1st place, taller */}
             {first && (
               <PodiumCard
                 rank={1}
@@ -458,7 +458,7 @@ export default async function LeaderboardPage({
                   <td className="px-4 py-3 text-[rgba(245,245,247,0.8)]">
                     {r.closeRate.toFixed(0)}%
                   </td>
-                  <td className="px-4 py-3 text-[#6B7280]">—</td>
+                  <td className="px-4 py-3 text-[#6B7280]">,</td>
                 </tr>
               ))}
             </tbody>

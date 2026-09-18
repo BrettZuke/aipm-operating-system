@@ -174,12 +174,12 @@ export async function CreatorDashboard({ agencyId, workspaceName, firstName, sea
   function renderBody(ga4: Ga4Snapshot | null, ga4Error: string | null) {
   const stripeCurrency = (stripe?.currency ?? "usd").toUpperCase();
 
-  // Email roll-ups are raw COUNTS (no averaged rates) — per-email rates live in the broadcast list.
+  // Email roll-ups are raw COUNTS (no averaged rates), per-email rates live in the broadcast list.
   const emOpens = data.kitEmail ? data.kitEmail.broadcasts.reduce((a, b) => a + b.emailsOpened, 0) : 0;
   const emClicks = data.kitEmail ? data.kitEmail.broadcasts.reduce((a, b) => a + b.totalClicks, 0) : 0;
   const emAttr = data.emailAttribution ?? [];
   // DM funnel is opt-in per workspace (settings.dmTo set). Show the panel only when this workspace
-  // uses it (has a DM code) or already has attributed rows — otherwise it stays hidden, so a
+  // uses it (has a DM code) or already has attributed rows, otherwise it stays hidden, so a
   // non-DM workspace (e.g. one selling via Whop/Discord) never sees another creator's DM copy.
   const dmHandle = settings.dmHandle ?? workspaceName;
   const dmTo = settings.dmTo;
@@ -192,9 +192,9 @@ export async function CreatorDashboard({ agencyId, workspaceName, firstName, sea
   const checkoutSource = kit?.checkoutStarted != null ? "Kit" : "GA4";
   const optInsResolved = kit?.optIns ?? ga4?.generateLead ?? null;
 
-  // Funnel step ratios must land in 0–100%. A value above 100% means numerator and denominator
+  // Funnel step ratios must land in 0 to 100%. A value above 100% means numerator and denominator
   // come from sources that disagree (server-side Kit count vs adblock-undercounted GA4 sessions),
-  // so we show "—" instead of a misleading >100%. null = not enough data / source pending.
+  // so we show "-" instead of a misleading >100%. null = not enough data / source pending.
   const stepRatio = (num: number, den: number | null | undefined): number | null => {
     if (!den || den <= 0 || num < 0) return null;
     const r = num / den;
@@ -375,23 +375,23 @@ export async function CreatorDashboard({ agencyId, workspaceName, firstName, sea
           )}
         </Grid>
         <Grid cols={4}>
-          <KpiCard label="Sales page → checkout" value={landingToReach === null ? "—" : fmtPct(landingToReach, 1)}
+          <KpiCard label="Sales page → checkout" value={landingToReach === null ? "-" : fmtPct(landingToReach, 1)}
             hint="reached checkout ÷ sales page (NEW vs Pablo)" source="GA4" sourceTone={landingToReach === null ? "pending" : "ok"} />
-          <KpiCard label="Checkout → started" value={reachToStarted === null ? "—" : fmtPct(reachToStarted, 1)}
+          <KpiCard label="Checkout → started" value={reachToStarted === null ? "-" : fmtPct(reachToStarted, 1)}
             hint="entered info ÷ reached · ≈ Pablo's rate" source="Blended" sourceTone={reachToStarted === null ? "pending" : "ok"} />
-          <KpiCard label="Started → buy" value={checkoutToBuy === null ? "—" : fmtPct(checkoutToBuy, 1)}
+          <KpiCard label="Started → buy" value={checkoutToBuy === null ? "-" : fmtPct(checkoutToBuy, 1)}
             hint="sales ÷ started checkout" source="Blended" sourceTone={checkoutToBuy === null ? "pending" : "ok"} />
-          <KpiCard label="Sales page → buy" value={funnelToBuy === null ? "—" : fmtPct(funnelToBuy, 2)}
+          <KpiCard label="Sales page → buy" value={funnelToBuy === null ? "-" : fmtPct(funnelToBuy, 2)}
             hint="buyers ÷ sales page visits" source="Blended" sourceTone={funnelToBuy === null ? "pending" : "ok"} />
         </Grid>
         <Grid cols={4}>
-          <KpiCard label="Net sales" value={stripe ? fmtInt(stripe.netSalesCount) : "—"}
+          <KpiCard label="Net sales" value={stripe ? fmtInt(stripe.netSalesCount) : "-"}
             hint="paid completions, net of refunds" source="Stripe" sourceTone={stripe ? "ok" : "pending"} />
-          <KpiCard label="Reached, no info" value={reachedNoInfo === null ? "—" : fmtInt(reachedNoInfo)}
+          <KpiCard label="Reached, no info" value={reachedNoInfo === null ? "-" : fmtInt(reachedNoInfo)}
             hint="reached checkout, never entered info" source="GA4" sourceTone={reachedNoInfo === null ? "pending" : "ok"} />
-          <KpiCard label="AOV" value={aov === null ? "—" : fmtMoney(aov, stripeCurrency)}
+          <KpiCard label="AOV" value={aov === null ? "-" : fmtMoney(aov, stripeCurrency)}
             hint="avg order value" source="Stripe" sourceTone={aov === null ? "pending" : "ok"} />
-          <KpiCard label="Visitor → buy" value={visitorToBuy === null ? "—" : fmtPct(visitorToBuy, 2)}
+          <KpiCard label="Visitor → buy" value={visitorToBuy === null ? "-" : fmtPct(visitorToBuy, 2)}
             hint="buyers ÷ all visitors" source="Blended" sourceTone={visitorToBuy === null ? "pending" : "ok"} />
         </Grid>
         <Panel>
@@ -480,7 +480,7 @@ export async function CreatorDashboard({ agencyId, workspaceName, firstName, sea
           ) : (
             <PendingKpi label="Opt-ins (new)" pendingOn="Kit" hint={kitError ?? "Waiting for Kit"} />
           )}
-          <KpiCard label="Opt-in rate" value={optInRate === null ? "—" : fmtPct(optInRate, 1)}
+          <KpiCard label="Opt-in rate" value={optInRate === null ? "-" : fmtPct(optInRate, 1)}
             hint="opt-ins ÷ visitors" source="GA4" sourceTone={optInRate === null ? "pending" : "ok"} />
           {stripe ? (
             <KpiCard label="LTV" value={fmtMoney(stripe.ltv, stripeCurrency)} hint="avg paid/customer (last 365d)" source="Stripe" />
@@ -512,7 +512,7 @@ export async function CreatorDashboard({ agencyId, workspaceName, firstName, sea
 
       {/* ───────── Email (Kit broadcasts + DM-funnel attribution) ───────── */}
       <Section title="Email">
-        {/* Roll-up = raw counts only. No blended/averaged rate — each email's real rate is in the list below. */}
+        {/* Roll-up = raw counts only. No blended/averaged rate, each email's real rate is in the list below. */}
         <Grid cols={4}>
           {data.kitEmail ? (
             <KpiCard label="Emails sent" value={fmtInt(data.kitEmail.broadcastsSent)} hint="broadcasts in range" source="Kit" />
@@ -538,7 +538,7 @@ export async function CreatorDashboard({ agencyId, workspaceName, firstName, sea
         {data.kitEmail && data.kitEmail.broadcasts.length > 0 && (
           <Panel>
             <div className="mb-0.5 text-[10px] font-semibold uppercase tracking-widest text-[#6B7280]">Every email · open &amp; click</div>
-            <div className="mb-3 text-[11px] text-[#6B7280]">Each send on its own, newest first — no averaging. The percentages are that one email&rsquo;s real numbers.</div>
+            <div className="mb-3 text-[11px] text-[#6B7280]">Each send on its own, newest first, no averaging. The percentages are that one email&rsquo;s real numbers.</div>
             <BroadcastList rows={data.kitEmail.broadcasts} />
           </Panel>
         )}
@@ -633,10 +633,10 @@ export async function CreatorDashboard({ agencyId, workspaceName, firstName, sea
               Cart abandonment
             </div>
             <div className="flex flex-wrap items-baseline gap-x-6 gap-y-2">
-              <div><span className="font-mono text-xl text-[#F5F5F7]">{checkoutStarted !== null ? fmtInt(checkoutStarted) : "—"}</span> <span className="text-xs text-[#6B7280]">started</span></div>
-              <div><span className="font-mono text-xl text-[#00D393]">{stripe ? fmtInt(stripe.salesCount) : "—"}</span> <span className="text-xs text-[#6B7280]">bought</span></div>
-              <div><span className="font-mono text-xl text-[#FF6466]">{cartAbandoned !== null ? fmtInt(cartAbandoned) : "—"}</span> <span className="text-xs text-[#6B7280]">abandoned</span></div>
-              <div><span className="font-mono text-xl text-[#F8AF00]">{abandonRate !== null ? fmtPct(abandonRate, 0) : "—"}</span> <span className="text-xs text-[#6B7280]">abandon rate</span></div>
+              <div><span className="font-mono text-xl text-[#F5F5F7]">{checkoutStarted !== null ? fmtInt(checkoutStarted) : "-"}</span> <span className="text-xs text-[#6B7280]">started</span></div>
+              <div><span className="font-mono text-xl text-[#00D393]">{stripe ? fmtInt(stripe.salesCount) : "-"}</span> <span className="text-xs text-[#6B7280]">bought</span></div>
+              <div><span className="font-mono text-xl text-[#FF6466]">{cartAbandoned !== null ? fmtInt(cartAbandoned) : "-"}</span> <span className="text-xs text-[#6B7280]">abandoned</span></div>
+              <div><span className="font-mono text-xl text-[#F8AF00]">{abandonRate !== null ? fmtPct(abandonRate, 0) : "-"}</span> <span className="text-xs text-[#6B7280]">abandon rate</span></div>
             </div>
             <div className="mt-3 text-[11px] leading-relaxed text-[#6B7280]">
               Abandoners (started checkout, never bought) are auto-tagged “Started Checkout” in Kit and enter your recovery email sequence. Started is GA4 (forward-only); bought is exact from Stripe.
@@ -657,7 +657,7 @@ export async function CreatorDashboard({ agencyId, workspaceName, firstName, sea
             <div className="space-y-8">
 
       {/* ───────── Attribution: traffic vs sales by source ───────── */}
-      <Section title="Attribution — UTM">
+      <Section title="Attribution, UTM">
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
           {ga4 && (
             <Panel>
@@ -684,14 +684,14 @@ export async function CreatorDashboard({ agencyId, workspaceName, firstName, sea
               <div className="text-xs text-[#6B7280]">{stripeError ?? "Waiting for Stripe."}</div>
             )}
             <div className="mt-3 text-[11px] leading-relaxed text-[#6B7280]">
-              Exact — from the UTM stamped on each Stripe checkout. Orders placed before tracking went live show as “Untagged”.
+              Exact, from the UTM stamped on each Stripe checkout. Orders placed before tracking went live show as “Untagged”.
             </div>
           </Panel>
         </div>
       </Section>
 
       {/* ───────── Content pieces (campaign level) ───────── */}
-      <Section title="Content pieces — what's driving sales">
+      <Section title="Content pieces, what's driving sales">
         <Panel>
           <ContentPieces rows={contentPieces} currency={stripeCurrency} siteUrl={settings.siteUrl} />
           <div className="mt-3 text-[11px] leading-relaxed text-[#6B7280]">
@@ -742,7 +742,7 @@ export async function CreatorDashboard({ agencyId, workspaceName, firstName, sea
       />
 
       <div className="text-xs text-[#6B7280]">
-        Last fetched {ga4 ? new Date(ga4.fetchedAt).toLocaleTimeString("en-GB") : "—"} · cache 5 min · range filter top
+        Last fetched {ga4 ? new Date(ga4.fetchedAt).toLocaleTimeString("en-GB") : "-"} · cache 5 min · range filter top
         right.
       </div>
     </div>
@@ -812,7 +812,7 @@ function Panel({ children }: { children: React.ReactNode }) {
 // Re-capture if the page changes.
 const SECTION_THUMBS = ["hero", "who", "offer", "pricing", "proof", "final"];
 function PageScrollMap({ agencyId, steps }: { agencyId: string; steps: ReadonlyArray<{ label: string; value: number | null }> }) {
-  // Sections fire via IntersectionObserver (first-seen), so counts are non-monotonic — a lower
+  // Sections fire via IntersectionObserver (first-seen), so counts are non-monotonic, a lower
   // section can out-count the hero. Use the max as the 100% reference so a bar never exceeds 100%.
   const top = steps.reduce((m, s) => (typeof s.value === "number" && s.value > m ? s.value : m), 0);
   function heat(frac: number): string {
@@ -918,8 +918,8 @@ function ContentPieces({
           <div className="relative grid grid-cols-[1fr_4rem_3rem_5rem] items-center gap-x-3 py-2 text-sm">
             <div className="truncate text-[#F5F5F7]" title={r.name}>{r.name}</div>
             <div className="text-right font-mono tabular-nums text-[#9CA3AF]">{fmtInt(r.visitors)}</div>
-            <div className="text-right font-mono tabular-nums text-[#F5F5F7]">{r.sales || "—"}</div>
-            <div className="text-right font-mono tabular-nums text-[#00D393]">{r.revenue ? fmtMoney(r.revenue, currency) : "—"}</div>
+            <div className="text-right font-mono tabular-nums text-[#F5F5F7]">{r.sales || "-"}</div>
+            <div className="text-right font-mono tabular-nums text-[#00D393]">{r.revenue ? fmtMoney(r.revenue, currency) : "-"}</div>
           </div>
         </div>
       ))}
@@ -1003,8 +1003,8 @@ function EmailAttribution({
           <div className="relative grid grid-cols-[1fr_4rem_3.5rem_5rem] items-center gap-x-3 py-2 text-sm">
             <div className="truncate text-[#F5F5F7]" title={r.label}>{r.label}</div>
             <div className="text-right font-mono tabular-nums text-[#9CA3AF]">{fmtInt(r.clicked)}</div>
-            <div className="text-right font-mono tabular-nums text-[#F5F5F7]">{r.sales || "—"}</div>
-            <div className="text-right font-mono tabular-nums text-[#00D393]">{r.revenue ? fmtMoney(r.revenue, currency) : "—"}</div>
+            <div className="text-right font-mono tabular-nums text-[#F5F5F7]">{r.sales || "-"}</div>
+            <div className="text-right font-mono tabular-nums text-[#00D393]">{r.revenue ? fmtMoney(r.revenue, currency) : "-"}</div>
           </div>
         </div>
       ))}

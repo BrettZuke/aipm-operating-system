@@ -1,24 +1,24 @@
 import crypto from "crypto";
 
 /**
- * Symmetric encryption for secrets stored at rest — e.g. per-tenant Stripe keys
+ * Symmetric encryption for secrets stored at rest, e.g. per-tenant Stripe keys
  * in agency_settings.data.integrations.stripe.key, which were plaintext (H4).
  *
- * AES-256-GCM (authenticated). The key comes from SECRETS_ENCRYPTION_KEY — 32
+ * AES-256-GCM (authenticated). The key comes from SECRETS_ENCRYPTION_KEY, 32
  * bytes supplied as 64 hex chars or 44-char base64. Stored format:
  *
  *     enc:v1:<base64( iv[12] | authTag[16] | ciphertext )>
  *
  * The `enc:v1:` prefix lets readers distinguish encrypted values from legacy
  * plaintext, so encryption rolls out with ZERO downtime:
- *   1. Deploy the reader — plaintext passes through untouched (no key needed).
+ *   1. Deploy the reader, plaintext passes through untouched (no key needed).
  *   2. Set SECRETS_ENCRYPTION_KEY, then migrate stored values in place.
  *   3. From then on every stored secret is ciphertext.
  *
  * decryptSecret NEVER throws on bad input: a revenue dashboard must not 500
  * because a key is missing/rotated. On any failure it logs and returns null, so
  * the UI degrades to "no key configured" rather than crashing. encryptSecret DOES
- * throw when the key is absent — it's only called from the migration/CLI, where a
+ * throw when the key is absent, it's only called from the migration/CLI, where a
  * missing key is a hard stop, never a silent plaintext write.
  */
 
@@ -55,7 +55,7 @@ export function isEncrypted(value: string | null | undefined): boolean {
 /** Encrypt a plaintext secret. Throws if SECRETS_ENCRYPTION_KEY is not set. */
 export function encryptSecret(plaintext: string): string {
   const key = getKey();
-  if (!key) throw new Error("SECRETS_ENCRYPTION_KEY not configured — refusing to encrypt");
+  if (!key) throw new Error("SECRETS_ENCRYPTION_KEY not configured, refusing to encrypt");
   const iv = crypto.randomBytes(IV_LEN);
   const cipher = crypto.createCipheriv("aes-256-gcm", key, iv);
   const ct = Buffer.concat([cipher.update(plaintext, "utf8"), cipher.final()]);
@@ -70,10 +70,10 @@ export function encryptSecret(plaintext: string): string {
  */
 export function decryptSecret(value: string | null | undefined): string | null {
   if (value == null) return null;
-  if (!isEncrypted(value)) return value; // legacy plaintext — pass through
+  if (!isEncrypted(value)) return value; // legacy plaintext, pass through
   const key = getKey();
   if (!key) {
-    console.error("[secrets] encountered an encrypted value but SECRETS_ENCRYPTION_KEY is missing — returning null");
+    console.error("[secrets] encountered an encrypted value but SECRETS_ENCRYPTION_KEY is missing, returning null");
     return null;
   }
   try {

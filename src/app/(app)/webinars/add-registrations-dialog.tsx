@@ -38,7 +38,7 @@ export function AddRegistrationsDialog({ webinarId }: { webinarId: string }) {
           <div>
             <h2 className="text-lg font-semibold text-[#F5F5F7]">Add registrations</h2>
             <p className="mt-1 text-xs text-[#9CA3AF]">
-              Paste CSV or tab-separated. Header row optional — first column is name, second email, third phone.
+              Paste CSV or tab-separated. Header row optional, first column is name, second email, third phone.
               Phones must be E.164 format (<span className="font-mono">+15551234567</span>) to receive SMS.
             </p>
           </div>

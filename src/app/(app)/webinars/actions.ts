@@ -77,7 +77,7 @@ export async function deleteWebinar(id: string): Promise<Result> {
 
 /**
  * Add registrations from a CSV-pasted blob. Accepts comma OR tab separated.
- * Header row optional — auto-detects "name", "email", "phone" columns
+ * Header row optional, auto-detects "name", "email", "phone" columns
  * (case-insensitive). If no header, assumes order: name, email, phone.
  *
  * Phone normalization: strips everything except digits and leading +.
@@ -135,7 +135,7 @@ export async function addRegistrationsFromCsv(_prev: unknown, formData: FormData
 
   if (inserts.length === 0) return { ok: true, inserted: 0, skipped: rows.length - dataStart, errors };
 
-  // Use upsert on (webinar_id, phone) to dedupe — the unique index in the
+  // Use upsert on (webinar_id, phone) to dedupe, the unique index in the
   // migration enforces no duplicate phone per webinar.
   const { error, count } = await supabase
     .from("webinar_registrations")
@@ -146,7 +146,7 @@ export async function addRegistrationsFromCsv(_prev: unknown, formData: FormData
   return { ok: true, inserted: count ?? inserts.length, skipped: rows.length - dataStart - inserts.length, errors };
 }
 
-/** Server-action wrapper around blastWebinar — auth-gated by workspace membership. */
+/** Server-action wrapper around blastWebinar, auth-gated by workspace membership. */
 export async function fireWebinarBlast(_prev: unknown, formData: FormData): Promise<Result<{ sent: number; skipped: number; errored: number }>> {
   const webinarId = String(formData.get("webinar_id") ?? "");
   const kind = String(formData.get("kind") ?? "live") as ReminderKind;

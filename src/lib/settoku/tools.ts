@@ -77,7 +77,7 @@ export const TOOL_DEFS = [
     function: {
       name: "draft_email",
       description:
-        "Draft an email for the user to review. Does NOT send — only prepares a draft. Never claim the email was sent.",
+        "Draft an email for the user to review. Does NOT send, only prepares a draft. Never claim the email was sent.",
       parameters: {
         type: "object",
         properties: {

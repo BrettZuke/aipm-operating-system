@@ -28,7 +28,7 @@ const KIND_VARIANT: Record<string, "primary" | "warning" | "danger" | "muted"> =
 };
 
 function formatDateTime(iso: string | null): string {
-  if (!iso) return "—";
+  if (!iso) return "-";
   return new Date(iso).toLocaleString("en-US", {
     month: "short",
     day: "numeric",
@@ -170,12 +170,12 @@ export default async function ClientDetailPage({
         </div>
       </header>
 
-      {/* Stat row — payment status takes priority since this is the most actionable info */}
+      {/* Stat row, payment status takes priority since this is the most actionable info */}
       <div className="grid gap-4 sm:grid-cols-4">
         <StatCard label="Contracted" value={formatCurrency(contracted)} icon={Trophy} />
         <StatCard label="Cash collected" value={formatCurrency(collected)} icon={Wallet} />
         <StatCard label={outstanding > 0 ? "Outstanding ⚠" : "Outstanding"} value={formatCurrency(outstanding)} icon={AlertCircle} accent={outstanding > 0} />
-        <StatCard label="Last payment" value={lastPaymentAt ? new Date(lastPaymentAt).toLocaleDateString() : "—"} sub={lastProduct ?? undefined} icon={Clock} />
+        <StatCard label="Last payment" value={lastPaymentAt ? new Date(lastPaymentAt).toLocaleDateString() : "-"} sub={lastProduct ?? undefined} icon={Clock} />
       </div>
 
       {client.notes && (
@@ -213,13 +213,13 @@ export default async function ClientDetailPage({
                   const needsReview = !!dealData.needs_review;
                   return (
                     <tr key={d.id}>
-                      <td className="px-4 py-3 font-medium text-[#F5F5F7]">{d.name ?? "—"}</td>
+                      <td className="px-4 py-3 font-medium text-[#F5F5F7]">{d.name ?? "-"}</td>
                       <td className="px-4 py-3">
                         <Badge variant={d.stage === "closed_won" ? "success" : d.stage === "closed_lost" ? "danger" : "primary"}>{d.stage}</Badge>
                       </td>
-                      <td className="px-4 py-3 text-[#9CA3AF]">{owner?.full_name ?? owner?.email ?? "—"}</td>
+                      <td className="px-4 py-3 text-[#9CA3AF]">{owner?.full_name ?? owner?.email ?? "-"}</td>
                       <td className="px-4 py-3 text-right font-mono text-[#F5F5F7]">{formatCurrency(Number(d.amount ?? 0))}</td>
-                      <td className="px-4 py-3 text-xs text-[#9CA3AF]">{d.closed_at ? new Date(d.closed_at).toLocaleDateString() : "—"}</td>
+                      <td className="px-4 py-3 text-xs text-[#9CA3AF]">{d.closed_at ? new Date(d.closed_at).toLocaleDateString() : "-"}</td>
                       <td className="px-4 py-3 text-xs">{needsReview && <span className="rounded-md bg-amber-500/10 px-1.5 py-0.5 text-amber-400">⚠ needs review</span>}</td>
                     </tr>
                   );
@@ -242,7 +242,7 @@ export default async function ClientDetailPage({
               const callData = (c.data as Record<string, unknown> | null) ?? {};
               const closerName = (callData.closer_name as string | undefined) ?? null;
               const member = c.member_id ? profById.get(c.member_id) : null;
-              const closerLabel = member?.full_name ?? closerName ?? "—";
+              const closerLabel = member?.full_name ?? closerName ?? "-";
               const outcome = c.outcome ?? "held";
               const outcomeLabel = (callData.outcome_label as string | undefined) ?? outcome;
               const fields: Array<[string, unknown]> = [
@@ -345,7 +345,7 @@ export default async function ClientDetailPage({
                         {t.kind ?? "payment"}
                       </Badge>
                     </td>
-                    <td className="px-4 py-3 text-[#9CA3AF]">{t.description ?? "—"}</td>
+                    <td className="px-4 py-3 text-[#9CA3AF]">{t.description ?? "-"}</td>
                     <td
                       className={`px-4 py-3 text-right font-mono ${
                         t.kind === "refund" || t.kind === "chargeback"

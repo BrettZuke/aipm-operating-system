@@ -5,7 +5,7 @@
  * reminder window (T-25h..T-23h, T-90m..T-30m, T-25m..T-5m, T-2m..T+5m) and
  * fires SMS to registrations that haven't been notified yet for that window.
  *
- * Idempotent — sent_*_at timestamps prevent double-sends.
+ * Idempotent, sent_*_at timestamps prevent double-sends.
  *
  * Auth: requires CRON_SECRET. Vercel sends Authorization: Bearer.
  *
@@ -59,10 +59,10 @@ export async function GET(req: NextRequest) {
     // 42P01 = undefined_table: the webinars migration (20260507000002) isn't
     // applied yet. That's an expected pre-launch state, so report a clean no-op.
     if (err?.code === "42P01") {
-      return NextResponse.json({ ok: true, processed: 0, note: "webinars table not present yet — apply migration 20260507000002" });
+      return NextResponse.json({ ok: true, processed: 0, note: "webinars table not present yet, apply migration 20260507000002" });
     }
     // Anything else (outage, permissions, network) means reminders may be silently
-    // missed. This cron sends time-critical SMS, so it must fail loud — not return
+    // missed. This cron sends time-critical SMS, so it must fail loud, not return
     // ok:true. Alert ops and surface a 500 so a green status can't mask a miss.
     await alertOps("webinar-reminders: webinars query failed", `${err?.code ?? "?"}: ${msg}`);
     return NextResponse.json({ ok: false, error: msg }, { status: 500 });

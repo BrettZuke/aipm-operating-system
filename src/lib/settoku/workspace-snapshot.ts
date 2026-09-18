@@ -1,7 +1,7 @@
 // Live workspace snapshot for Settoku Chat.
 //
 // THE BUG THIS FIXES: the chat used to read the Supabase `transactions` table directly, but
-// that table is only a partial early import — stale for the coach tenant (the coach, frozen ~May)
+// that table is only a partial early import, stale for the coach tenant (the coach, frozen ~May)
 // and empty for creator tenants (the creator, whose money lives in Stripe). The dashboards never
 // read it for revenue; they pull live from FanBasis / Stripe. So the chat reported "$0 / no
 // sales" while the dashboard showed real money.
@@ -25,7 +25,7 @@ import { creatorSettingsFromRaw, type RawSettings } from "@/lib/creator/settings
 type Supa = SupabaseClient<Database>;
 
 export interface RevenueSnapshot {
-  /** Human-readable provenance — surfaced in the prompt so the answer can cite its source. */
+  /** Human-readable provenance, surfaced in the prompt so the answer can cite its source. */
   source: string;
   /** Whether numbers are live (true) or a stale/empty fallback the user should be warned about. */
   live: boolean;
@@ -62,7 +62,7 @@ function money(n: number | null, currency: string): string {
 
 // ── FanBasis (coach tenant: the coach) ─────────────────────────────────────────────
 // FanBasis' public API exposes ONLY per-customer lifetime totals dated to each customer's LAST
-// payment — there is no per-charge endpoint (/transactions, /payments, /orders all 404). Summing
+// payment, there is no per-charge endpoint (/transactions, /payments, /orders all 404). Summing
 // a customer's whole lifetime spend into the window of their last payment inflates payment-plan
 // buyers (a 3×$1,120 plan shows as $3,360 on one day). So for recent windows we attribute ONE
 // representative installment (lifetime ÷ #payments) to that date: exact for the single-payment
@@ -81,7 +81,7 @@ async function fanbasisRevenue(): Promise<RevenueSnapshot> {
     const winCnt = (since: string) => customers.filter(inWin(since)).length;
     const planCnt = (since: string) => customers.filter((c) => c.transactions > 1 && inWin(since)(c)).length;
 
-    // Top offers all-time — lifetime totals, no windowing, so these are exact.
+    // Top offers all-time, lifetime totals, no windowing, so these are exact.
     const offerMap = new Map<string, { revenue: number; count: number }>();
     for (const c of customers) {
       const cell = offerMap.get(c.section) ?? { revenue: 0, count: 0 };
@@ -107,7 +107,7 @@ async function fanbasisRevenue(): Promise<RevenueSnapshot> {
       activeSubscribers: null,
       topOffers,
       note:
-        "All-time is exact. Recent-window revenue estimates ONE installment per buyer (lifetime ÷ #payments) on their latest payment date — the FanBasis API has no per-charge endpoint, so a plan buyer's exact charge for a specific day lives in the FanBasis dashboard." +
+        "All-time is exact. Recent-window revenue estimates ONE installment per buyer (lifetime ÷ #payments) on their latest payment date, the FanBasis API has no per-charge endpoint, so a plan buyer's exact charge for a specific day lives in the FanBasis dashboard." +
         (plans30 ? ` ${plans30} of the last-30-day buyers are on payment plans (those amounts are estimates).` : ""),
     };
   } catch (e) {
@@ -188,7 +188,7 @@ async function ledgerRevenue(supabase: Supa, agencyId: string): Promise<RevenueS
 
 function unreachable(provider: string, e: unknown): RevenueSnapshot {
   return {
-    source: `${provider} (live — temporarily unreachable)`,
+    source: `${provider} (live, temporarily unreachable)`,
     live: false,
     currency: "USD",
     today: null, todayCount: null, last7: null, last7Count: null, last30: null, last30Count: null,
@@ -241,7 +241,7 @@ export async function buildWorkspaceSnapshot(supabase: Supa, agencyId: string): 
     `Calls logged: ${callsCount.count ?? 0}`,
     `Closed-won deals: ${won.length} (contract value ${money(closedWonValue, cur)})`,
     ``,
-    `REVENUE — source: ${r.source}${r.live ? "" : "  ⚠️ not live"}`,
+    `REVENUE, source: ${r.source}${r.live ? "" : "  ⚠️ not live"}`,
     `- Today: ${money(r.today, cur)}${r.todayCount != null ? ` (${r.todayCount} sale${r.todayCount === 1 ? "" : "s"})` : ""}`,
     `- Last 7 days: ${money(r.last7, cur)}${r.last7Count != null ? ` (${r.last7Count} sale${r.last7Count === 1 ? "" : "s"})` : ""}`,
     `- Last 30 days: ${money(r.last30, cur)}${r.last30Count != null ? ` (${r.last30Count} sale${r.last30Count === 1 ? "" : "s"})` : ""}`,

@@ -28,7 +28,7 @@ export async function checkAnthropic(): Promise<IntegrationStatus> {
   }
 }
 
-// ── Settoku Chat (Groq by default — free; Anthropic if AI_CHAT_PROVIDER=anthropic) ──
+// ── Settoku Chat (Groq by default, free; Anthropic if AI_CHAT_PROVIDER=anthropic) ──
 export async function checkSettokuChat(): Promise<IntegrationStatus> {
   const provider = (process.env.AI_CHAT_PROVIDER ?? (process.env.GROQ_API_KEY ? "groq" : "anthropic")).toLowerCase();
   if (provider !== "groq") return checkAnthropic();
@@ -130,7 +130,7 @@ export async function checkKit(): Promise<IntegrationStatus> {
 export async function checkBoosend(): Promise<IntegrationStatus> {
   const key = process.env.BOOSEND_API_KEY;
   if (!key) return { ok: false, status: "missing", info: "BOOSEND_API_KEY not set" };
-  // Boosend doesn't have a public docs status endpoint we know — just verify key shape
+  // Boosend doesn't have a public docs status endpoint we know, just verify key shape
   if (key.length > 10) return { ok: true, status: "configured", info: "Key present (no live verification endpoint)" };
   return { ok: false, status: "error", info: "Key looks malformed" };
 }
@@ -165,7 +165,7 @@ export async function checkMake(): Promise<IntegrationStatus> {
       const data = await res.json();
       return { ok: true, status: "connected", info: `${data.authUser?.name ?? data.authUser?.email ?? "Connected"}` };
     }
-    return { ok: false, status: "error", info: `HTTP ${res.status} — region might differ (try eu1/us1)` };
+    return { ok: false, status: "error", info: `HTTP ${res.status}, region might differ (try eu1/us1)` };
   } catch (e) {
     return { ok: false, status: "error", info: e instanceof Error ? e.message : "Unknown error" };
   }

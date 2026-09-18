@@ -140,7 +140,7 @@ export function TransactionFormDialog({
               defaultValue={transaction?.client_id ?? ""}
               className="h-10 w-full rounded-md border border-[rgba(255,255,255,0.10)] bg-[#0C0C10]/50 px-3 text-sm text-[#F5F5F7]"
             >
-              <option value="">— No client —</option>
+              <option value="">, No client ,</option>
               {clients.map((c) => (
                 <option key={c.id} value={c.id}>
                   {c.name}
@@ -170,7 +170,7 @@ export function TransactionFormDialog({
               id="description"
               name="description"
               defaultValue={transaction?.description ?? ""}
-              placeholder="e.g. Monthly retainer — January"
+              placeholder="e.g. Monthly retainer, January"
             />
           </div>
 

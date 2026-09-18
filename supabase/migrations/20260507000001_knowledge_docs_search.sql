@@ -2,7 +2,7 @@
 -- Speed up Knowledge Library search.
 --
 -- Two trigram indexes (one for title, one for content_text). pg_trgm is what
--- powers fast `ilike '%term%'` on Postgres — without these the search does a
+-- powers fast `ilike '%term%'` on Postgres, without these the search does a
 -- full sequential scan of every doc on every keystroke.
 -- ============================================================================
 

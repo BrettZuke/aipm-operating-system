@@ -1,5 +1,5 @@
 /**
- * Creator daily digest — the creator-style (Stripe + GA4 + Kit) workspaces.
+ * Creator daily digest, the creator-style (Stripe + GA4 + Kit) workspaces.
  *
  * Posts a morning summary to Slack for every agency on the 'creator' dashboard template:
  *   • Yesterday: sales, new revenue, refunds/cancellations, top source
@@ -8,7 +8,7 @@
  *   • Yesterday's traffic (GA4 sessions + top source) and Kit opt-ins / checkout starts
  *
  * Runs daily at 07:00 UTC (09:00 Poland / 08:00 UK) per vercel.json.
- * Auth: CRON_SECRET — Vercel cron sends it automatically as `Authorization: Bearer <secret>`.
+ * Auth: CRON_SECRET, Vercel cron sends it automatically as `Authorization: Bearer <secret>`.
  *
  * Scope:   env CREATOR_DIGEST_AGENCY_ID (one workspace) or ALL dashboard_template='creator'.
  * Channel: SLACK_CREATOR_DIGEST_CHANNEL ?? SLACK_DAILY_DIGEST_CHANNEL ?? SLACK_WINS_CHANNEL.
@@ -122,10 +122,10 @@ export async function GET(req: NextRequest) {
         .filter((s) => s.count > 0)
         .slice(0, 3)
         .map((s) => `${s.key === "(untagged)" ? "untagged" : s.key} (${s.count})`)
-        .join(" · ") || "—";
+        .join(" · ") || "-";
 
       const lines: string[] = [];
-      lines.push(`*📊 ${agency.name} — daily numbers* · ${dateLabel}`);
+      lines.push(`*📊 ${agency.name}, daily numbers* · ${dateLabel}`);
       lines.push("");
       lines.push("*Yesterday*");
       lines.push(`💰 Sales: *${snapY.salesCount}*  ·  ${money(snapY.newOrderRevenue, cur)} new revenue`);

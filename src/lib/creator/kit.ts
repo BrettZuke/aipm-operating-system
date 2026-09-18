@@ -9,7 +9,7 @@ export interface KitSnapshot {
   newByDay: { date: string; subs: number }[];
   webinarRegistrants: number | null;
   webinarRegistrantsPrior: number | null;
-  // Reliable funnel counts from Kit tags, when configured — GA4's begin_checkout /
+  // Reliable funnel counts from Kit tags, when configured, GA4's begin_checkout /
   // generate_lead events undercount badly, so these are the source of truth for the funnel.
   checkoutStarted: number | null;
   checkoutStartedPrior: number | null;
@@ -64,7 +64,7 @@ async function fetchTotal(secret: string): Promise<number> {
   return Number(data.total_subscribers ?? 0);
 }
 
-// Kit's /tags/{id}/subscriptions endpoint IGNORES from/to (verified) — total_subscriptions is
+// Kit's /tags/{id}/subscriptions endpoint IGNORES from/to (verified), total_subscriptions is
 // always lifetime, and the returned array isn't date-filtered either. So to get an in-range
 // count we page through and count created_at ourselves. Rows come newest-first, so once a whole
 // page is older than `from` we can stop.
@@ -165,7 +165,7 @@ export interface KitEmailSnapshot {
 }
 
 // Kit returns open_rate / click_rate as float PERCENTAGES (e.g. 44.54 = 44.54%, 0.11 = 0.11%).
-// Always divide by 100 — a naive "<=1 means fraction" guess misreads a real 0.11% click rate as 11%.
+// Always divide by 100, a naive "<=1 means fraction" guess misreads a real 0.11% click rate as 11%.
 function normRate(v: unknown): number {
   const n = Number(v);
   if (!Number.isFinite(n) || n <= 0) return 0;
@@ -248,7 +248,7 @@ export async function fetchKitEmailSnapshot(secret: string, range: DateRange): P
 }
 
 // Everyone who clicked a "DM the creator" link, as email -> latest click time (epoch seconds). The tag
-// is added by a Kit link trigger, so the subscription's created_at IS the click time — which lets
+// is added by a Kit link trigger, so the subscription's created_at IS the click time, which lets
 // the dashboard attribute a sale only when the buyer purchases within a window AFTER the click.
 // Lifetime cohort (the tag persists), capped so a huge list can't run away.
 export async function fetchTagClickers(secret: string, tagId: string): Promise<Map<string, number>> {

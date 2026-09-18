@@ -63,7 +63,7 @@ export default async function AdsPage() {
                   <tr key={c.id} className="hover:bg-[#0C0C10]/40">
                     <td className="px-4 py-3 font-medium text-[#F5F5F7]">{c.name}</td>
                     <td className="px-4 py-3 capitalize"><span className={PLATFORM_COLORS[c.platform] ?? "text-[#9CA3AF]"}>{c.platform}</span></td>
-                    <td className="px-4 py-3 text-[#9CA3AF]">{c.client_id ? clientMap.get(c.client_id) ?? "—" : "—"}</td>
+                    <td className="px-4 py-3 text-[#9CA3AF]">{c.client_id ? clientMap.get(c.client_id) ?? "-" : "-"}</td>
                     <td className="px-4 py-3"><Badge variant={STATUS_VARIANT[c.status ?? "draft"]}>{c.status ?? "draft"}</Badge></td>
                     <td className="px-4 py-3 text-right">
                       <div className="font-mono text-xs text-[#F5F5F7]">{formatCurrency(spend)} / {formatCurrency(budget)}</div>

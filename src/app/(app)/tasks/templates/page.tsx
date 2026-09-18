@@ -3,7 +3,7 @@ import { FileText, ArrowRight } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
-// These are illustrative — Settoku doesn't auto-apply them yet. The button below
+// These are illustrative, Settoku doesn't auto-apply them yet. The button below
 // adds the "build this feature" item to your improvements queue.
 const PATTERNS = [
   { name: "New client onboarding", taskCount: 8, desc: "Welcome kit, kickoff call, tool setup, initial reporting." },
@@ -18,7 +18,7 @@ export default function TaskTemplatesPage() {
       <header>
         <div className="text-[10px] font-semibold uppercase tracking-widest text-[#6B7280]">OPERATIONS · TASKS</div>
         <h1 className="mt-1 text-3xl font-bold text-[#F5F5F7]" style={{fontFamily:"var(--font-playfair),Georgia,serif"}}>Task templates</h1>
-        <p className="mt-1 text-sm text-[#9CA3AF] max-w-2xl">Common workflow patterns. The auto-apply feature isn&apos;t built yet — these are reference checklists you can copy into <Link href="/tasks" className="text-blue-400 hover:underline">/tasks</Link> manually.</p>
+        <p className="mt-1 text-sm text-[#9CA3AF] max-w-2xl">Common workflow patterns. The auto-apply feature isn&apos;t built yet, these are reference checklists you can copy into <Link href="/tasks" className="text-blue-400 hover:underline">/tasks</Link> manually.</p>
       </header>
 
       <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 px-5 py-4 text-xs text-amber-300">

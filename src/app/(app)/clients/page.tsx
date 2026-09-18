@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 // Settoku tracks CUSTOMERS (people who have paid), not leads. A row counts as a customer once the
 // FanBasis sync stamps a `data.fanbasis` block onto it (lifetime spend, # payments, last payment,
 // offer). We filter on the presence of that block, so the thousands of cold leads created by the
-// closer-call / onboarding Typeforms never show here — while staying in the DB for call/deal linkage.
+// closer-call / onboarding Typeforms never show here, while staying in the DB for call/deal linkage.
 type FanbasisBlock = {
   lifetime?: number;
   payments?: number;
@@ -105,9 +105,9 @@ export default async function CustomersPage() {
                   </td>
                   <td className="px-4 py-3 text-[#9CA3AF]">{c.offer}</td>
                   <td className="px-4 py-3 text-right font-mono text-[#F5F5F7]">{formatCurrency(c.lifetime)}</td>
-                  <td className="px-4 py-3 text-right font-mono text-[#9CA3AF]">{c.payments || "—"}</td>
-                  <td className="px-4 py-3 text-[#9CA3AF]">{c.lastPayment ?? "—"}</td>
-                  <td className="px-4 py-3 text-[#9CA3AF]">{c.email ?? "—"}</td>
+                  <td className="px-4 py-3 text-right font-mono text-[#9CA3AF]">{c.payments || "-"}</td>
+                  <td className="px-4 py-3 text-[#9CA3AF]">{c.lastPayment ?? "-"}</td>
+                  <td className="px-4 py-3 text-[#9CA3AF]">{c.email ?? "-"}</td>
                 </tr>
               ))}
             </tbody>

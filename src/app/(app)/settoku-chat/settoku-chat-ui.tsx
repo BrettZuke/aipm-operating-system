@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 
 const SUGGESTIONS = [
   { group: "WORKSPACE", items: [
-    "Summarize this week — revenue, calls, pipeline, what changed",
+    "Summarize this week, revenue, calls, pipeline, what changed",
     "Which clients dropped in revenue this month vs last?",
     "Who on the team is behind quota and by how much?",
   ]},
@@ -45,7 +45,7 @@ const SKILLS = [
   { label: "Client health check", prompt: "Review my clients and flag any that look at-risk (low or dropping MRR). List them with the reason." },
   { label: "Revenue breakdown", prompt: "Break down revenue by offer/source for the last 30 days and call out what's growing vs shrinking." },
   { label: "Plan my day", prompt: "Based on my pipeline and goals, create 3 high-priority tasks for today and list them." },
-  { label: "Re-engagement email", prompt: "Draft a short, friendly re-engagement email for a client who's gone quiet — under 120 words." },
+  { label: "Re-engagement email", prompt: "Draft a short, friendly re-engagement email for a client who's gone quiet, under 120 words." },
 ];
 
 type Conversation = { id: string; title: string | null; updated_at: string };
@@ -83,7 +83,7 @@ export function SettokuChat({ conversations: initial, userId, agencyId, workspac
     });
   }, [activeId]);
 
-  // Scroll ONLY the message list — never scrollIntoView here. scrollIntoView bubbles up and
+  // Scroll ONLY the message list, never scrollIntoView here. scrollIntoView bubbles up and
   // scrolls the page's <main> too, which drags the chat up and clips the header off the top.
   useEffect(() => {
     const el = listRef.current;
@@ -204,7 +204,7 @@ export function SettokuChat({ conversations: initial, userId, agencyId, workspac
           <Sparkles className="size-4 shrink-0 text-blue-400" />
           <div className="flex min-w-0 items-center gap-2">
             <span className="truncate text-sm font-medium text-[#F5F5F7]">{workspaceName ?? "Settoku Chat"}</span>
-            <span className="hidden shrink-0 items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-400 sm:inline-flex" title="Runs on free Groq models — private to this workspace.">
+            <span className="hidden shrink-0 items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-400 sm:inline-flex" title="Runs on free Groq models, private to this workspace.">
               <Zap className="size-3" /> Free · private
             </span>
           </div>
@@ -227,14 +227,14 @@ export function SettokuChat({ conversations: initial, userId, agencyId, workspac
                 </>
               )}
             </div>
-            {/* Model switcher — every option is a free Groq model */}
-            <div className="inline-flex items-center gap-1 rounded-md border border-emerald-500/20 bg-emerald-500/10 px-2 py-1.5" title="Switch model — all free, no per-message cost. GPT-OSS 120B is the most accurate.">
+            {/* Model switcher, every option is a free Groq model */}
+            <div className="inline-flex items-center gap-1 rounded-md border border-emerald-500/20 bg-emerald-500/10 px-2 py-1.5" title="Switch model, all free, no per-message cost. GPT-OSS 120B is the most accurate.">
               <Zap className="size-3.5 shrink-0 text-emerald-400" />
               <select value={model} onChange={e => chooseModel(e.target.value)} className="cursor-pointer bg-transparent text-xs font-medium text-emerald-400 focus:outline-none">
                 {MODELS.map(m => <option key={m.id} value={m.id} className="bg-[#0C0C10] text-[#F5F5F7]">{m.label} ({m.note})</option>)}
               </select>
             </div>
-            {/* Clear chat — labeled so it's unmistakable */}
+            {/* Clear chat, labeled so it's unmistakable */}
             <button onClick={clearChat} title="Delete this conversation and start fresh" className="inline-flex items-center gap-1 rounded-md border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.03)] px-2.5 py-1.5 text-xs text-[#9CA3AF] hover:border-red-500/30 hover:text-red-300">
               <Trash2 className="size-3.5" /> Clear
             </button>
@@ -340,7 +340,7 @@ export function SettokuChat({ conversations: initial, userId, agencyId, workspac
             </div>
           </div>
         ) : (
-          <RightRailSection icon={Wrench} title="Recent tool calls" empty="No recent tool calls yet." emptyHint="Every Settoku action — query, write, draft — is logged here." />
+          <RightRailSection icon={Wrench} title="Recent tool calls" empty="No recent tool calls yet." emptyHint="Every Settoku action, query, write, draft, is logged here." />
         )}
       </div>
     </div>

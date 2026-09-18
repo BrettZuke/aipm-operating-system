@@ -29,8 +29,8 @@ create table if not exists public.improvements (
 
   title text not null,
   description text,                -- markdown OK
-  evidence text,                   -- "where I saw this" — log line, screenshot URL, etc.
-  proposed_fix text,               -- markdown — what I think we should do
+  evidence text,                   -- "where I saw this", log line, screenshot URL, etc.
+  proposed_fix text,               -- markdown, what I think we should do
   files_touched text[] default '{}', -- file paths the fix would likely touch
 
   -- Source: where this came from. Lets the cron filter (e.g. "only auto-fix tech_debt")

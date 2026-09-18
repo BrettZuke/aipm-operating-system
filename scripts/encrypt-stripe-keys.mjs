@@ -10,7 +10,7 @@
  * The crypto below is a faithful, standalone copy of that helper's `v1` contract
  * (scripts run with plain `node`, can't import the app's .ts). A startup self-test
  * proves the round-trip before any row is touched, and after --apply each row is
- * read back + decrypted — but the AUTHORITATIVE check is that the deployed app's
+ * read back + decrypted, but the AUTHORITATIVE check is that the deployed app's
  * revenue widgets still read after migration (verify live).
  *
  * SAFETY:
@@ -77,12 +77,12 @@ const clone = (o) => JSON.parse(JSON.stringify(o));
 // --- preflight ---------------------------------------------------------------
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-if (!KEY) { console.error("✖ SECRETS_ENCRYPTION_KEY missing or not a 32-byte hex/base64 key — aborting."); process.exit(1); }
-if (!url || !serviceKey) { console.error("✖ NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY not set — aborting."); process.exit(1); }
+if (!KEY) { console.error("✖ SECRETS_ENCRYPTION_KEY missing or not a 32-byte hex/base64 key, aborting."); process.exit(1); }
+if (!url || !serviceKey) { console.error("✖ NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY not set, aborting."); process.exit(1); }
 
 // Self-test: prove this script's crypto round-trips before touching any data.
 const probe = "rk_live_selftest_" + crypto.randomBytes(6).toString("hex");
-if (decryptSecret(encryptSecret(probe)) !== probe) { console.error("✖ crypto self-test FAILED — aborting, no data touched."); process.exit(1); }
+if (decryptSecret(encryptSecret(probe)) !== probe) { console.error("✖ crypto self-test FAILED, aborting, no data touched."); process.exit(1); }
 console.log("✓ crypto self-test passed");
 console.log(`Mode: ${APPLY ? "APPLY (will write)" : "DRY RUN (no writes)"}\n`);
 
@@ -104,7 +104,7 @@ for (const row of rows ?? []) {
     cipher = encryptSecret(key);
     if (decryptSecret(cipher) !== key) throw new Error("round-trip mismatch");
   } catch (e) {
-    failed++; console.log(`  ❌ ${row.agency_id}: encrypt/verify failed (${e.message}) — left untouched`); continue;
+    failed++; console.log(`  ❌ ${row.agency_id}: encrypt/verify failed (${e.message}), left untouched`); continue;
   }
 
   if (!APPLY) { console.log(`  • ${row.agency_id}: would encrypt ${mask(key)}  →  ${cipher.slice(0, 22)}…`); continue; }
@@ -120,7 +120,7 @@ for (const row of rows ?? []) {
   if (isEncrypted(stored) && decryptSecret(stored) === key) {
     encrypted++; console.log(`  ✅ ${row.agency_id}: encrypted + verified (${mask(key)})`);
   } else {
-    failed++; console.log(`  ⚠️  ${row.agency_id}: WROTE but read-back verification FAILED — check this row`);
+    failed++; console.log(`  ⚠️  ${row.agency_id}: WROTE but read-back verification FAILED, check this row`);
   }
 }
 

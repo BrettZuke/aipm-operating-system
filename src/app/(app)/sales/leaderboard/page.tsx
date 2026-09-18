@@ -219,10 +219,10 @@ function LeaderboardTable({ rows, priorByKey }: { rows: CloserStats[]; priorByKe
                 <td className="px-4 py-3 text-right font-mono text-[rgba(245,245,247,0.8)]">{r.held}</td>
                 <td className="px-4 py-3 text-right font-mono text-emerald-400">{r.won}</td>
                 <td className="px-4 py-3 text-right font-mono text-red-400">{r.lost}</td>
-                <td className="px-4 py-3 text-right font-mono text-[#9CA3AF]">{r.calls > 0 ? `${r.showRate.toFixed(0)}%` : "—"}</td>
+                <td className="px-4 py-3 text-right font-mono text-[#9CA3AF]">{r.calls > 0 ? `${r.showRate.toFixed(0)}%` : "-"}</td>
                 <td className="px-4 py-3 text-right font-mono">
                   <span className={r.closeRate >= 30 ? "text-emerald-400" : r.closeRate >= 15 ? "text-amber-400" : "text-red-400"}>
-                    {r.held > 0 ? `${r.closeRate.toFixed(1)}%` : "—"}
+                    {r.held > 0 ? `${r.closeRate.toFixed(1)}%` : "-"}
                   </span>
                 </td>
                 <td className="px-4 py-3 text-right font-mono font-semibold text-[#F5F5F7]">
@@ -236,7 +236,7 @@ function LeaderboardTable({ rows, priorByKey }: { rows: CloserStats[]; priorByKe
                   )}
                 </td>
                 <td className="px-4 py-3 text-right font-mono text-[rgba(245,245,247,0.8)]">{formatCurrency(r.contractValue)}</td>
-                <td className="px-4 py-3 text-right font-mono text-[#9CA3AF]">{r.won > 0 ? formatCurrency(r.avgDealSize) : "—"}</td>
+                <td className="px-4 py-3 text-right font-mono text-[#9CA3AF]">{r.won > 0 ? formatCurrency(r.avgDealSize) : "-"}</td>
               </tr>
             );
           })}

@@ -30,7 +30,7 @@ describe("checkEnv (M7)", () => {
     expect(r.missing_required).toContain("CRON_SECRET");
   });
 
-  it("never leaks values — entries expose only key/present/note", () => {
+  it("never leaks values, entries expose only key/present/note", () => {
     const r = checkEnv();
     for (const e of [...r.required, ...r.recommended]) {
       expect(Object.keys(e).every((k) => ["key", "present", "note"].includes(k))).toBe(true);

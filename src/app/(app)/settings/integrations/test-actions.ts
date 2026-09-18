@@ -21,7 +21,7 @@ export type AllStatusResult = {
 
 /**
  * Re-runs every integration's connectivity check and returns a single
- * structured snapshot. Free — every check uses read-only endpoints (or
+ * structured snapshot. Free, every check uses read-only endpoints (or
  * just env-var presence in Boosend's case).
  */
 export async function verifyAllIntegrations(): Promise<AllStatusResult> {
@@ -49,7 +49,7 @@ export async function verifyAllIntegrations(): Promise<AllStatusResult> {
 
 export async function testSlackMessage(channel: string): Promise<TestResult> {
   if (!channel.trim()) return { ok: false, error: "Channel required (e.g. #general or a channel ID)" };
-  const result = await slackPost(channel.trim(), "Test message from Settoku OS — wired up correctly. ✅");
+  const result = await slackPost(channel.trim(), "Test message from Settoku OS, wired up correctly. ✅");
   if (!result.ok) return { ok: false, error: result.error };
   return { ok: true, message: `Posted to ${result.channel}` };
 }
@@ -58,7 +58,7 @@ export async function testSms(to: string): Promise<TestResult> {
   if (!to.trim()) return { ok: false, error: "Phone required (E.164 format: +15551234567)" };
   const result = await sendSms({
     to: to.trim(),
-    body: "Test message from Settoku OS — your Twilio integration is wired up. ✅",
+    body: "Test message from Settoku OS, your Twilio integration is wired up. ✅",
   });
   if (!result.ok) return { ok: false, error: result.error };
   return { ok: true, message: `SMS queued · sid=${result.sid} · status=${result.status}` };

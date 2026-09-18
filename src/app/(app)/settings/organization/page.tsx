@@ -33,7 +33,7 @@ export default async function OrganizationPage() {
 
       <SettingsCard title="Workspace ID" sub="For API + integrations. Read-only.">
         <div className="rounded-md bg-[#09090C] border border-[rgba(255,255,255,0.08)] px-3 py-2 font-mono text-xs text-[#9CA3AF]">
-          {agency?.id ?? "—"}
+          {agency?.id ?? "-"}
         </div>
       </SettingsCard>
 

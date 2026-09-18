@@ -19,7 +19,7 @@ const KIND_VARIANT: Record<string, "primary" | "warning" | "danger" | "muted"> =
 };
 
 function formatDateTime(iso: string | null): string {
-  if (!iso) return "—";
+  if (!iso) return "-";
   return new Date(iso).toLocaleString("en-US", {
     month: "short", day: "numeric", year: "numeric",
     hour: "numeric", minute: "2-digit",
@@ -41,11 +41,11 @@ export default async function TransactionsPage({ searchParams }: { searchParams:
   }
 
   // Coach/agency path: Supabase finance ledger, scoped to the active workspace (was leaking
-  // every tenant's transactions — the table is agency-scoped, the query wasn't).
+  // every tenant's transactions, the table is agency-scoped, the query wasn't).
   const { data: clients } = await supabase.from("clients").select("id,name").eq("agency_id", agencyId!).order("name");
   const clientMap = new Map((clients ?? []).map(c => [c.id, c.name]));
 
-  // the coach (coach on FanBasis) has no real Supabase ledger — his payments live in FanBasis. Build the
+  // the coach (coach on FanBasis) has no real Supabase ledger, his payments live in FanBasis. Build the
   // ledger from the FanBasis API so net revenue matches the dashboard, not the ~12 stray manual rows.
   // Other coach tenants keep the Supabase finance ledger.
   type TxRow = { id: string; client_id: string | null; client_name?: string | null; amount: number; currency: string | null; kind: string | null; description: string | null; occurred_at: string | null };
@@ -105,7 +105,7 @@ export default async function TransactionsPage({ searchParams }: { searchParams:
           <div className="text-[10px] font-semibold uppercase tracking-widest text-[#6B7280]">MONEY · LEDGER</div>
           <h1 className="mt-1 text-3xl font-bold text-[#F5F5F7]" style={{fontFamily:"var(--font-playfair),Georgia,serif"}}>Transactions</h1>
           <p className="mt-1 text-sm text-[#9CA3AF]">
-            {onFanbasis ? "FanBasis payments" : "Workspace finance ledger"} — {txList.length} transactions · {formatCurrency(netRevenue)} net
+            {onFanbasis ? "FanBasis payments" : "Workspace finance ledger"}, {txList.length} transactions · {formatCurrency(netRevenue)} net
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -118,10 +118,10 @@ export default async function TransactionsPage({ searchParams }: { searchParams:
 
       {/* 4-card stat strip */}
       <div className="grid grid-cols-4 gap-3">
-        <StatCard label="Net revenue" value={formatCurrency(netRevenue)} sub="Payments – refunds – chargebacks" accent />
+        <StatCard label="Net revenue" value={formatCurrency(netRevenue)} sub="Payments, refunds, chargebacks" accent />
         <StatCard label="Pending" value={formatCurrency(pending)} sub="0 transactions" />
         <StatCard label="Refunds + chargebacks" value={formatCurrency(totalRefunds)} sub={`${refunds.length} this period`} />
-        <StatCard label="Payouts" value="—" sub="0 batches" />
+        <StatCard label="Payouts" value="-" sub="0 batches" />
       </div>
 
       {/* 01 · Cash flow · last 30 days */}
@@ -224,8 +224,8 @@ export default async function TransactionsPage({ searchParams }: { searchParams:
                   <tr key={t.id} className="hover:bg-[#0C0C10]/40">
                     <td className="px-4 py-3 text-[rgba(245,245,247,0.8)]">{formatDateTime(t.occurred_at)}</td>
                     <td className="px-4 py-3"><Badge variant={KIND_VARIANT[t.kind ?? "payment"] ?? "default"}>{t.kind ?? "payment"}</Badge></td>
-                    <td className="px-4 py-3 text-[rgba(245,245,247,0.8)]">{t.client_name ?? (t.client_id ? clientMap.get(t.client_id) ?? "—" : "—")}</td>
-                    <td className="px-4 py-3 text-[#9CA3AF]">{t.description ?? "—"}</td>
+                    <td className="px-4 py-3 text-[rgba(245,245,247,0.8)]">{t.client_name ?? (t.client_id ? clientMap.get(t.client_id) ?? "-" : "-")}</td>
+                    <td className="px-4 py-3 text-[#9CA3AF]">{t.description ?? "-"}</td>
                     <td className={`px-4 py-3 text-right font-mono ${t.kind === "refund" || t.kind === "chargeback" ? "text-red-400" : "text-[#F5F5F7]"}`}>
                       {formatCurrency(Number(t.amount ?? 0), t.currency ?? "USD")}
                     </td>

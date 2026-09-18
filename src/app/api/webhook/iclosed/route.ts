@@ -100,7 +100,7 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // 2. Resolve closer if provided — but only attribute the call to them if they're
+  // 2. Resolve closer if provided, but only attribute the call to them if they're
   // an active member of THIS agency. A bare global email lookup could attach a
   // same-email user from another tenant, corrupting commission/quota data and
   // leaking their profile id. Mirrors the Typeform post-call handler. (Wave 1 / C2.)
@@ -161,7 +161,7 @@ export async function POST(req: NextRequest) {
 
   if (error) {
     // Concurrent re-delivery beat us to the insert (unique index on (agency_id, external_id)).
-    // Apply this event to the row that won, so the latest outcome still lands — no 500, no dupe.
+    // Apply this event to the row that won, so the latest outcome still lands, no 500, no dupe.
     if (error.code === "23505") {
       const { data: raced } = await supabase
         .from("calls").select("id").eq("agency_id", agencyId).eq("external_id", bookingId).maybeSingle();

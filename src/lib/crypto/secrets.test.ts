@@ -13,7 +13,7 @@ describe("secrets at rest (H4)", () => {
     "example-fake-token-1234567890abcdef",
     "sk_live_short",
     "",
-    "unicode: café — Москва",
+    "unicode: café, Москва",
     "a".repeat(5000),
   ])("round-trips %j", (plain) => {
     const enc = encryptSecret(plain);

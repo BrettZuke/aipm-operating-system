@@ -13,7 +13,7 @@ export default function PaymentPipelineDocPage() {
       <header>
         <div className="text-[10px] font-semibold uppercase tracking-widest text-[#6B7280]">PAYMENTS · PIPELINE</div>
         <h1 className="mt-1 text-3xl font-bold text-[#F5F5F7]" style={{fontFamily:"var(--font-playfair),Georgia,serif"}}>How payments flow into Settoku</h1>
-        <p className="mt-2 text-sm text-[#9CA3AF]">From the moment a client pays to the moment the dashboard updates — the full pipeline in 30 seconds.</p>
+        <p className="mt-2 text-sm text-[#9CA3AF]">From the moment a client pays to the moment the dashboard updates, the full pipeline in 30 seconds.</p>
       </header>
 
       <section className="space-y-3">
@@ -30,7 +30,7 @@ export default function PaymentPipelineDocPage() {
 
       <section className="space-y-3">
         <h2 className="text-xl font-semibold text-[#F5F5F7]">If a payment didn&apos;t come via FanBasis</h2>
-        <p className="text-sm text-[#9CA3AF]">Click <strong className="text-[#F5F5F7]">Log payment</strong> on <Link href="/payments" className="text-blue-400 hover:underline">/payments</Link>. Search the client, enter amount + source (Stripe / wire / cash / in-house finance), submit. The same pipeline fires — link → recompute → Slack.</p>
+        <p className="text-sm text-[#9CA3AF]">Click <strong className="text-[#F5F5F7]">Log payment</strong> on <Link href="/payments" className="text-blue-400 hover:underline">/payments</Link>. Search the client, enter amount + source (Stripe / wire / cash / in-house finance), submit. The same pipeline fires, link → recompute → Slack.</p>
       </section>
 
       <section className="space-y-3">

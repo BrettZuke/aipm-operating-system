@@ -21,7 +21,7 @@ function fmtWhen(epoch: number): string {
 }
 
 /**
- * Transactions ledger for creator-template tenants (e.g. the creator) — every charge, refund and
+ * Transactions ledger for creator-template tenants (e.g. the creator), every charge, refund and
  * dispute straight from their own Stripe account, NOT the shared Supabase finance ledger.
  */
 export async function CreatorTransactions({
@@ -114,13 +114,13 @@ export async function CreatorTransactions({
                   return (
                     <tr key={e.id} className="hover:bg-[rgba(255,255,255,0.02)]">
                       <td className="px-5 py-3 whitespace-nowrap text-[rgba(245,245,247,0.8)]">{fmtWhen(e.created)}</td>
-                      <td className="px-5 py-3 text-[rgba(245,245,247,0.8)]">{e.customerEmail ?? "—"}</td>
+                      <td className="px-5 py-3 text-[rgba(245,245,247,0.8)]">{e.customerEmail ?? "-"}</td>
                       <td className="px-5 py-3">
                         <span className="rounded px-2 py-0.5 text-[10px] uppercase tracking-wider font-semibold" style={{ background: ks.bg, color: ks.color }}>{ks.label}</span>
                         {isFailed && <span className="ml-1.5 rounded px-2 py-0.5 text-[10px] uppercase tracking-wider font-semibold" style={{ background: "rgba(255,100,102,0.15)", color: "#FF6466" }}>Failed</span>}
                       </td>
-                      <td className="px-5 py-3 text-[#9CA3AF] max-w-[220px] truncate" title={e.description ?? ""}>{e.description ?? "—"}</td>
-                      <td className="px-5 py-3 text-[#9CA3AF] whitespace-nowrap">{e.cardBrand ? `${e.cardBrand} ·· ${e.last4 ?? ""}` : "—"}</td>
+                      <td className="px-5 py-3 text-[#9CA3AF] max-w-[220px] truncate" title={e.description ?? ""}>{e.description ?? "-"}</td>
+                      <td className="px-5 py-3 text-[#9CA3AF] whitespace-nowrap">{e.cardBrand ? `${e.cardBrand} ·· ${e.last4 ?? ""}` : "-"}</td>
                       <td className={`px-5 py-3 text-right font-mono tabular-nums ${isNeg || isFailed ? "text-[#FF6466]" : "text-[#F5F5F7]"}`}>
                         {fmtMoney(e.amount, (e.currency || currency).toUpperCase())}
                       </td>

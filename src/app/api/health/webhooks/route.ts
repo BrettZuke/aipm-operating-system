@@ -17,10 +17,10 @@
  *   }
  *
  * status:
- *   ok    — received within the freshness window for that source
- *   warn  — past freshness window but within stale window
- *   stale — past stale window (likely broken)
- *   never — no data ever received
+ *   ok, received within the freshness window for that source
+ *   warn, past freshness window but within stale window
+ *   stale, past stale window (likely broken)
+ *   never, no data ever received
  */
 
 import { NextResponse } from "next/server";
@@ -48,7 +48,7 @@ const SOURCES = [
 type SourceStatus = "ok" | "warn" | "stale" | "never";
 
 export async function GET(req: Request) {
-  // Auth: this exposes per-source business cadence — gate it behind CRON_SECRET
+  // Auth: this exposes per-source business cadence, gate it behind CRON_SECRET
   // (same bearer the crons use). Internal callers (self-discover, quality-harness)
   // pass the header; external/anonymous callers get 401.
   const secret = process.env.CRON_SECRET;

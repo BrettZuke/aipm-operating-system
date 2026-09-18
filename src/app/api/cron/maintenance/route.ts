@@ -21,7 +21,7 @@ import { alertOps } from "@/lib/ops-alert";
 import type { Database } from "@/lib/supabase/types.generated";
 
 export const dynamic = "force-dynamic";
-// Bump max duration — recompute step iterates all clients with deals/tx, can be slow.
+// Bump max duration, recompute step iterates all clients with deals/tx, can be slow.
 export const maxDuration = 300;
 
 export async function GET(req: NextRequest) {

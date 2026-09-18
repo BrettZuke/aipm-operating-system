@@ -13,7 +13,7 @@ export default function ImprovementsLoopDocPage() {
       <header>
         <div className="text-[10px] font-semibold uppercase tracking-widest text-[#6B7280]">SYSTEM · SELF-IMPROVEMENT</div>
         <h1 className="mt-1 text-3xl font-bold text-[#F5F5F7]" style={{fontFamily:"var(--font-playfair),Georgia,serif"}}>The improvements loop</h1>
-        <p className="mt-2 text-sm text-[#9CA3AF]">Settoku has a built-in &ldquo;to-do list of fixes for itself.&rdquo; Bugs, tech debt, feature ideas — all in one queue, prioritised, with a robot that auto-finds new items.</p>
+        <p className="mt-2 text-sm text-[#9CA3AF]">Settoku has a built-in &ldquo;to-do list of fixes for itself.&rdquo; Bugs, tech debt, feature ideas, all in one queue, prioritised, with a robot that auto-finds new items.</p>
       </header>
 
       <section className="space-y-3">
@@ -35,7 +35,7 @@ export default function ImprovementsLoopDocPage() {
         <ol className="list-decimal pl-6 space-y-1.5 text-sm text-[rgba(245,245,247,0.85)]">
           <li>Click ▶ on a row to mark it <strong>in_progress</strong>.</li>
           <li>Do the work (or hand the item to Claude Code as a prompt).</li>
-          <li>Run <code className="rounded bg-[rgba(255,255,255,0.06)] px-1 text-xs">node scripts/quality-harness.mjs --pretty</code> — it runs tsc, lint, build, smoke, health. Must be ✅ green.</li>
+          <li>Run <code className="rounded bg-[rgba(255,255,255,0.06)] px-1 text-xs">node scripts/quality-harness.mjs --pretty</code>, it runs tsc, lint, build, smoke, health. Must be ✅ green.</li>
           <li>Click ✓ to mark <strong>done</strong>. Or 🚫 if blocked.</li>
         </ol>
       </section>

@@ -10,7 +10,7 @@ import { CreatorSales } from "./creator-sales";
 export const dynamic = "force-dynamic";
 export const revalidate = 60;
 
-// Settoku theme accent palette — keeps the per-outcome donut colors on-brand against the dark UI.
+// Settoku theme accent palette, keeps the per-outcome donut colors on-brand against the dark UI.
 const OUTCOME_COLORS: Record<string, string> = {
   'PIF': '#00D393',
   'Financed via Fanbasis': '#00A4FF',
@@ -66,7 +66,7 @@ export default async function SalesPage({ searchParams }: { searchParams: Promis
   const setterStatsRanked = [...setterStats].sort((a, b) => b.cash - a.cash);
 
   // Bucket scheduled cash by calendar month. Key by sortable YYYY-MM so the chart reads
-  // chronologically — the rows arrive in sheet order, not date order.
+  // chronologically, the rows arrive in sheet order, not date order.
   const projection: Record<string, { label: string; expected: number }> = {};
   for (const r of schedule) {
     if (r['Status'] !== 'Pending' && r['Status'] !== 'Paid') continue;
@@ -131,7 +131,7 @@ export default async function SalesPage({ searchParams }: { searchParams: Promis
         </div>
       )}
 
-      {/* 01 · Money — premium hero strip */}
+      {/* 01 · Money, premium hero strip */}
       <Section num="01" title="Money" sub="Cash flowing in. Contract value sold. What's still owed.">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           <Hero label="Cash Collected"        value={fmt$(m.totalCash)}        sub="actual money in" accent="#0083FF"/>
@@ -191,7 +191,7 @@ export default async function SalesPage({ searchParams }: { searchParams: Promis
       </Section>
 
       {/* 04 · Revenue & Deal Quality */}
-      <Section num="04" title="Revenue & Deal Quality" sub="The money inside the calls — what's closing big, what's collecting.">
+      <Section num="04" title="Revenue & Deal Quality" sub="The money inside the calls, what's closing big, what's collecting.">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           <Stat label="Avg order value"        value={fmt$(m.aov)}                sub="per active student" accent="amber"/>
           <Stat label="Largest single payment" value={fmt$(largestPaid)}          sub="from any student" accent="emerald"/>
@@ -206,7 +206,7 @@ export default async function SalesPage({ searchParams }: { searchParams: Promis
         )}
       </Section>
 
-      {/* 05 · Team Performance — per-closer + per-setter deep dive */}
+      {/* 05 · Team Performance, per-closer + per-setter deep dive */}
       <Section num="05" title="Team Performance" sub="Per-person funnel and dollar throughput. Top performers first.">
         {/* Outcome mix + cash by closer */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-4">
@@ -256,7 +256,7 @@ export default async function SalesPage({ searchParams }: { searchParams: Promis
         </div>
         {setterStatsRanked.length === 0 ? (
           <div className={`${PANEL} p-8 text-center text-sm text-[#6B7280]`}>
-            No setter data yet — closers haven&apos;t tagged a setter on PCFs.
+            No setter data yet, closers haven&apos;t tagged a setter on PCFs.
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
@@ -275,14 +275,14 @@ export default async function SalesPage({ searchParams }: { searchParams: Promis
         </div>
       </Section>
 
-      {/* 07 · Failed / Unconfirmed Payments — only render when there are any */}
+      {/* 07 · Failed / Unconfirmed Payments, only render when there are any */}
       {m.unconfirmedCount > 0 && (
-        <Section num="07" title="Failed / Unconfirmed Payments" sub="Money attempted but never landed. Different from refunds — chase or write off.">
+        <Section num="07" title="Failed / Unconfirmed Payments" sub="Money attempted but never landed. Different from refunds, chase or write off.">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
             <Stat label="Stuck deals" value={String(m.unconfirmedCount)} sub={`${m.unconfirmedCount === 1 ? 'student' : 'students'}`} accent="amber"/>
             <Stat label="Stuck amount" value={fmt$(m.unconfirmedAmount)} sub="attempted" accent="amber"/>
             <Stat label="Refund rate (true refunds only)" value={fmtPct(m.studentsCount + m.refundedStudents > 0 ? m.refundedStudents / (m.studentsCount + m.refundedStudents) : 0)} sub={`${m.refundedStudents} of ${m.studentsCount + m.refundedStudents}`} accent={m.refundedStudents > 0 ? 'rose' : 'emerald'}/>
-            <Stat label="Recovery upside" value={m.totalCash > 0 ? `+${fmtPct(m.unconfirmedAmount / m.totalCash)}` : '—'} sub="vs current cash" accent="violet"/>
+            <Stat label="Recovery upside" value={m.totalCash > 0 ? `+${fmtPct(m.unconfirmedAmount / m.totalCash)}` : ','} sub="vs current cash" accent="violet"/>
           </div>
           <div className="overflow-hidden rounded-xl border border-[rgba(255,255,255,0.07)] bg-[#0C0C10]/40 overflow-x-auto">
             <table className="w-full text-sm">
@@ -305,12 +305,12 @@ export default async function SalesPage({ searchParams }: { searchParams: Promis
                   })();
                   return (
                     <tr key={i} className="hover:bg-[#0C0C10]/40">
-                      <td className="px-4 py-3 font-medium text-[#F5F5F7]">{r['Name'] || '—'}</td>
+                      <td className="px-4 py-3 font-medium text-[#F5F5F7]">{r['Name'] || ','}</td>
                       <td className="px-4 py-3 text-xs text-[#6B7280]">{r['Email']}</td>
-                      <td className="px-4 py-3"><span className="rounded px-2 py-0.5 text-[10px] font-semibold" style={{background:'rgba(181,126,255,0.15)', color:'#B57EFF'}}>{r['Closer'] || '—'}</span></td>
-                      <td className="px-4 py-3 text-xs text-[#9CA3AF]">{r['Setter'] && r['Setter'] !== 'No Setter' && r['Setter'] !== 'Unsure of Setter' ? r['Setter'] : '—'}</td>
-                      <td className="px-4 py-3 text-xs text-[#9CA3AF]">{r['Join Date'] || '—'}</td>
-                      <td className="px-4 py-3 text-right tabular-nums font-semibold" style={{color:'#F8AF00'}}>{attempted > 0 ? fmt$(attempted) : '—'}</td>
+                      <td className="px-4 py-3"><span className="rounded px-2 py-0.5 text-[10px] font-semibold" style={{background:'rgba(181,126,255,0.15)', color:'#B57EFF'}}>{r['Closer'] || ','}</span></td>
+                      <td className="px-4 py-3 text-xs text-[#9CA3AF]">{r['Setter'] && r['Setter'] !== 'No Setter' && r['Setter'] !== 'Unsure of Setter' ? r['Setter'] : ','}</td>
+                      <td className="px-4 py-3 text-xs text-[#9CA3AF]">{r['Join Date'] || ','}</td>
+                      <td className="px-4 py-3 text-right tabular-nums font-semibold" style={{color:'#F8AF00'}}>{attempted > 0 ? fmt$(attempted) : ','}</td>
                       <td className="px-4 py-3 text-xs max-w-md truncate text-[#9CA3AF]" title={r['Notes']}>{r['Notes']}</td>
                     </tr>
                   );
@@ -346,7 +346,7 @@ export default async function SalesPage({ searchParams }: { searchParams: Promis
         </div>
       </Section>
 
-      {/* 09 · Win/Loss Insights — links to /sales/insights */}
+      {/* 09 · Win/Loss Insights, links to /sales/insights */}
       <Section num="09" title="Win/Loss Insights" sub="What's working. What's not.">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
           <div className={`${PANEL} p-6`} style={{borderLeft:'3px solid #00D393'}}>

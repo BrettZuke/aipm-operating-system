@@ -5,7 +5,7 @@
  * are VISIBLE to a human instead of being swallowed into an `ok: true` response
  * that nobody reads. Falls back to console.error if Slack isn't configured.
  *
- * Best-effort by contract: this NEVER throws — alerting must not be able to
+ * Best-effort by contract: this NEVER throws, alerting must not be able to
  * break the caller it's reporting on.
  *
  * Channel: SLACK_OPS_CHANNEL, else SLACK_DAILY_DIGEST_CHANNEL. Token: SLACK_BOT_TOKEN.
@@ -13,7 +13,7 @@
 export async function alertOps(summary: string, detail?: string): Promise<void> {
   const token = process.env.SLACK_BOT_TOKEN;
   const channel = process.env.SLACK_OPS_CHANNEL ?? process.env.SLACK_DAILY_DIGEST_CHANNEL;
-  const text = `:rotating_light: *settoku-os ops* — ${summary}`
+  const text = `:rotating_light: *settoku-os ops*, ${summary}`
     + (detail ? `\n\`\`\`${detail.slice(0, 1500)}\`\`\`` : "");
 
   if (!token || !channel) {

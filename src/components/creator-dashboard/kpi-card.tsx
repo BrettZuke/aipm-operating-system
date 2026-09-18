@@ -70,7 +70,7 @@ export function KpiCard({
       <div className="mt-1 flex items-center gap-2 text-xs">
         {delta && (
           <span className={`font-mono ${deltaTone}`}>
-            {arrow} {delta.value === null ? "—" : fmtPct(Math.abs(delta.value), 1)}
+            {arrow} {delta.value === null ? "-" : fmtPct(Math.abs(delta.value), 1)}
           </span>
         )}
         {hint && <span className="text-[#6B7280]">{hint}</span>}
@@ -95,7 +95,7 @@ export function PendingKpi({ label, pendingOn, hint }: PendingKpiProps) {
           Pending {pendingOn}
         </span>
       </div>
-      <div className="mt-3 text-2xl font-semibold tabular-nums text-[#4B5563]">—</div>
+      <div className="mt-3 text-2xl font-semibold tabular-nums text-[#4B5563]">,</div>
       <div className="mt-1 text-xs text-[#6B7280]">{hint ?? "Wires up once data source is connected."}</div>
     </div>
   );

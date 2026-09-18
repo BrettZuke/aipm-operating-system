@@ -1,12 +1,12 @@
 /**
- * Post-payment pipeline — runs after a transaction lands (FanBasis webhook,
+ * Post-payment pipeline, runs after a transaction lands (FanBasis webhook,
  * manual mark-paid, or cron sync). Keeps the derived data fresh:
  *
  *   1. Link the new transaction to a matching closed_won deal (if any)
  *   2. Recompute the client's contracted_total / collected_total / outstanding_balance
  *   3. Post a Slack notification to #wins
  *
- * The helpers are pure functions of (supabase, agencyId, txId|clientId) — same
+ * The helpers are pure functions of (supabase, agencyId, txId|clientId), same
  * surface gets used by the webhook (hot path) and the maintenance cron (cold
  * path). Idempotent everywhere.
  */
@@ -63,7 +63,7 @@ export async function recomputeClientPaymentTotals(sb: SB, agencyId: string, cli
   if (!client) return;
 
   const contracted = (deals ?? []).reduce((s, d) => s + Number(d.amount ?? 0), 0);
-  // Refunds/chargebacks are stored as POSITIVE amounts with a refund/chargeback kind — subtract
+  // Refunds/chargebacks are stored as POSITIVE amounts with a refund/chargeback kind, subtract
   // them so a refunded client's collected_total drops instead of inflating (and outstanding rises).
   const collected = (txs ?? []).reduce((s, t) => {
     const amt = Number(t.amount ?? 0);

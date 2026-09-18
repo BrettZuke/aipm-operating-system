@@ -22,7 +22,7 @@ interface State {
 }
 
 /**
- * Site speed panel — real-user Core Web Vitals + Lighthouse score for the workspace's site.
+ * Site speed panel, real-user Core Web Vitals + Lighthouse score for the workspace's site.
  * Fetched from /api/site-speed (cached 24h server-side) so a slow PageSpeed call never blocks
  * the dashboard render.
  */
@@ -92,7 +92,7 @@ export function SiteSpeedPanel({ speedInsightsUrl }: { speedInsightsUrl?: string
       )}
       <div className="mt-3 text-[11px] leading-relaxed text-[#6B7280]">
         {data?.hasField
-          ? "Real-user data (Google CrUX, 28-day rolling). Slow pages cost sales — green is the target."
+          ? "Real-user data (Google CrUX, 28-day rolling). Slow pages cost sales, green is the target."
           : "Lighthouse lab test. Vercel Speed Insights (top right) tracks your real visitors' speed over time."}
       </div>
     </div>

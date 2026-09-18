@@ -20,7 +20,7 @@ type Result = { ok: true } | { ok: false; error: string };
 export async function saveNotificationPreferences(_prev: unknown, formData: FormData): Promise<Result> {
   const { supabase, user } = await getAuthContext();
 
-  // Each toggle is a checkbox — if it's in formData with value "on", it's enabled.
+  // Each toggle is a checkbox, if it's in formData with value "on", it's enabled.
   const prefs: Record<string, boolean> = {};
   for (const key of VALID_KEYS) {
     prefs[key] = formData.get(key) === "on";

@@ -19,12 +19,12 @@ export async function inviteTeamMember(_prev: unknown, formData: FormData): Prom
     return { ok: false, error: "A valid email is required." };
   }
 
-  // member_role enum only supports owner/admin/member/viewer — owner can't be granted via invite.
+  // member_role enum only supports owner/admin/member/viewer, owner can't be granted via invite.
   const role: InvitationRole =
     rawRole === "admin" ? "admin" : rawRole === "viewer" ? "viewer" : "member";
 
   // Security gate: only owners/admins of the ACTIVE workspace may invite, and the invite is
-  // always scoped to that workspace's agency_id — so an invitee can only ever land here.
+  // always scoped to that workspace's agency_id, so an invitee can only ever land here.
   const { agencyId, role: inviterRole, user: inviter } = await getAuthContext();
   if (!agencyId) return { ok: false, error: "No active workspace." };
   if (inviterRole !== "owner" && inviterRole !== "admin") {
@@ -34,11 +34,11 @@ export async function inviteTeamMember(_prev: unknown, formData: FormData): Prom
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const serviceKey  = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!supabaseUrl || !serviceKey) {
-    return { ok: false, error: "Server is missing Supabase admin credentials — contact support." };
+    return { ok: false, error: "Server is missing Supabase admin credentials, contact support." };
   }
   // Admin client: the invitations table is admin-only under RLS, so writing it with the
   // service-role key is what makes the invite reliably get created (and readable by the
-  // logged-out invitee later). It does NOT widen tenant access — the row carries this agency_id.
+  // logged-out invitee later). It does NOT widen tenant access, the row carries this agency_id.
   const admin = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false } });
 
   const expires = new Date(); expires.setDate(expires.getDate() + 7);
@@ -62,7 +62,7 @@ export async function inviteTeamMember(_prev: unknown, formData: FormData): Prom
   if (inviteErr) return { ok: false, error: inviteErr.message };
 
   // Best-effort email. The copy-link is the primary mechanism, so a failed/!configured
-  // email must NOT roll back the invite (that was the old bug — invites vanished silently).
+  // email must NOT roll back the invite (that was the old bug, invites vanished silently).
   let emailed = false;
   const appUrl = process.env.NEXT_PUBLIC_APP_URL;
   if (appUrl) {

@@ -75,7 +75,7 @@ export function LinkBuilder({ destinations }: { destinations: Dest[] }) {
       await navigator.clipboard.writeText(built);
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
-    } catch { /* clipboard blocked — user can select the text */ }
+    } catch { /* clipboard blocked, user can select the text */ }
   }
 
   return (
@@ -91,7 +91,7 @@ export function LinkBuilder({ destinations }: { destinations: Dest[] }) {
             <label className={labelStyle}>Destination page</label>
             <select style={fieldStyle} value={destUrl} onChange={(e) => setDestUrl(e.target.value)}>
               {destinations.map((d) => (
-                <option key={d.url} value={d.url}>{d.label} — {d.url.replace("https://", "")}</option>
+                <option key={d.url} value={d.url}>{d.label}, {d.url.replace("https://", "")}</option>
               ))}
             </select>
             <input style={{ ...fieldStyle, marginTop: 8 }} placeholder="…or paste any example.com URL" value={destUrl} onChange={(e) => setDestUrl(e.target.value)} />
@@ -150,10 +150,10 @@ export function LinkBuilder({ destinations }: { destinations: Dest[] }) {
       <div className="rounded-xl border border-[rgba(255,255,255,0.07)] bg-[rgba(255,255,255,0.03)] p-5 text-[13px] leading-relaxed text-[#9CA3AF]">
         <div className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-[#6B7280]">The convention</div>
         <ul className="space-y-1.5">
-          <li><span className="font-mono text-[#F5F5F7]">source</span> = where the link lives — <span className="font-mono">instagram</span>, <span className="font-mono">email</span>, <span className="font-mono">youtube</span>.</li>
-          <li><span className="font-mono text-[#F5F5F7]">medium</span> = the placement — <span className="font-mono">bio</span>, <span className="font-mono">story</span>, <span className="font-mono">dm</span>, <span className="font-mono">broadcast</span>, <span className="font-mono">description</span>.</li>
+          <li><span className="font-mono text-[#F5F5F7]">source</span> = where the link lives, <span className="font-mono">instagram</span>, <span className="font-mono">email</span>, <span className="font-mono">youtube</span>.</li>
+          <li><span className="font-mono text-[#F5F5F7]">medium</span> = the placement, <span className="font-mono">bio</span>, <span className="font-mono">story</span>, <span className="font-mono">dm</span>, <span className="font-mono">broadcast</span>, <span className="font-mono">description</span>.</li>
           <li><span className="font-mono text-[#F5F5F7]">campaign</span> = the offer or launch: <span className="font-mono">spring_launch</span>, <span className="font-mono">membership</span>, <span className="font-mono">webinar</span>, <span className="font-mono">bundle</span>.</li>
-          <li><span className="font-mono text-[#F5F5F7]">content</span> = the specific piece, so you can compare two of the same thing — <span className="font-mono">reel_42</span>, <span className="font-mono">email_2</span>.</li>
+          <li><span className="font-mono text-[#F5F5F7]">content</span> = the specific piece, so you can compare two of the same thing, <span className="font-mono">reel_42</span>, <span className="font-mono">email_2</span>.</li>
         </ul>
         <p className="mt-3">Use the <strong className="text-[#F5F5F7]">same words every time</strong> (the builder lowercases and underscores for you). A bare link still tracks as the channel in GA4, but only a tagged link shows up by campaign and gets the sale attributed in Attribution.</p>
       </div>

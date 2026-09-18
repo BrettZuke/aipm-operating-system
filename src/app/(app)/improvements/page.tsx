@@ -60,7 +60,7 @@ export default async function ImprovementsPage({ searchParams }: { searchParams:
       {/* List */}
       {filtered.length === 0 ? (
         <div className="rounded-xl border border-dashed border-[rgba(255,255,255,0.08)] py-16 text-center text-sm text-[#9CA3AF]">
-          {statusFilter === "open" ? "Inbox zero — no open improvements." : `No ${statusFilter.replace("_", " ")} items.`}
+          {statusFilter === "open" ? "Inbox zero, no open improvements." : `No ${statusFilter.replace("_", " ")} items.`}
         </div>
       ) : (
         <div className="space-y-2">

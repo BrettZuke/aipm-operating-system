@@ -138,7 +138,7 @@ export interface DanTraffic {
   countries: TopRow[];
   topPaths: TopRow[];
   steps: DanStepMetric[]; // per-step funnel (empty for "All")
-  // Scroll-depth "how far down the page people get" — same 6 section events the page fires
+  // Scroll-depth "how far down the page people get", same 6 section events the page fires
   // (section_hero … section_final_cta), scoped to the selected funnel's pages.
   sectionFunnel: TopRow[];
   fetchedAt: string;
@@ -156,7 +156,7 @@ interface FetchArgs {
 const _danTrafficCache = makeTtlCache<DanTraffic>(5 * 60 * 1000);
 
 // Cached entry point (see snapshot-cache.ts): the coach's Analytics tab renders on every dashboard load,
-// so cache the GA4 fan-out per (property, range, scope, steps) for 5 min — the main lag fix.
+// so cache the GA4 fan-out per (property, range, scope, steps) for 5 min, the main lag fix.
 export function fetchDanTraffic(args: FetchArgs): Promise<DanTraffic> {
   const { propertyId, range, scopePaths, steps } = args;
   const k = JSON.stringify([propertyId, range.from, range.to, range.prevFrom, range.prevTo, scopePaths ?? [], steps ?? []]);

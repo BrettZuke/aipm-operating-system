@@ -11,7 +11,7 @@
  * Then the helpers below light up + the integrations page goes green.
  *
  * Endpoint paths are best-guess based on common payment-platform patterns.
- * If FanBasis uses different paths, change the constants below — no other
+ * If FanBasis uses different paths, change the constants below, no other
  * file references hardcoded paths.
  */
 
@@ -58,12 +58,12 @@ async function request<T>(path: string, opts: { method?: string; body?: unknown;
 // ── Connectivity check ──────────────────────────────────────────────────────
 export async function checkFanbasis(): Promise<{ ok: boolean; status: "connected" | "configured" | "missing" | "error"; info: string }> {
   const auth = getAuth();
-  if (!auth.ok) return { ok: false, status: "missing", info: "FANBASIS_API_KEY not set — payments still flow via Zapier webhook" };
+  if (!auth.ok) return { ok: false, status: "missing", info: "FANBASIS_API_KEY not set, payments still flow via Zapier webhook" };
 
   const r = await request<{ email?: string; name?: string }>(PATH_ME);
   if (!r.ok) {
     // 404 likely means the path is wrong; surface so we know to adjust the constant
-    if (r.status === 404) return { ok: false, status: "error", info: `Endpoint ${PATH_ME} returned 404 — check FANBASIS_API_URL or update PATH_ME` };
+    if (r.status === 404) return { ok: false, status: "error", info: `Endpoint ${PATH_ME} returned 404, check FANBASIS_API_URL or update PATH_ME` };
     if (r.status === 401 || r.status === 403) return { ok: false, status: "error", info: "API key invalid or expired" };
     return { ok: false, status: "error", info: r.error };
   }

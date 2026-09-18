@@ -103,11 +103,12 @@ export function Topbar({ workspaceName, userName, userEmail, userRole, agencyId 
             className="rounded-md object-cover shrink-0"
             style={{width:28,height:28}}
           />
+          {/* Your own name goes here, and your own logo in public/. Nothing else reads this. */}
           <span
             className="font-bold text-xs tracking-wide text-[#F5F5F7] truncate"
             style={{fontFamily:"var(--font-inter),sans-serif",letterSpacing:"0.04em"}}
           >
-            AI PARTNER
+            SETTOKU OS
           </span>
         </Link>
       </div>
@@ -183,7 +184,7 @@ export function Topbar({ workspaceName, userName, userEmail, userRole, agencyId 
             className="z-50 min-w-[200px] rounded-lg border border-[rgba(255,255,255,0.10)] bg-[#0C0C10] p-1 shadow-xl"
           >
             <DropdownMenuLabel className="px-2 py-1.5 text-xs text-[#6B7280]">
-              <div className="font-medium text-[#F5F5F7]">{userName ?? "—"}</div>
+              <div className="font-medium text-[#F5F5F7]">{userName ?? "-"}</div>
               <div className="truncate">{userEmail}</div>
               {userRole && <div className="mt-0.5 capitalize text-[#6B7280]">{userRole}</div>}
             </DropdownMenuLabel>

@@ -1,5 +1,5 @@
 /**
- * Cold-path maintenance — keeps derived data in sync without relying on hot-
+ * Cold-path maintenance, keeps derived data in sync without relying on hot-
  * path webhooks. Runs nightly via /api/cron/maintenance.
  *
  * Steps (all idempotent):
@@ -54,7 +54,7 @@ export async function runMaintenance(sb: SB, agencyId: string): Promise<Maintena
 
   // --- 2. Recompute client payment totals ---
   try {
-    // Only clients that have at least one deal OR tx — others have nothing to recompute.
+    // Only clients that have at least one deal OR tx, others have nothing to recompute.
     const [{ data: dealClients }, { data: txClients }] = await Promise.all([
       sb.from("deals").select("client_id").eq("agency_id", agencyId).not("client_id", "is", null),
       sb.from("transactions").select("client_id").eq("agency_id", agencyId).not("client_id", "is", null),

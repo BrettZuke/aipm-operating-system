@@ -59,7 +59,7 @@ export function CreditsWidget() {
             <div className="text-[10px] font-semibold uppercase tracking-widest text-[#6B7280] mb-2">This month</div>
             <div className="flex items-end gap-0.5 h-10">
               {Array.from({ length: 30 }).map((_, i) => (
-                // Deterministic placeholder heights — Math.random() here caused a hydration mismatch.
+                // Deterministic placeholder heights, Math.random() here caused a hydration mismatch.
                 <div key={i} className="flex-1 rounded-sm bg-[rgba(0,131,255,0.4)]" style={{ height: `${6 + ((i * 37) % 24)}%` }} />
               ))}
             </div>

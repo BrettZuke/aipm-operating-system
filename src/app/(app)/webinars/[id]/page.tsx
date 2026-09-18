@@ -146,14 +146,14 @@ export default async function WebinarDetailPage({ params }: { params: Promise<{ 
               <tbody className="divide-y divide-[rgba(255,255,255,0.06)]">
                 {regs.slice(0, 200).map(r => (
                   <tr key={r.id} className="hover:bg-[#0C0C10]/40">
-                    <td className="px-4 py-3 text-[#F5F5F7]">{r.name ?? "—"}</td>
-                    <td className="px-4 py-3 text-[#9CA3AF]">{r.email ?? "—"}</td>
-                    <td className="px-4 py-3 font-mono text-[#9CA3AF]">{r.phone ?? <span className="text-[#6B7280]">—</span>}</td>
+                    <td className="px-4 py-3 text-[#F5F5F7]">{r.name ?? "-"}</td>
+                    <td className="px-4 py-3 text-[#9CA3AF]">{r.email ?? "-"}</td>
+                    <td className="px-4 py-3 font-mono text-[#9CA3AF]">{r.phone ?? <span className="text-[#6B7280]">,</span>}</td>
                     <td className="px-4 py-3 text-center">{r.sent_24h_at ? "✓" : ""}</td>
                     <td className="px-4 py-3 text-center">{r.sent_1h_at ? "✓" : ""}</td>
                     <td className="px-4 py-3 text-center">{r.sent_15m_at ? "✓" : ""}</td>
                     <td className="px-4 py-3 text-center">{r.sent_live_at ? "✓" : ""}</td>
-                    <td className="px-4 py-3 text-xs text-[#6B7280]">{r.source ?? "—"}</td>
+                    <td className="px-4 py-3 text-xs text-[#6B7280]">{r.source ?? "-"}</td>
                   </tr>
                 ))}
               </tbody>

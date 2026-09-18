@@ -122,7 +122,7 @@ export default async function EodReportsPage() {
       </div>
 
       {/* 02 · Streak leaderboard */}
-      <Section num="02" title="Streak leaderboard" sub="Consecutive days submitted — who's been showing up.">
+      <Section num="02" title="Streak leaderboard" sub="Consecutive days submitted, who's been showing up.">
         {!members?.length ? (
           <EmptyPanel icon={Trophy} title="No reps yet" sub="Once your team starts submitting, the streak board lights up." />
         ) : (

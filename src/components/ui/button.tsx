@@ -21,7 +21,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          // Primary — nekter blue with glow
+          // Primary, nekter blue with glow
           "bg-[#0083FF] text-white hover:bg-[#0066CC] shadow-[0_0_0_1px_rgba(0,131,255,0.4),0_1px_3px_rgba(0,0,0,0.3),0_0_20px_rgba(0,131,255,0.2)] hover:shadow-[0_0_0_1px_rgba(0,131,255,0.6),0_2px_8px_rgba(0,131,255,0.3),0_0_32px_rgba(0,131,255,0.25)]",
         destructive:
           "bg-red-500 text-white hover:bg-red-500/90 shadow-[0_1px_3px_rgba(0,0,0,0.3)]",

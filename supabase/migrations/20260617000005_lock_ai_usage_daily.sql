@@ -1,5 +1,5 @@
 -- ============================================================================
--- Lock down ai_usage_daily — it is the Settoku Chat spend-cap ledger.
+-- Lock down ai_usage_daily, it is the Settoku Chat spend-cap ledger.
 --
 -- The generic agency RLS helper (private.enable_agency_rls, run by the loop in
 -- 20260501000009_rls.sql over every table with an agency_id column) gave this
@@ -7,14 +7,14 @@
 --   agency_select  FOR SELECT  using is_agency_member(agency_id)
 --   agency_modify  FOR ALL     using/with check is_agency_member(agency_id)
 --
--- `agency_modify` is FOR ALL — so any authenticated agency member can UPDATE or
+-- `agency_modify` is FOR ALL, so any authenticated agency member can UPDATE or
 -- DELETE their own usage row. That resets messages_sent / tokens_output to zero
 -- and defeats the per-user daily cap the API route relies on. A member could
 -- wipe the row between requests and run the Anthropic bill away unbounded.
 --
 -- Fix: the ledger is written ONLY by the API route's service-role client
 -- (src/app/api/ai/chat/route.ts), and service_role bypasses RLS. So no
--- authenticated/anon write policy is needed — and none should exist. We drop the
+-- authenticated/anon write policy is needed, and none should exist. We drop the
 -- permissive generic policies and leave only a self-scoped SELECT (harmless, and
 -- handy for a future "your usage" view). With RLS still enabled and no policy
 -- covering INSERT/UPDATE/DELETE, those commands are denied for every non-service
@@ -34,7 +34,7 @@ drop policy if exists agency_select on public.ai_usage_daily;
 
 -- Members may read only their OWN usage. No write policy ⇒ writes are
 -- service-role-only (service_role bypasses RLS). (select auth.uid()) is the
--- Supabase-recommended form — evaluated once per query, not per row.
+-- Supabase-recommended form, evaluated once per query, not per row.
 drop policy if exists ai_usage_daily_self_read on public.ai_usage_daily;
 create policy ai_usage_daily_self_read on public.ai_usage_daily
   for select using (user_id = (select auth.uid()));

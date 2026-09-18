@@ -5,7 +5,7 @@ import { useState } from "react";
 import { ArrowRight, X, Sparkles, CheckCircle2 } from "lucide-react";
 
 /**
- * Onboarding wizard — fullscreen takeover for the onboarding flow.
+ * Onboarding wizard, fullscreen takeover for the onboarding flow.
  * Shows a dark fullscreen overlay with progress dots + step-by-step setup.
  */
 

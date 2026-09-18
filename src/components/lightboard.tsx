@@ -1,5 +1,5 @@
 /**
- * Light-theme scoped components — light + colorful theme that mirrors
+ * Light-theme scoped components, light + colorful theme that mirrors
  * https://example.com
  * All these are pure components that work inside a `.lightboard` wrapper.
  */

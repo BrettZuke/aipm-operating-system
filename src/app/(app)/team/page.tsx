@@ -70,7 +70,7 @@ export default async function TeamPage() {
                   </div>
                   <div className="flex items-center gap-3">
                     <Badge variant={ROLE_VARIANT[m.role] ?? "default"} className="capitalize">{m.role}</Badge>
-                    <span className="text-xs text-[#6B7280]">{m.joined_at ? new Date(m.joined_at).toLocaleDateString() : "—"}</span>
+                    <span className="text-xs text-[#6B7280]">{m.joined_at ? new Date(m.joined_at).toLocaleDateString() : "-"}</span>
                   </div>
                 </li>
               );
@@ -89,7 +89,7 @@ export default async function TeamPage() {
                 <span className="text-sm text-[rgba(245,245,247,0.8)]">{inv.invited_email}</span>
                 <div className="flex items-center gap-3">
                   <Badge variant={ROLE_VARIANT[inv.role] ?? "default"} className="capitalize">{inv.role}</Badge>
-                  <span className="text-xs text-[#6B7280]">Expires {inv.expires_at ? new Date(inv.expires_at).toLocaleDateString() : "—"}</span>
+                  <span className="text-xs text-[#6B7280]">Expires {inv.expires_at ? new Date(inv.expires_at).toLocaleDateString() : "-"}</span>
                   <CopyInviteLink token={inv.token} />
                 </div>
               </li>

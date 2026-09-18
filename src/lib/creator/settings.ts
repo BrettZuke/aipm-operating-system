@@ -1,5 +1,5 @@
 // Per-workspace creator integration settings, read from agency_settings.data.
-// Every value is scoped to the requested agency — there is NO cross-tenant env fallback, so one
+// Every value is scoped to the requested agency, there is NO cross-tenant env fallback, so one
 // workspace can never read another's keys/data. A missing key simply reads as null/empty.
 
 import { createClient } from "@/lib/supabase/server";
@@ -18,7 +18,7 @@ export interface CreatorSettings {
   hasWhop: boolean;
   salesPagePath: string;
   salesPages: { label: string; path: string }[];
-  // Kit tags whose members clicked a DM CTA in an email campaign — matched against Stripe buyers
+  // Kit tags whose members clicked a DM CTA in an email campaign, matched against Stripe buyers
   // to attribute email -> DM -> sale. Empty until link triggers are set up.
   dmCtaTags: { label: string; tagId: string }[];
   // A sale counts as email-driven if the buyer purchases within this many hours of clicking.

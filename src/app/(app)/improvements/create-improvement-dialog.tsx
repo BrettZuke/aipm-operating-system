@@ -33,7 +33,7 @@ export function CreateImprovementDialog() {
         <form action={handleSubmit} className="space-y-4">
           <div>
             <h2 className="text-lg font-semibold text-[#F5F5F7]">Add improvement</h2>
-            <p className="mt-1 text-xs text-[#9CA3AF]">Bug, tech debt, feature idea, audit finding — anything you want fixed/built. Lands in the queue, ranked by priority.</p>
+            <p className="mt-1 text-xs text-[#9CA3AF]">Bug, tech debt, feature idea, audit finding, anything you want fixed/built. Lands in the queue, ranked by priority.</p>
           </div>
 
           <div className="space-y-1.5">
@@ -57,11 +57,11 @@ export function CreateImprovementDialog() {
             <div className="space-y-1.5">
               <Label htmlFor="priority">Priority</Label>
               <select name="priority" id="priority" defaultValue="3" className="h-10 w-full rounded-md border border-[rgba(255,255,255,0.10)] bg-[#0C0C10]/40 px-3 text-sm text-[#F5F5F7] focus:outline-none focus:ring-2 focus:ring-blue-500/20">
-                <option value="1">P1 — urgent / blocker</option>
-                <option value="2">P2 — high</option>
-                <option value="3">P3 — medium</option>
-                <option value="4">P4 — low</option>
-                <option value="5">P5 — someday</option>
+                <option value="1">P1, urgent / blocker</option>
+                <option value="2">P2, high</option>
+                <option value="3">P3, medium</option>
+                <option value="4">P4, low</option>
+                <option value="5">P5, someday</option>
               </select>
             </div>
           </div>
@@ -83,7 +83,7 @@ export function CreateImprovementDialog() {
               id="proposed_fix"
               name="proposed_fix"
               rows={3}
-              placeholder="If you have a hypothesis — what file? What change?"
+              placeholder="If you have a hypothesis, what file? What change?"
               className="w-full rounded-md border border-[rgba(255,255,255,0.10)] bg-[#0C0C10]/40 px-3 py-2 text-sm text-[#F5F5F7] placeholder:text-[#6B7280] focus:outline-none focus:ring-2 focus:ring-blue-500/20"
             />
           </div>
