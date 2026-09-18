@@ -31,16 +31,18 @@ const DAILY_TOKEN_CAP = Number(process.env.AI_DAILY_TOKEN_CAP ?? 500_000);
 
 // Provider: "groq" (free) by default when a Groq key is present, else "anthropic".
 const PROVIDER = (process.env.AI_CHAT_PROVIDER ?? (process.env.GROQ_API_KEY ? "groq" : "anthropic")).toLowerCase();
-const GROQ_MODEL = process.env.GROQ_CHAT_MODEL ?? "llama-3.3-70b-versatile";
+const GROQ_MODEL = process.env.GROQ_CHAT_MODEL ?? "openai/gpt-oss-120b";
 
 // Free, tool-capable Groq models the user may switch between. Allowlist, never trust the client
 // to name an arbitrary or paid model. Keep in sync with the picker in settoku-chat-ui.tsx.
+// Checked against what Groq actually serves on 2026-09-17. The Llama models that used to be here
+// were retired by Groq, so a workspace left on the old default got a dead model and no answer.
 const ALLOWED_GROQ_MODELS = new Set([
-  "llama-3.3-70b-versatile",
   "openai/gpt-oss-120b",
-  "meta-llama/llama-4-scout-17b-16e-instruct",
-  "qwen/qwen3-32b",
-  "llama-3.1-8b-instant",
+  "openai/gpt-oss-20b",
+  "qwen/qwen3.8-27b",
+  "groq/compound",
+  "groq/compound-mini",
 ]);
 
 // Anthropic-only model routing (H9). Opt-in: default OFF ⇒ always the main model.

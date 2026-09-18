@@ -32,11 +32,10 @@ const ACTION_CHIPS = [
 
 // Free, tool-capable Groq models. Must match the allowlist in api/ai/chat/route.ts.
 const MODELS = [
-  { id: "llama-3.3-70b-versatile", label: "Llama 3.3 70B", note: "balanced" },
   { id: "openai/gpt-oss-120b", label: "GPT-OSS 120B", note: "most accurate" },
-  { id: "meta-llama/llama-4-scout-17b-16e-instruct", label: "Llama 4 Scout", note: "newest" },
-  { id: "qwen/qwen3-32b", label: "Qwen3 32B", note: "reasoning" },
-  { id: "llama-3.1-8b-instant", label: "Llama 3.1 8B", note: "fastest" },
+  { id: "openai/gpt-oss-20b", label: "GPT-OSS 20B", note: "fastest" },
+  { id: "qwen/qwen3.8-27b", label: "Qwen3 27B", note: "reasoning" },
+  { id: "groq/compound", label: "Compound", note: "searches the web" },
 ];
 
 // Skills = one-click structured prompts that lean on the chat's tools.

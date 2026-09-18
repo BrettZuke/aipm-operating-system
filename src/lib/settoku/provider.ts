@@ -6,14 +6,14 @@ export interface ActiveProvider {
   provider: "groq" | "anthropic";
   model: string;
   free: boolean;
-  /** e.g. "Groq · llama-3.3-70b-versatile (free)" */
+  /** e.g. "Groq, openai/gpt-oss-120b (free)" */
   label: string;
 }
 
 export function activeProvider(): ActiveProvider {
   const resolved = (process.env.AI_CHAT_PROVIDER ?? (process.env.GROQ_API_KEY ? "groq" : "anthropic")).toLowerCase();
   if (resolved === "groq") {
-    const model = process.env.GROQ_CHAT_MODEL ?? "llama-3.3-70b-versatile";
+    const model = process.env.GROQ_CHAT_MODEL ?? "openai/gpt-oss-120b";
     return { provider: "groq", model, free: true, label: `Groq · ${model} (free)` };
   }
   const model = process.env.AI_CHAT_MODEL ?? "claude-sonnet-4-6";
